@@ -42,5 +42,3 @@ Submit a GPU job: `sbatch scripts/levante-gpu.sbatch`
 ## License
 
 The project is available under a BSD 3-clause license. See [LICENSES/](./LICENSES) for license information and [AUTHORS.TXT](./AUTHORS.TXT) for a list of authors.
-# ISC25-ICON-C
-# ISC25-ICON-C
