@@ -5,7 +5,8 @@
   * for Levante: `spack load netcdf-cxx4@4.3.1`
 * nvc++ compiler
   * for Levante `module load nvhpc/24.7-gcc-11.2.0`
-
+* MPI library (& compiler)
+  * for Levante `module load openmpi/4.1.5-nvhpc-24.7` and the compiler to use is then `mpicxx`
 For automatic setup, use `source scripts/levante-setup.sh`.
 
 Other dependency like [googletest](https://github.com/google/googletest) is built in-tree from github archives. 

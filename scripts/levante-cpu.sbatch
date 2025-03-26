@@ -11,7 +11,7 @@ ulimit -s unlimited
 ulimit -c 0
 
 # compiler flags
-FLAGS="" 
+FLAGS='-O0 -nofma' 
 
 # input file
 IN_FILE=$(pwd)/tasks/dbg.nc
@@ -24,7 +24,7 @@ REF_FILE=$(pwd)/reference_results/seq_dbg_double.nc
 . scripts/levante-setup.sh 
 
 # build the code
-cmake -B build_std_cpu -DMU_IMPL=std -DMU_ARCH=x86_64 -DMU_ENABLE_SINGLE=OFF -DCMAKE_CXX_COMPILER=nvc++ -DCMAKE_CXX_FLAGS=$FLAGS -S . && cmake --build build_std_cpu --parallel
+cmake -B build_std_cpu -S . -DMU_IMPL=std -DMU_ARCH=x86_64 -DMU_ENABLE_SINGLE=OFF -DCMAKE_CXX_COMPILER=nvc++ -DCMAKE_CXX_FLAGS="${FLAGS}"  && cmake --build build_std_cpu --parallel
 
 # cleanup previous results (if any)
 if [ -f $OUT_FILE ]; then

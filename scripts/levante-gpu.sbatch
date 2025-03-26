@@ -9,20 +9,20 @@
 #SBATCH --time=00:10:00
 
 # compiler flags
-FLAGS="" 
+FLAGS='-O0 -stdpar=gpu -gpu=cc80,nofma,noflushz' 
 
 # input file
 IN_FILE=$(pwd)/tasks/dbg.nc
 # output file
 OUT_FILE=output_gpu_double.nc
 # reference file associated with input file
-REF_FILE=$(pwd)/reference_results/gpu_dbg_double.nc
+REF_FILE=$(pwd)/reference_results/seq_dbg_double.nc
 
 # setup env
 . scripts/levante-setup.sh 
 
 # build the code
-cmake -B build_std_gpu -DMU_IMPL=std -DMU_ARCH=a100 -DMU_ENABLE_SINGLE=OFF -DCMAKE_CXX_COMPILER=nvc++ -DCMAKE_CXX_FLAGS=$FLAGS -S . && cmake --build build_std_gpu --parallel
+cmake -B build_std_gpu -S . -DMU_IMPL=std -DMU_ARCH=a100 -DMU_ENABLE_SINGLE=OFF -DCMAKE_CXX_COMPILER=nvc++ -DCMAKE_CXX_FLAGS="${FLAGS}" && cmake --build build_std_gpu --parallel
 
 # cleanup previous results (if any)
 if [ -f $OUT_FILE ]; then
