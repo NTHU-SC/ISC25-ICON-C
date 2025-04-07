@@ -110,25 +110,42 @@ void graupel(size_t &nvec, size_t &ke, size_t &ivstart, size_t &ivend,
           }
   });
 
-  std::atomic<size_t> jmx_ = 0;
-  for (size_t j = ivstart; j < ivend; j++) {
-    for (size_t i = ke - 1; i < ke; --i) {
-      size_t oned_vec_index = i * ivend + j;
-
-      const bool cond1 = (std::max({q[lqc].x[oned_vec_index], q[lqr].x[oned_vec_index], q[lqs].x[oned_vec_index], q[lqi].x[oned_vec_index], q[lqg].x[oned_vec_index]}) > qmin);
-      const bool cond2 = ((t[oned_vec_index] < tfrz_het2) and (q[lqv].x[oned_vec_index] > qsat_ice_rho(t[oned_vec_index], rho[oned_vec_index])));
-      if (cond1 || cond2) {
-        //++jmx_;
-        const size_t old_jmx = jmx_.fetch_add(1, std::memory_order_relaxed);
-        ind_k[old_jmx] = i;
-        ind_i[old_jmx] = j;
-        is_sig_present[old_jmx] =
-            std::max({q[lqs].x[oned_vec_index], q[lqi].x[oned_vec_index],
-                      q[lqg].x[oned_vec_index]}) > qmin;
-        //jmx = jmx_;
+  size_t jmx_ = 0;
+  #pragma omp parallel
+  {
+    size_t local_jmx = 0; 
+    std::vector<size_t> local_ind_k;
+    std::vector<size_t> local_ind_i;
+    std::vector<bool> local_is_sig_present;
+  
+    #pragma omp for
+    for (size_t j = ivstart; j < ivend; j++) {
+      for (size_t i = ke - 1; i < ke; --i) {
+        size_t oned_vec_index = i * ivend + j;
+  
+        const bool cond1 = (std::max({q[lqc].x[oned_vec_index], q[lqr].x[oned_vec_index], q[lqs].x[oned_vec_index], q[lqi].x[oned_vec_index], q[lqg].x[oned_vec_index]}) > qmin);
+        const bool cond2 = ((t[oned_vec_index] < tfrz_het2) and (q[lqv].x[oned_vec_index] > qsat_ice_rho(t[oned_vec_index], rho[oned_vec_index])));
+        if (cond1 || cond2) {
+          local_jmx++;          
+          local_ind_k.push_back(i);
+          local_ind_i.push_back(j);
+          local_is_sig_present.push_back(std::max({q[lqs].x[oned_vec_index], q[lqi].x[oned_vec_index], q[lqg].x[oned_vec_index]}) > qmin);
+        }
+      }
+    }
+  
+    #pragma omp critical
+    {
+      for (size_t idx = 0; idx < local_jmx; ++idx) {
+        ind_k[jmx_] = local_ind_k[idx];
+        ind_i[jmx_] = local_ind_i[idx];
+        is_sig_present[jmx_] = local_is_sig_present[idx];
+        jmx_++;
       }
     }
   }
+  
+
   std::for_each(
     std::execution::par_unseq,
     indices_.begin(), indices_.end(),
