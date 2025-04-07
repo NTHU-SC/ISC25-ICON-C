@@ -91,64 +91,54 @@ void graupel(size_t &nvec, size_t &ke, size_t &ivstart, size_t &ivend,
       std::execution::par_unseq,
       indices_.begin(), indices_.end(),
       [&](size_t j) {
-          for (size_t ix = 0; ix < np; ++ix) {
-              q[qp_ind[ix]].p[j] = ZERO;
-              vt[j][ix] = ZERO;
-          }
+        #pragma unrool np
+        for (size_t ix = 0; ix < np; ++ix) {
+            q[qp_ind[ix]].p[j] = ZERO;
+            vt[j][ix] = ZERO;
+        }
   });
 
   size_t jmx_ = 0;
   std::for_each(std::execution::par_unseq, indices_.begin(), indices_.end(),
   [&](size_t j) {
-      std::vector<std::tuple<size_t, size_t, bool>> local_chunk;
-      
-      for (size_t i = ke - 1; i < ke; --i) {
-          size_t oned_vec_index = i * ivend + j;
-          
-          const bool cond1 = (std::max({q[lqc].x[oned_vec_index], q[lqr].x[oned_vec_index], 
-                                      q[lqs].x[oned_vec_index], q[lqi].x[oned_vec_index], 
-                                      q[lqg].x[oned_vec_index]}) > qmin);
-          const bool cond2 = ((t[oned_vec_index] < tfrz_het2) && 
-                            (q[lqv].x[oned_vec_index] > qsat_ice_rho(t[oned_vec_index], rho[oned_vec_index])));
-          
-          if (cond1 || cond2) {
-              bool is_sig = std::max({q[lqs].x[oned_vec_index], 
-                                    q[lqi].x[oned_vec_index], 
-                                    q[lqg].x[oned_vec_index]}) > qmin;
-              local_chunk.emplace_back(i, j, is_sig);
-          }
-      }
-      
-      static std::mutex mtx;
-      std::lock_guard<std::mutex> lock(mtx);
-      for (const auto& item : local_chunk) {
-          if (jmx_ < ind_k.size()) {
-              ind_k[jmx_] = std::get<0>(item);
-              ind_i[jmx_] = std::get<1>(item);
-              is_sig_present[jmx_] = std::get<2>(item);
-              jmx_++;
-          }
-      }
-  }
-);
-  
-
-  std::for_each(
-    std::execution::par_unseq,
-    indices_.begin(), indices_.end(),
-    [&](size_t j) {
-      size_t oned_vec_index;
-      for (size_t i = ke - 1; i < ke; --i) {
-        oned_vec_index = i * ivend + j;
-        #pragma unroll np
-        for (size_t ix = 0; ix < np; ix++) {
-          if (q[qp_ind[ix]].x[oned_vec_index] > qmin) {
-            kmin[j][qp_ind[ix]] = i;
-          }
+        std::vector<std::tuple<size_t, size_t, bool>> local_chunk;
+        
+        for (size_t i = ke - 1; i < ke; --i) {
+            size_t oned_vec_index = i * ivend + j;
+            
+            const bool cond1 = (std::max({q[lqc].x[oned_vec_index], q[lqr].x[oned_vec_index], 
+                                        q[lqs].x[oned_vec_index], q[lqi].x[oned_vec_index], 
+                                        q[lqg].x[oned_vec_index]}) > qmin);
+            const bool cond2 = ((t[oned_vec_index] < tfrz_het2) && 
+                              (q[lqv].x[oned_vec_index] > qsat_ice_rho(t[oned_vec_index], rho[oned_vec_index])));
+            
+            if (cond1 || cond2) {
+                bool is_sig = std::max({q[lqs].x[oned_vec_index], 
+                                      q[lqi].x[oned_vec_index], 
+                                      q[lqg].x[oned_vec_index]}) > qmin;
+                local_chunk.emplace_back(i, j, is_sig);
+            }
+            #pragma unroll np
+            for (size_t ix = 0; ix < np; ix++) {
+              if (q[qp_ind[ix]].x[oned_vec_index] > qmin) {
+                kmin[j][qp_ind[ix]] = i;
+              }
+            }
         }
-      }
-  });
-
+        
+        static std::mutex mtx;
+        std::lock_guard<std::mutex> lock(mtx);
+        for (const auto& item : local_chunk) {
+            if (jmx_ < ind_k.size()) {
+                ind_k[jmx_] = std::get<0>(item);
+                ind_i[jmx_] = std::get<1>(item);
+                is_sig_present[jmx_] = std::get<2>(item);
+                jmx_++;
+            }
+        }
+    }
+  );
+  
   std::vector<size_t> indices(jmx_);
   std::iota(indices.begin(), indices.end(), 0);
   std::for_each(std::execution::par_unseq, indices.begin(), indices.end(),
