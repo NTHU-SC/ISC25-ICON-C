@@ -1,0 +1,12 @@
+build
+judge
+tasks
+reference_results
+*.nc
+.vscode
+test
+LICENSES
+io
+extern
+core
+cmake
