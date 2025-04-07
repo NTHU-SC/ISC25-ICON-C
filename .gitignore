@@ -10,3 +10,7 @@ io
 extern
 core
 cmake
+AUTHORS.txt
+CONTRIBUTING.md
+export.sh
+main.cpp
