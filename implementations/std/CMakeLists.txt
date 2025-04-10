@@ -1,12 +1,19 @@
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-if (MU_ARCH STREQUAL "a100")
-    add_compile_definitions(__GPU_VERSION)
+add_library(muphys_implementation SHARED "graupel.cpp")
+
+if (MU_ARCH STREQUAL "x86_64")
+    target_compile_options(muphys_implementation PRIVATE
+        $<$<COMPILE_LANG_AND_ID:CXX,NVIDIA>:--stdpar=multicore>)
+    target_compile_definitions(muphys_implementation PRIVATE __CPU_VERSION)
 else()
-    add_compile_definitions(__CPU_VERSION)
+    target_compile_options(muphys_implementation PRIVATE
+        $<$<COMPILE_LANG_AND_ID:CXX,NVIDIA>:--stdpar>)
+    target_compile_definitions(muphys_implementation PRIVATE __GPU_VERSION)
 endif()
 
-add_library(muphys_implementation SHARED "graupel.cpp")
+target_link_libraries(muphys_implementation PRIVATE muphys_core tbb)
+
 #include_directories(/opt/cuda/include)
 #link_libraries(nvToolsExt)
 #target_link_libraries(muphys_implementation muphys_core tbb)

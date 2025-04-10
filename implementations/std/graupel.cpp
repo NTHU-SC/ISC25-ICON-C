@@ -15,8 +15,7 @@
 #include <numeric>
 #include <execution>
 #include <algorithm>
-
-#define ZERO 0.0
+#include <array>
 
 using namespace property;
 using namespace thermo;
