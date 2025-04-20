@@ -1,5 +1,5 @@
 #! /bin/bash
-rm -rf nnsys_reports
+rm -rf nsys_reports
 mkdir -p nsys_reports
 
 # Output to ./nsys_reports/rank_$N.nsys-rep

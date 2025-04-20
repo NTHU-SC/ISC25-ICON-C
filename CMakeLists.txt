@@ -47,8 +47,11 @@ endif ()
 # build project executable
 add_executable(graupel "main.cpp")
 
+find_package(MPI REQUIRED)
+set(CMAKE_CXX_COMPILER mpicxx)
+
 # link dependency libs
-target_link_libraries(graupel muphys_core muphys_io muphys_implementation)
+target_link_libraries(graupel muphys_core muphys_io muphys_implementation mpi)
 target_include_directories(graupel PUBLIC
                           "${PROJECT_BINARY_DIR}"
                           "${PROJECT_SOURCE_DIR}/core"
