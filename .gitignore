@@ -6,7 +6,6 @@ reference_results
 .vscode
 test
 LICENSES
-io
 extern
 core
 cmake
