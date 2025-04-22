@@ -12,4 +12,3 @@ cmake
 AUTHORS.txt
 CONTRIBUTING.md
 export.sh
-main.cpp

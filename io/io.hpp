@@ -72,50 +72,41 @@ void write_fields(const string output_file, const string input_file,
 
 
 namespace io_muphys {
-
-  // Read a scalar variable (no level dimension) at given time index.
-  void input_scalar_mpi(const std::string &filename, real_t &value,
-                        const std::string &var_name, size_t itime,
-                        MPI_Comm comm);
   
   // Read a vector variable (level and cell dimensions) at given time index.
   void input_vector_mpi(const std::string &filename, array_1d_t<real_t> &v,
                         const std::string &var_name, size_t ncells,
-                        size_t nlev, size_t itime, MPI_Comm comm);
+                        size_t nlev, size_t itime, MPI_Comm comm, MPI_Info info);
   
   // Read all fields (wrapper for multiple input_vector_mpi calls).
-  void read_fields_mpi(const std::string &input_file, size_t itime,
-                       size_t ncells, size_t nlev,
-                       array_1d_t<real_t> &z, array_1d_t<real_t> &t,
-                       array_1d_t<real_t> &p, array_1d_t<real_t> &rho,
-                       array_1d_t<real_t> &qv, array_1d_t<real_t> &qc,
-                       array_1d_t<real_t> &qi, array_1d_t<real_t> &qr,
-                       array_1d_t<real_t> &qs, array_1d_t<real_t> &qg,
-                       array_1d_t<real_t> &prr_gsp,
-                       array_1d_t<real_t> &pri_gsp,
-                       array_1d_t<real_t> &prs_gsp,
-                       array_1d_t<real_t> &prg_gsp,
-                       array_1d_t<real_t> &pre_gsp,
-                       array_1d_t<real_t> &pflx,
-                       MPI_Comm comm);
-  
-  // Write all fields to a new file in parallel.
-  void write_fields_mpi(const std::string &output_file,
-                        size_t ncells, size_t nlev,
-                        const array_1d_t<real_t> &t,
-                        const array_1d_t<real_t> &qv,
-                        const array_1d_t<real_t> &qc,
-                        const array_1d_t<real_t> &qi,
-                        const array_1d_t<real_t> &qr,
-                        const array_1d_t<real_t> &qs,
-                        const array_1d_t<real_t> &qg,
-                        const array_1d_t<real_t> &prr_gsp,
-                        const array_1d_t<real_t> &pri_gsp,
-                        const array_1d_t<real_t> &prs_gsp,
-                        const array_1d_t<real_t> &prg_gsp,
-                        const array_1d_t<real_t> &pre_gsp,
-                        const array_1d_t<real_t> &pflx,
-                        MPI_Comm comm);
-  
+  void read_fields_mpi(const string input_file, size_t &itime,
+                        size_t &ncells, size_t &nlev, array_1d_t<real_t> &z,
+                        array_1d_t<real_t> &t, array_1d_t<real_t> &p,
+                        array_1d_t<real_t> &rho, array_1d_t<real_t> &qv,
+                        array_1d_t<real_t> &qc, array_1d_t<real_t> &qi,
+                        array_1d_t<real_t> &qr, array_1d_t<real_t> &qs,
+                        array_1d_t<real_t> &qg, MPI_Comm comm = MPI_COMM_WORLD, MPI_Info info = MPI_INFO_NULL);
+
+void output_vector_par(int ncid, const char* name,
+                      int dimid_time, int dimid_height,
+                      int dimid_cell, size_t itime,
+                      size_t start_cell, size_t ncell_loc,
+                      size_t nlev,  const array_1d_t<real_t>& arr,
+                      int deflate_level);
+
+  void output_vector_par(int ncid, const char* name,
+                        int dimid_height, int dimid_cell,
+                        size_t start_cell, size_t ncell_loc,
+                        size_t nlev, const array_1d_t<real_t>& arr, int deflate_level);
+
+  void write_fields_mpi(const std::string &output_file, size_t ncells, size_t nlev,
+                        const array_1d_t<real_t> &t, const array_1d_t<real_t> &qv,
+                        const array_1d_t<real_t> &qc, const array_1d_t<real_t> &qi,
+                        const array_1d_t<real_t> &qr, const array_1d_t<real_t> &qs,
+                        const array_1d_t<real_t> &qg, const array_1d_t<real_t> &prr_gsp,
+                        const array_1d_t<real_t> &pri_gsp, const array_1d_t<real_t> &prs_gsp,
+                        const array_1d_t<real_t> &prg_gsp, const array_1d_t<real_t> &pre_gsp,
+                        const array_1d_t<real_t> &pflx, int deflate_level = 0,
+                        MPI_Comm comm = MPI_COMM_WORLD, MPI_Info info = MPI_INFO_NULL);
 } // namespace io_muphys
   
