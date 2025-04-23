@@ -99,8 +99,8 @@ int main(int argc, char *argv[]) {
    auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(
        end_time - start_time);
 
-   /*if (!rank)
-      std::cout << "time taken : " << duration.count() << " milliseconds" << std::endl;*/
+   if (!rank)
+      std::cout << "time taken : " << duration.count() << " milliseconds" << std::endl;
 
    MPI_Finalize();
    return 0;

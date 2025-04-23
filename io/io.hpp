@@ -23,8 +23,14 @@ using namespace netCDF::exceptions;
 namespace io_muphys {
 
 #ifdef __SINGLE_PRECISION
+#define NC_REAL_TYPE NC_FLOAT
+#define NC_PUT_VARA(ncid,varid,start,count,ptr) nc_put_vara_float(ncid,varid,start,count,ptr)
+#define NC_GET_VARA(ncid,varid,start,count,ptr) nc_get_vara_float(ncid,varid,start,count,ptr)
 using NCreal_t = NcFloat;
 #else
+#define NC_REAL_TYPE NC_DOUBLE
+#define NC_PUT_VARA(ncid,varid,start,count,ptr) nc_put_vara_double(ncid,varid,start,count,ptr)
+#define NC_GET_VARA(ncid,varid,start,count,ptr) nc_get_vara_double(ncid,varid,start,count,ptr)
 using NCreal_t = NcDouble;
 #endif
 
