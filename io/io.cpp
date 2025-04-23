@@ -97,53 +97,6 @@ void io_muphys::input_vector(NcFile &datafile, array_1d_t<real_t> &v,
   }
 }
 
-// Helper: read a 3D variable [time, lev, cell] in parallel
-void io_muphys::input_vector_mpi(int ncid,
-                             const char *name,
-                             size_t itime,
-                             size_t start_cell,
-                             size_t ncell_loc,
-                             size_t nlev,
-                             array_1d_t<real_t> &arr) {
-    int varid;
-    // find variable ID
-    if (nc_inq_varid(ncid, name, &varid)) 
-        throw std::runtime_error(std::string("Variable not found: ") + name);
-    // set collective I/O
-    nc_var_par_access(ncid, varid, NC_COLLECTIVE);
-    // define the hyperslab: [time, level, cell]
-    size_t start[3] = { itime, 0, start_cell };
-    size_t count[3] = { 1, nlev, ncell_loc };
-    // allocate local buffer
-    arr.resize(nlev * ncell_loc);
-    // read
-    if (NC_GET_VARA(ncid, varid, start, count, arr.data()))
-        throw std::runtime_error(std::string("Failed to read var: ") + name);
-}
-
-// Helper: read a 2D variable [lev, cell] (static) in parallel
-void io_muphys::input_vector_mpi(int ncid,
-                             const char *name,
-                             size_t start_cell,
-                             size_t ncell_loc,
-                             size_t nlev,
-                             array_1d_t<real_t> &arr) {
-    int varid;
-    // find variable ID
-    if (nc_inq_varid(ncid, name, &varid)) 
-        throw std::runtime_error(std::string("Variable not found: ") + name);
-    // independent I/O is fine for static fields
-    nc_var_par_access(ncid, varid, NC_INDEPENDENT);
-    // define hyperslab: [level, cell]
-    size_t start[2] = { 0, start_cell };
-    size_t count[2] = { nlev, ncell_loc };
-    // allocate local buffer
-    arr.resize(nlev * ncell_loc);
-    // read
-    if (NC_GET_VARA(ncid, varid, start, count, arr.data()))
-        throw std::runtime_error(std::string("Failed to read var: ") + name);
-}
-
 void io_muphys::output_vector(NcFile &datafile, array_1d_t<NcDim> &dims,
                               const string output, array_1d_t<real_t> &v,
                               size_t &ncells, size_t &nlev,
@@ -188,86 +141,6 @@ void io_muphys::output_vector(NcFile &datafile, array_1d_t<NcDim> &dims,
   }
 }
 
-// Helper: write a 3D variable [time, level, cell] in parallel
-void io_muphys::output_vector_par(int ncid,
-                                  const char* name,
-                                  int dimid_time,
-                                  int dimid_height,
-                                  int dimid_cell,
-                                  size_t itime,
-                                  size_t start_cell,
-                                  size_t ncell_loc,
-                                  size_t nlev,
-                                  const array_1d_t<real_t>& arr,
-                                  int deflate_level) {
-    int varid;
-    int dimids[3] = { dimid_time, dimid_height, dimid_cell };
-
-    // define variable
-    if (nc_def_var(ncid, name, NC_REAL_TYPE, 3, dimids, &varid)) {
-        throw std::runtime_error("Failed to define var: " + std::string(name));
-    }
-
-    // set compression if requested
-    if (deflate_level > 0) {
-        nc_def_var_deflate(ncid, varid, 0, 1, deflate_level);
-    }
-
-    // set collective access
-    nc_var_par_access(ncid, varid, NC_COLLECTIVE);
-
-    // exit define mode
-    nc_enddef(ncid);
-
-    // define hyperslab: [time, level, cell]
-    size_t startp[3] = { itime, 0, start_cell };
-    size_t countp[3] = { 1, nlev, ncell_loc };
-
-    // write data (assuming arr is ordered as [level][cell])
-    if (NC_PUT_VARA(ncid, varid, startp, countp, arr.data())) {
-        throw std::runtime_error("Failed to write var: " + std::string(name));
-    }
-}
-// Helper: write a 2D variable [level, cell] in parallel
-void io_muphys::output_vector_par(int ncid,
-                                  const char* name,
-                                  int dimid_height,
-                                  int dimid_cell,
-                                  size_t start_cell,
-                                  size_t ncell_loc,
-                                  size_t nlev,
-                                  const array_1d_t<real_t>& arr,
-                                  int deflate_level) {
-    int varid;
-    int dimids[2] = { dimid_height, dimid_cell };
-
-    // define variable
-    if (nc_def_var(ncid, name, NC_REAL_TYPE, 2, dimids, &varid)) {
-        throw std::runtime_error("Failed to define var: " + std::string(name));
-    }
-
-    // set compression if requested
-    if (deflate_level > 0) {
-        nc_def_var_deflate(ncid, varid, 0, 1, deflate_level);
-    }
-
-    // set collective access
-    nc_var_par_access(ncid, varid, NC_COLLECTIVE);
-
-    // exit define mode
-    nc_enddef(ncid);
-
-    // write data block (assuming arr is ordered as [level][cell])
-    for (size_t lvl = 0; lvl < nlev; ++lvl) {
-        size_t startp[2] = { lvl, start_cell };
-        size_t countp[2] = { 1, ncell_loc };
-        const real_t* data_ptr = arr.data() + lvl * ncell_loc;
-        if (NC_PUT_VARA(ncid, varid, startp, countp, data_ptr)) {
-            throw std::runtime_error("Failed to write var: " + std::string(name));
-        }
-    }
-}
-
 void io_muphys::read_fields(const string input_file, size_t &itime,
                             size_t &ncells, size_t &nlev, array_1d_t<real_t> &z,
                             array_1d_t<real_t> &t, array_1d_t<real_t> &p,
@@ -299,60 +172,6 @@ void io_muphys::read_fields(const string input_file, size_t &itime,
   io_muphys::input_vector(datafile, qg, "qg", ncells, nlev, itime);
 
   datafile.close();
-}
-
-void io_muphys::read_fields_mpi(const string input_file, size_t &itime,
-                            size_t &ncells, size_t &nlev, array_1d_t<real_t> &z,
-                            array_1d_t<real_t> &t, array_1d_t<real_t> &p,
-                            array_1d_t<real_t> &rho, array_1d_t<real_t> &qv,
-                            array_1d_t<real_t> &qc, array_1d_t<real_t> &qi,
-                            array_1d_t<real_t> &qr, array_1d_t<real_t> &qs,
-                            array_1d_t<real_t> &qg, MPI_Comm comm, MPI_Info info) {
-  int rank, nprocs;
-  MPI_Comm_rank(comm, &rank);
-  MPI_Comm_size(comm, &nprocs);
-
-  int ncid;
-  // open file in parallel mode
-  if (nc_open_par(input_file.c_str(), NC_NOWRITE | NC_MPIIO, comm, info, &ncid)) {
-      throw std::runtime_error("Failed to open NetCDF file in parallel");
-  }
-
-  // inquire dimensions from "zg": [lev, cell]
-  
-  int varid_zg;
-  nc_inq_varid(ncid, BASE_VAR.c_str(), &varid_zg);
-  size_t dimlen_lev, dimlen_cell;
-  int dimids[2];
-  nc_inq_vardimid(ncid, varid_zg, dimids);  // Gets dimension IDs for zg
-  nc_inq_dimlen(ncid, dimids[0], &dimlen_lev); 
-  nc_inq_dimlen(ncid, dimids[1], &dimlen_cell);
-
-  nlev   = dimlen_lev;
-  ncells = dimlen_cell;
-
-  // compute local cell block
-  size_t base = ncells / nprocs;
-  size_t rem  = ncells % nprocs;
-  size_t ncell_loc = base + (rank < rem ? 1 : 0);
-  size_t start_cell = rank * base + std::min(rank, (int)rem);
-
-  // read static vertical grid
-  io_muphys::input_vector_mpi(ncid, "zg", start_cell, ncell_loc, nlev, z);
-
-  // read time‐dependent fields
-  io_muphys::input_vector_mpi(ncid, "ta",  itime, start_cell, ncell_loc, nlev, t);
-  io_muphys::input_vector_mpi(ncid, "pfull",itime, start_cell, ncell_loc, nlev, p);
-  io_muphys::input_vector_mpi(ncid, "rho", itime, start_cell, ncell_loc, nlev, rho);
-  io_muphys::input_vector_mpi(ncid, "hus", itime, start_cell, ncell_loc, nlev, qv);
-  io_muphys::input_vector_mpi(ncid, "clw", itime, start_cell, ncell_loc, nlev, qc);
-  io_muphys::input_vector_mpi(ncid, "cli", itime, start_cell, ncell_loc, nlev, qi);
-  io_muphys::input_vector_mpi(ncid, "qr",  itime, start_cell, ncell_loc, nlev, qr);
-  io_muphys::input_vector_mpi(ncid, "qs",  itime, start_cell, ncell_loc, nlev, qs);
-  io_muphys::input_vector_mpi(ncid, "qg",  itime, start_cell, ncell_loc, nlev, qg);
-
-  // close file
-  nc_close(ncid);
 }
 
 void io_muphys::write_fields(
@@ -401,124 +220,6 @@ void io_muphys::write_fields(
   datafile.close();
 }
 
-// Write 3D and 2D fields in parallel, splitting horizontal dimension across ranks
-void io_muphys::write_fields_mpi(const std::string &output_file,
-                                  size_t ncells,
-                                  size_t nlev,
-                                  const array_1d_t<real_t> &t,
-                                  const array_1d_t<real_t> &qv,
-                                  const array_1d_t<real_t> &qc,
-                                  const array_1d_t<real_t> &qi,
-                                  const array_1d_t<real_t> &qr,
-                                  const array_1d_t<real_t> &qs,
-                                  const array_1d_t<real_t> &qg,
-                                  const array_1d_t<real_t> &prr_gsp,
-                                  const array_1d_t<real_t> &pri_gsp,
-                                  const array_1d_t<real_t> &prs_gsp,
-                                  const array_1d_t<real_t> &prg_gsp,
-                                  const array_1d_t<real_t> &pre_gsp,
-                                  const array_1d_t<real_t> &pflx,
-                                  int deflate_level,
-                                  MPI_Comm comm,
-                                  MPI_Info info) {
-    int rank, nprocs;
-    MPI_Comm_rank(comm, &rank);
-    MPI_Comm_size(comm, &nprocs);
-
-    // Compute local block for cell dimension
-    size_t base = ncells / nprocs;
-    size_t rem  = ncells % nprocs;
-    size_t ncell_loc = base + (rank < (int)rem ? 1 : 0);
-    size_t start_cell = rank * base + std::min<size_t>(rank, rem);
-
-    int ncid;
-    // create file in parallel mode
-    if (nc_create_par(output_file.c_str(),
-                      NC_NETCDF4 | NC_CLOBBER | NC_MPIIO,
-                      comm, info, &ncid)) {
-        throw std::runtime_error("Failed to create NetCDF file in parallel");
-    }
-
-    // define dimensions: height and cell
-    int dimid_height, dimid_cell;
-
-    if (nc_def_dim(ncid, "ncells", ncells, &dimid_cell)) {
-      throw std::runtime_error("Failed to define cell dimension");
-  }
-
-    if (nc_def_dim(ncid, "height", nlev, &dimid_height)) {
-        throw std::runtime_error("Failed to define height dimension");
-    }
-
-    // define 1D height dimension for surface fields
-    int dimid_height1;
-    size_t onelev = 1;
-    if (nc_def_dim(ncid, "height1", onelev, &dimid_height1)) {
-        throw std::runtime_error("Failed to define height1 dimension");
-    }
-
-    // exit define mode
-    nc_enddef(ncid);
-
-    // 2D fields [height x cell]
-    io_muphys::output_vector_par(ncid, "ta",
-                                  dimid_height, dimid_cell,
-                                  start_cell, ncell_loc, nlev,
-                                  t, deflate_level);
-    io_muphys::output_vector_par(ncid, "hus",
-                                  dimid_height, dimid_cell,
-                                  start_cell, ncell_loc, nlev,
-                                  qv, deflate_level);
-    io_muphys::output_vector_par(ncid, "clw",
-                                  dimid_height, dimid_cell,
-                                  start_cell, ncell_loc, nlev,
-                                  qc, deflate_level);
-    io_muphys::output_vector_par(ncid, "cli",
-                                  dimid_height, dimid_cell,
-                                  start_cell, ncell_loc, nlev,
-                                  qi, deflate_level);
-    io_muphys::output_vector_par(ncid, "qr",
-                                  dimid_height, dimid_cell,
-                                  start_cell, ncell_loc, nlev,
-                                  qr, deflate_level);
-    io_muphys::output_vector_par(ncid, "qs",
-                                  dimid_height, dimid_cell,
-                                  start_cell, ncell_loc, nlev,
-                                  qs, deflate_level);
-    io_muphys::output_vector_par(ncid, "qg",
-                                  dimid_height, dimid_cell,
-                                  start_cell, ncell_loc, nlev,
-                                  qg, deflate_level);
-    io_muphys::output_vector_par(ncid, "pflx",
-                                  dimid_height, dimid_cell,
-                                  start_cell, ncell_loc, nlev,
-                                  pflx, deflate_level);
-
-    // surface fields [height1 x cell]
-    io_muphys::output_vector_par(ncid, "prr_gsp",
-                                  dimid_height1, dimid_cell,
-                                  start_cell, ncell_loc, onelev,
-                                  prr_gsp, deflate_level);
-    io_muphys::output_vector_par(ncid, "prs_gsp",
-                                  dimid_height1, dimid_cell,
-                                  start_cell, ncell_loc, onelev,
-                                  prs_gsp, deflate_level);
-    io_muphys::output_vector_par(ncid, "pri_gsp",
-                                  dimid_height1, dimid_cell,
-                                  start_cell, ncell_loc, onelev,
-                                  pri_gsp, deflate_level);
-    io_muphys::output_vector_par(ncid, "prg_gsp",
-                                  dimid_height1, dimid_cell,
-                                  start_cell, ncell_loc, onelev,
-                                  prg_gsp, deflate_level);
-    io_muphys::output_vector_par(ncid, "pre_gsp",
-                                  dimid_height1, dimid_cell,
-                                  start_cell, ncell_loc, onelev,
-                                  pre_gsp, deflate_level);
-
-    // close file
-    nc_close(ncid);
-}
 
 [[maybe_unused]] static void copy_coordinate_variables_if_present(NcFile &datafile, NcFile &inputfile,
                                      std::vector<std::string> coordinates) {
@@ -671,12 +372,304 @@ void io_muphys::write_fields(
     var.putVar(oneDimensionalVariable.data());
   }
 }
-
+#ifdef USE_MPI
 namespace io_muphys {
-
-  void input_vector_mpi(const std::string &filename, array_1d_t<real_t> &v,
-                        const std::string &var_name, size_t ncells,
-                        size_t nlev, size_t itime, MPI_Comm comm, MPI_Info info) {
+  // Helper: read a 3D variable [time, lev, cell] in parallel
+  void input_vector_mpi(int ncid,
+                        const char *name,
+                        size_t itime,
+                        size_t start_cell,
+                        size_t ncell_loc,
+                        size_t nlev,
+                        array_1d_t<real_t> &arr) {
+      int varid;
+      // find variable ID
+      if (nc_inq_varid(ncid, name, &varid)) 
+          throw std::runtime_error(std::string("Variable not found: ") + name);
+      // set collective I/O
+      nc_var_par_access(ncid, varid, NC_COLLECTIVE);
+      // define the hyperslab: [time, level, cell]
+      size_t start[3] = { itime, 0, start_cell };
+      size_t count[3] = { 1, nlev, ncell_loc };
+      // allocate local buffer
+      arr.resize(nlev * ncell_loc);
+      // read
+      if (NC_GET_VARA(ncid, varid, start, count, arr.data()))
+          throw std::runtime_error(std::string("Failed to read var: ") + name);
   }
-  
+
+  // Helper: read a 2D variable [lev, cell] (static) in parallel
+  void input_vector_mpi(int ncid,
+                        const char *name,
+                        size_t start_cell,
+                        size_t ncell_loc,
+                        size_t nlev,
+                        array_1d_t<real_t> &arr) {
+      int varid;
+      // find variable ID
+      if (nc_inq_varid(ncid, name, &varid)) 
+          throw std::runtime_error(std::string("Variable not found: ") + name);
+      // independent I/O is fine for static fields
+      nc_var_par_access(ncid, varid, NC_INDEPENDENT);
+      // define hyperslab: [level, cell]
+      size_t start[2] = { 0, start_cell };
+      size_t count[2] = { nlev, ncell_loc };
+      // allocate local buffer
+      arr.resize(nlev * ncell_loc);
+      // read
+      if (NC_GET_VARA(ncid, varid, start, count, arr.data()))
+          throw std::runtime_error(std::string("Failed to read var: ") + name);
+  }
+  // Helper: write a 3D variable [time, level, cell] in parallel
+  void output_vector_par(int ncid,
+                          const char* name,
+                          int dimid_time,
+                          int dimid_height,
+                          int dimid_cell,
+                          size_t itime,
+                          size_t start_cell,
+                          size_t ncell_loc,
+                          size_t nlev,
+                          const array_1d_t<real_t>& arr,
+                          int deflate_level) {
+      int varid;
+      int dimids[3] = { dimid_time, dimid_height, dimid_cell };
+
+      // define variable
+      if (nc_def_var(ncid, name, NC_REAL_TYPE, 3, dimids, &varid)) {
+          throw std::runtime_error("Failed to define var: " + std::string(name));
+      }
+
+      // set compression if requested
+      if (deflate_level > 0) {
+          nc_def_var_deflate(ncid, varid, 0, 1, deflate_level);
+      }
+
+      // set collective access
+      nc_var_par_access(ncid, varid, NC_COLLECTIVE);
+
+      // exit define mode
+      nc_enddef(ncid);
+
+      // define hyperslab: [time, level, cell]
+      size_t startp[3] = { itime, 0, start_cell };
+      size_t countp[3] = { 1, nlev, ncell_loc };
+
+      // write data (assuming arr is ordered as [level][cell])
+      if (NC_PUT_VARA(ncid, varid, startp, countp, arr.data())) {
+          throw std::runtime_error("Failed to write var: " + std::string(name));
+      }
+  }
+  // Helper: write a 2D variable [level, cell] in parallel
+  void output_vector_par(int ncid,
+                          const char* name,
+                          int dimid_height,
+                          int dimid_cell,
+                          size_t start_cell,
+                          size_t ncell_loc,
+                          size_t nlev,
+                          const array_1d_t<real_t>& arr,
+                          int deflate_level) {
+      int varid;
+      int dimids[2] = { dimid_height, dimid_cell };
+
+      // define variable
+      if (nc_def_var(ncid, name, NC_REAL_TYPE, 2, dimids, &varid)) {
+          throw std::runtime_error("Failed to define var: " + std::string(name));
+      }
+
+      // set compression if requested
+      if (deflate_level > 0) {
+          nc_def_var_deflate(ncid, varid, 0, 1, deflate_level);
+      }
+
+      // set collective access
+      nc_var_par_access(ncid, varid, NC_COLLECTIVE);
+
+      // exit define mode
+      nc_enddef(ncid);
+
+      // write data block (assuming arr is ordered as [level][cell])
+      for (size_t lvl = 0; lvl < nlev; ++lvl) {
+          size_t startp[2] = { lvl, start_cell };
+          size_t countp[2] = { 1, ncell_loc };
+          const real_t* data_ptr = arr.data() + lvl * ncell_loc;
+          if (NC_PUT_VARA(ncid, varid, startp, countp, data_ptr)) {
+              throw std::runtime_error("Failed to write var: " + std::string(name));
+          }
+      }
+  }
+  void read_fields_mpi(const string input_file, size_t &itime,
+                            size_t &ncells, size_t &nlev, array_1d_t<real_t> &z,
+                            array_1d_t<real_t> &t, array_1d_t<real_t> &p,
+                            array_1d_t<real_t> &rho, array_1d_t<real_t> &qv,
+                            array_1d_t<real_t> &qc, array_1d_t<real_t> &qi,
+                            array_1d_t<real_t> &qr, array_1d_t<real_t> &qs,
+                            array_1d_t<real_t> &qg, MPI_Comm comm, MPI_Info info) {
+    int rank, nprocs;
+    MPI_Comm_rank(comm, &rank);
+    MPI_Comm_size(comm, &nprocs);
+
+    int ncid;
+    // open file in parallel mode
+    if (nc_open_par(input_file.c_str(), NC_NOWRITE | NC_MPIIO, comm, info, &ncid)) {
+        throw std::runtime_error("Failed to open NetCDF file in parallel");
+    }
+
+    // inquire dimensions from "zg": [lev, cell]
+    
+    int varid_zg;
+    nc_inq_varid(ncid, BASE_VAR.c_str(), &varid_zg);
+    size_t dimlen_lev, dimlen_cell;
+    int dimids[2];
+    nc_inq_vardimid(ncid, varid_zg, dimids);  // Gets dimension IDs for zg
+    nc_inq_dimlen(ncid, dimids[0], &dimlen_lev); 
+    nc_inq_dimlen(ncid, dimids[1], &dimlen_cell);
+
+    nlev   = dimlen_lev;
+    ncells = dimlen_cell;
+
+    // compute local cell block
+    size_t base = ncells / nprocs;
+    size_t rem  = ncells % nprocs;
+    size_t ncell_loc = base + (rank < rem ? 1 : 0);
+    size_t start_cell = rank * base + std::min(rank, (int)rem);
+
+    // read static vertical grid
+    io_muphys::input_vector_mpi(ncid, "zg", start_cell, ncell_loc, nlev, z);
+
+    // read time‐dependent fields
+    io_muphys::input_vector_mpi(ncid, "ta",  itime, start_cell, ncell_loc, nlev, t);
+    io_muphys::input_vector_mpi(ncid, "pfull",itime, start_cell, ncell_loc, nlev, p);
+    io_muphys::input_vector_mpi(ncid, "rho", itime, start_cell, ncell_loc, nlev, rho);
+    io_muphys::input_vector_mpi(ncid, "hus", itime, start_cell, ncell_loc, nlev, qv);
+    io_muphys::input_vector_mpi(ncid, "clw", itime, start_cell, ncell_loc, nlev, qc);
+    io_muphys::input_vector_mpi(ncid, "cli", itime, start_cell, ncell_loc, nlev, qi);
+    io_muphys::input_vector_mpi(ncid, "qr",  itime, start_cell, ncell_loc, nlev, qr);
+    io_muphys::input_vector_mpi(ncid, "qs",  itime, start_cell, ncell_loc, nlev, qs);
+    io_muphys::input_vector_mpi(ncid, "qg",  itime, start_cell, ncell_loc, nlev, qg);
+
+    // close file
+    nc_close(ncid);
+  }
+
+  // Write 3D and 2D fields in parallel, splitting horizontal dimension across ranks
+  void write_fields_mpi(const std::string &output_file,
+                        size_t ncells,
+                        size_t nlev,
+                        const array_1d_t<real_t> &t,
+                        const array_1d_t<real_t> &qv,
+                        const array_1d_t<real_t> &qc,
+                        const array_1d_t<real_t> &qi,
+                        const array_1d_t<real_t> &qr,
+                        const array_1d_t<real_t> &qs,
+                        const array_1d_t<real_t> &qg,
+                        const array_1d_t<real_t> &prr_gsp,
+                        const array_1d_t<real_t> &pri_gsp,
+                        const array_1d_t<real_t> &prs_gsp,
+                        const array_1d_t<real_t> &prg_gsp,
+                        const array_1d_t<real_t> &pre_gsp,
+                        const array_1d_t<real_t> &pflx,
+                        int deflate_level,
+                        MPI_Comm comm,
+                        MPI_Info info) {
+    int rank, nprocs;
+    MPI_Comm_rank(comm, &rank);
+    MPI_Comm_size(comm, &nprocs);
+
+    // Compute local block for cell dimension
+    size_t base = ncells / nprocs;
+    size_t rem  = ncells % nprocs;
+    size_t ncell_loc = base + (rank < (int)rem ? 1 : 0);
+    size_t start_cell = rank * base + std::min<size_t>(rank, rem);
+
+    int ncid;
+    // create file in parallel mode
+    if (nc_create_par(output_file.c_str(),
+                      NC_NETCDF4 | NC_CLOBBER | NC_MPIIO,
+                      comm, info, &ncid)) {
+        throw std::runtime_error("Failed to create NetCDF file in parallel");
+    }
+
+    // define dimensions: height and cell
+    int dimid_height, dimid_cell;
+
+    if (nc_def_dim(ncid, "ncells", ncells, &dimid_cell)) {
+      throw std::runtime_error("Failed to define cell dimension");
+  }
+
+    if (nc_def_dim(ncid, "height", nlev, &dimid_height)) {
+        throw std::runtime_error("Failed to define height dimension");
+    }
+
+    // define 1D height dimension for surface fields
+    int dimid_height1;
+    size_t onelev = 1;
+    if (nc_def_dim(ncid, "height1", onelev, &dimid_height1)) {
+        throw std::runtime_error("Failed to define height1 dimension");
+    }
+
+    // exit define mode
+    nc_enddef(ncid);
+
+    // 2D fields [height x cell]
+    io_muphys::output_vector_par(ncid, "ta",
+                                  dimid_height, dimid_cell,
+                                  start_cell, ncell_loc, nlev,
+                                  t, deflate_level);
+    io_muphys::output_vector_par(ncid, "hus",
+                                  dimid_height, dimid_cell,
+                                  start_cell, ncell_loc, nlev,
+                                  qv, deflate_level);
+    io_muphys::output_vector_par(ncid, "clw",
+                                  dimid_height, dimid_cell,
+                                  start_cell, ncell_loc, nlev,
+                                  qc, deflate_level);
+    io_muphys::output_vector_par(ncid, "cli",
+                                  dimid_height, dimid_cell,
+                                  start_cell, ncell_loc, nlev,
+                                  qi, deflate_level);
+    io_muphys::output_vector_par(ncid, "qr",
+                                  dimid_height, dimid_cell,
+                                  start_cell, ncell_loc, nlev,
+                                  qr, deflate_level);
+    io_muphys::output_vector_par(ncid, "qs",
+                                  dimid_height, dimid_cell,
+                                  start_cell, ncell_loc, nlev,
+                                  qs, deflate_level);
+    io_muphys::output_vector_par(ncid, "qg",
+                                  dimid_height, dimid_cell,
+                                  start_cell, ncell_loc, nlev,
+                                  qg, deflate_level);
+    io_muphys::output_vector_par(ncid, "pflx",
+                                  dimid_height, dimid_cell,
+                                  start_cell, ncell_loc, nlev,
+                                  pflx, deflate_level);
+
+    // surface fields [height1 x cell]
+    io_muphys::output_vector_par(ncid, "prr_gsp",
+                                  dimid_height1, dimid_cell,
+                                  start_cell, ncell_loc, onelev,
+                                  prr_gsp, deflate_level);
+    io_muphys::output_vector_par(ncid, "prs_gsp",
+                                  dimid_height1, dimid_cell,
+                                  start_cell, ncell_loc, onelev,
+                                  prs_gsp, deflate_level);
+    io_muphys::output_vector_par(ncid, "pri_gsp",
+                                  dimid_height1, dimid_cell,
+                                  start_cell, ncell_loc, onelev,
+                                  pri_gsp, deflate_level);
+    io_muphys::output_vector_par(ncid, "prg_gsp",
+                                  dimid_height1, dimid_cell,
+                                  start_cell, ncell_loc, onelev,
+                                  prg_gsp, deflate_level);
+    io_muphys::output_vector_par(ncid, "pre_gsp",
+                                  dimid_height1, dimid_cell,
+                                  start_cell, ncell_loc, onelev,
+                                  pre_gsp, deflate_level);
+
+    // close file
+    nc_close(ncid);
+  }
 } // namespace io_muphys
+#endif

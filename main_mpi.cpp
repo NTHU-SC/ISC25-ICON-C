@@ -20,8 +20,10 @@
 #include <chrono>
 #include <mpi.h>
 
+using namespace std;
+
 int main(int argc, char *argv[]) {
-   // MPI_INIT
+   // Mpi parameters initilization
    MPI_Init(&argc, &argv);
    int rank, size;
    MPI_Comm_rank(MPI_COMM_WORLD, &rank);
@@ -47,50 +49,58 @@ int main(int argc, char *argv[]) {
 
    const string input_file = file;
 
-   io_muphys::read_fields(input_file, itime, ncells, nlev, z, t, p, rho, qv, qc,
-                           qi, qr, qs, qg);
-   utils_muphys::calc_dz(z, dz, ncells, nlev);
+   io_muphys::read_fields_mpi(input_file, itime, ncells, nlev, z, t, p, rho, qv, qc, qi, qr, qs, qg);
 
-   prr_gsp.resize(ncells, ZERO);
-   pri_gsp.resize(ncells, ZERO);
-   prs_gsp.resize(ncells, ZERO);
-   prg_gsp.resize(ncells, ZERO);
-   pre_gsp.resize(ncells, ZERO);
-   pflx.resize(ncells * nlev, ZERO);
+   size_t base = ncells / size;
+   size_t rem  = ncells % size;
+   size_t ncell_loc = base + (rank < rem ? 1 : 0);
+   size_t start_cell = rank * base + std::min(rank, (int)rem);
+
+   utils_muphys::calc_dz(z, dz, ncell_loc, nlev);
+
+   prr_gsp.resize(ncell_loc, ZERO);
+   pri_gsp.resize(ncell_loc, ZERO);
+   prs_gsp.resize(ncell_loc, ZERO);
+   prg_gsp.resize(ncell_loc, ZERO);
+   pre_gsp.resize(ncell_loc, ZERO);
+   pflx.resize(ncell_loc * nlev, ZERO);
 
    kbeg = 0;
    kend = nlev;
    ivbeg = 0;
-   ivend = ncells;
-   nvec = ncells;
+   ivend = ncell_loc;
+   nvec = ncell_loc;
    qnc_1 = qnc;
+   
 
- 
    size_t multirun = 0;
 
    if (std::getenv("MULTI_GRAUPEL")){
       multirun = atoi(std::getenv("MULTI_GRAUPEL"));
-      }
+   }
    else {
       multirun = 1;
-      }
-   std::cout << "multirun =" << multirun << std::endl;
- 
+   }
+
+   if (!rank)
+      std::cout << "multirun =" << multirun << std::endl;
+
    auto start_time = std::chrono::steady_clock::now();
- 
+
    for (size_t ii = 0; ii < multirun; ++ii){
-     graupel(nvec, kend, ivbeg, ivend, kbeg, dt, dz, t, rho, p, qv, qc, qi, qr, qs,
-             qg, qnc_1, prr_gsp, pri_gsp, prs_gsp, prg_gsp, pre_gsp, pflx);
-  } 
+      graupel(nvec, kend, ivbeg, ivend, kbeg, dt, dz, t, rho, p, qv, qc, qi, qr, qs,
+              qg, qnc_1, prr_gsp, pri_gsp, prs_gsp, prg_gsp, pre_gsp, pflx);
+   } 
+   
+   io_muphys::write_fields_mpi(output_file, ncells, nlev, t, qv, qc, qi, qr, qs,
+                              qg, prr_gsp, pri_gsp, prs_gsp, prg_gsp, pre_gsp, pflx);
+
    auto end_time = std::chrono::steady_clock::now();
    auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(
        end_time - start_time);
- 
-   io_muphys::write_fields(output_file, ncells, nlev, t, qv, qc, qi, qr, qs,
-                             qg, prr_gsp, pri_gsp, prs_gsp, prg_gsp, pre_gsp, pflx);
- 
-   std::cout << "time taken : " << duration.count() << " milliseconds"
-             << std::endl;
+
+   if (!rank)
+      std::cout << "time taken : " << duration.count() << " milliseconds" << std::endl;
 
    MPI_Finalize();
    return 0;
