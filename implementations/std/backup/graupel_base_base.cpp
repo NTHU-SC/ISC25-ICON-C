@@ -129,9 +129,8 @@ void graupel(size_t &nvec, size_t &ke, size_t &ivstart, size_t &ivend,
       size_t rem  = total_size % T_SIZE;
       size_t chunk_size = base + (tid < rem) * 1;
       size_t start_cell = tid * base + std::min(tid, (size_t)rem);
-      size_t j;
-      for (size_t jj = 0; jj < chunk_size; ++jj) {
-        j = tid + jj * T_SIZE;
+  
+      for (size_t j = start_cell; j < start_cell + chunk_size; ++j) {
         #pragma unroll np
         for (size_t ix = 0; ix < np; ++ix) {
           update[ix] = kmin[j * np + qp_ind[ix]];
@@ -174,9 +173,7 @@ void graupel(size_t &nvec, size_t &ke, size_t &ivstart, size_t &ivend,
       size_t rem  = total_size % T_SIZE;
       size_t chunk_size = base + (tid < rem) * 1;
       size_t start_cell = tid * base + std::min(tid, (size_t)rem);
-      size_t j;
-      for (size_t jj = 0; jj < chunk_size; ++jj) {
-        j = tid + jj * T_SIZE;
+      for (size_t j = start_cell; j < start_cell + chunk_size; ++j) {
         for (size_t i = ke - 1; i < ke; --i) {        
           oned_vec_index = i * ivend + j;
           if (flags[oned_vec_index]) {
@@ -195,9 +192,7 @@ void graupel(size_t &nvec, size_t &ke, size_t &ivstart, size_t &ivend,
         size_t rem  = jmx_ % T_SIZE;
         size_t chunk_size = base + (tid < rem) * 1;
         size_t start_cell = tid * base + std::min(tid, (size_t)rem);
-        size_t j;
-        for (size_t jj = 0; jj < chunk_size; ++jj) {
-          j = tid + jj * T_SIZE;
+        for (size_t j = start_cell; j < start_cell + chunk_size; ++j) {
             real_t cv, eta, qvsi, qice, qliq, qtot, dvsw, dvsw0, dvsi, n_ice,
             m_ice, x_ice, n_snow, l_snow, ice_dep, stot;
             real_t sx2x_sum;
@@ -366,9 +361,7 @@ void graupel(size_t &nvec, size_t &ke, size_t &ivstart, size_t &ivend,
       size_t rem  = total_size % T_SIZE;
       size_t chunk_size = base + (tid < rem) * 1;
       size_t start_cell = tid * base + std::min(tid, (size_t)rem);
-      size_t iv;
-      for (size_t jj = 0; jj < chunk_size; ++jj) {
-        iv = tid + jj * T_SIZE;
+      for (size_t iv = start_cell; iv < start_cell + chunk_size; iv++) {
         real_t vt[np] = {ZERO};
         real_t eflx = ZERO;
   
