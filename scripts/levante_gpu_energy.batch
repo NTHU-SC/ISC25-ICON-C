@@ -17,7 +17,7 @@ ulimit -c 0
 COMPILER='nvidia' 
 
 # compiler flags
-FLAGS="" 
+FLAGS="-Ofast -stdpar" 
 
 # clean or dirty build
 FORCE_CLEAN=true
