@@ -15,6 +15,7 @@
 #include <numeric>
 #include <execution>
 #include <algorithm>
+
 #include <array>
 
 using namespace property;
