@@ -3,8 +3,8 @@
 #SBATCH --account=ka1273
 #SBATCH --job-name=scc
 #SBATCH --partition=gpu
-#SBATCH --gpus=1
-#SBATCH --output=%x.%j.log
+#SBATCH --gpus=4
+#SBATCH --output=comm.log
 #SBATCH --exclusive
 #SBATCH --time=00:20:00
 
@@ -39,11 +39,14 @@ fi
 
 
 . scripts/check-correctness.sh
-srun -n 1 $EXE $(pwd)/tasks/11k.nc $OUT_FILE
+srun -n 4 $EXE $(pwd)/tasks/11k.nc $OUT_FILE
 check $OUT_FILE $(pwd)/reference_results/seq_11k_double.nc
-srun -n 1 $EXE $(pwd)/tasks/20k.nc $OUT_FILE
+srun -n 4 $EXE $(pwd)/tasks/20k.nc $OUT_FILE
 check $OUT_FILE $(pwd)/reference_results/seq_20k_double.nc
-srun -n 1 $EXE $(pwd)/tasks/dbg.nc $OUT_FILE
+srun -n 4 $EXE $(pwd)/tasks/dbg.nc $OUT_FILE
 check $OUT_FILE $(pwd)/reference_results/seq_dbg_double.nc
+
+#srun -n 1 $EXE $IN_FILE $OUT_FILE
+#check $OUT_FILE $REF_FILE
 
 echo "Job done!"

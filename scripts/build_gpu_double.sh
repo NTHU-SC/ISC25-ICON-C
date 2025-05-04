@@ -14,7 +14,7 @@ ulimit -c 0
 COMPILER='nvidia' 
 
 # compiler flags
-FLAGS='-O3 -stdpar=gpu' 
+FLAGS='-O3 -march=native -stdpar=gpu -gpu=cc80,nofma' 
 
 # build
 BUILD='build_std_gpu_mpi_double'

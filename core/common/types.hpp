@@ -19,8 +19,10 @@ using namespace std;
 //  using Integer_8 = long long int;
 
 #ifdef __SINGLE_PRECISION
+#define MPI_REAL_T MPI_FLOAT
 using real_t = float;
 #else
+#define MPI_REAL_T MPI_DOUBLE
 using real_t = double;
 #endif
 
