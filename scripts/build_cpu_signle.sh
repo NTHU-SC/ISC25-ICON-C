@@ -5,7 +5,7 @@
 #SBATCH --partition=compute
 #SBATCH --ntasks=1
 #SBATCH --output=%x.%j.log
-#SBATCH --time=00:10:00
+#SBATCH --time=00:30:00
 
 ulimit -s unlimited
 ulimit -c 0
@@ -16,6 +16,7 @@ FLAGS='-O0 -nofma'
 # build
 BUILD='build_std_cpu_single'
 
+ml purge
 spack load /42ju4ng # netcdf-cxx4 compiled with nvhpc
 module load nvhpc/24.7-gcc-11.2.0
 export LD_LIBRARY_PATH=/sw/spack-levante/gcc-11.2.0-bcn7mb/lib64/

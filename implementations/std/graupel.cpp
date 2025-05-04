@@ -23,8 +23,6 @@ using namespace transition;
 using namespace idx;
 using namespace graupel_ct;
 
-#define T_SIZE 256
-
 inline constexpr std::array<size_t, 6> make_qx_ind_array() {
   return {
       idx::qx_ind[0],
@@ -72,11 +70,6 @@ void graupel(size_t &nvec, size_t &ke, size_t &ivstart, size_t &ivend,
              array_1d_t<real_t> &prg_gsp, array_1d_t<real_t> &pre_gsp,
              array_1d_t<real_t> &pflx) {
 
-  // TODO: implement based on sequential code in implementations/sequential/graupel.cpp
-  // std::cout << "sequential graupel" << std::endl;
-  const auto qp_ind_copy = make_qp_ind_array();
-  const auto qx_ind_copy = make_qx_ind_array(); 
-
   array_1d_t<size_t> kmin(nvec * np, ke + 1); // first level with condensate
 
   array_1d_t<real_t> emptyArray;
@@ -99,21 +92,22 @@ void graupel(size_t &nvec, size_t &ke, size_t &ivstart, size_t &ivend,
   x_array.emplace_back(qc.data());
   x_array.emplace_back(qv.data());
 
+  // The loop is intentionally i<nlev; since we are using an unsigned integer
+  // data type, when i reaches 0, and you try to decrement further, (to -1), it
+  // wraps to the maximum value representable by size_t.
   array_1d_t<size_t> indices_(ivend - ivstart);
   std::iota(indices_.begin(), indices_.end(), ivstart);
   
-  array_1d_t<size_t> flags(ke * (ivend - ivstart + 1));
+  array_1d_t<size_t> flags(ke * (ivend - ivstart + 1), 0);
   array_1d_t<size_t> prefixsum(ke * (ivend - ivstart + 1));
-
 
   real_t** p_array_ptr = p_array.data();
   real_t** x_array_ptr = x_array.data();
   real_t* t_ptr = t.data();
   real_t* rho_ptr = rho.data();
-  real_t* p_ptr = p.data();
-  
+
   size_t* kmin_ptr = kmin.data();
-  size_t* flag_ptr = flags.data();
+  size_t* flags_ptr = flags.data();
   size_t* prefixsum_ptr = prefixsum.data();
 
   size_t jmx_ = std::transform_reduce(
@@ -121,10 +115,13 @@ void graupel(size_t &nvec, size_t &ke, size_t &ivstart, size_t &ivend,
     indices_.begin(), indices_.end(),
     size_t(0), 
     std::plus<size_t>(),
-    [=, qp_ind = qp_ind_copy](size_t j) {
+    [=](size_t j) {
       size_t count = 0;
       size_t var0, var1, var2, var3;
       bool val;
+      size_t oned_vec_index;
+      
+      constexpr auto qp_ind = make_qp_ind_array();
 
       var0 = kmin_ptr[j * np + qp_ind[0]];
       var1 = kmin_ptr[j * np + qp_ind[1]];
@@ -132,22 +129,23 @@ void graupel(size_t &nvec, size_t &ke, size_t &ivstart, size_t &ivend,
       var3 = kmin_ptr[j * np + qp_ind[3]];
 
       for (size_t i = ke - 1; i < ke; --i) {  
-        const bool cond1 = (std::max({x_array_ptr[lqc][i * ivend + j], x_array_ptr[lqr][i * ivend + j], 
-                            x_array_ptr[lqs][i * ivend + j], x_array_ptr[lqi][i * ivend + j], 
-                            x_array_ptr[lqg][i * ivend + j]}) > qmin);      
-        const bool cond2 = ((t_ptr[i * ivend + j] < tfrz_het2) && 
-                            (x_array_ptr[lqv][i * ivend + j] > qsat_ice_rho(t_ptr[i * ivend + j], rho_ptr[i * ivend + j])));
+        oned_vec_index = i * ivend + j;
+        const bool cond1 = (std::max({x_array_ptr[lqc][oned_vec_index], x_array_ptr[lqr][oned_vec_index], 
+                            x_array_ptr[lqs][oned_vec_index], x_array_ptr[lqi][oned_vec_index], 
+                            x_array_ptr[lqg][oned_vec_index]}) > qmin);      
+        const bool cond2 = ((t_ptr[oned_vec_index] < tfrz_het2) && 
+                            (x_array_ptr[lqv][oned_vec_index] > qsat_ice_rho(t_ptr[oned_vec_index], rho_ptr[oned_vec_index])));
 
-        flag_ptr[i * ivend + j] = (cond1 || cond2) * 1;
+        flags_ptr[oned_vec_index] = (cond1 || cond2) * 1;
         count += (cond1 || cond2);
         
-        val = (x_array_ptr[qp_ind[0]][i * ivend + j] > qmin);
+        val = (x_array_ptr[qp_ind[0]][oned_vec_index] > qmin);
         var0 = val * i + (!val) * var0;
-        val = (x_array_ptr[qp_ind[1]][i * ivend + j] > qmin);
+        val = (x_array_ptr[qp_ind[1]][oned_vec_index] > qmin);
         var1 = val * i + (!val) * var1;
-        val = (x_array_ptr[qp_ind[2]][i * ivend + j] > qmin);
+        val = (x_array_ptr[qp_ind[2]][oned_vec_index] > qmin);
         var2 = val * i + (!val) * var2;
-        val = (x_array_ptr[qp_ind[3]][i * ivend + j] > qmin);
+        val = (x_array_ptr[qp_ind[3]][oned_vec_index] > qmin);
         var3 = val * i + (!val) * var3;
       }
 
@@ -171,19 +169,25 @@ void graupel(size_t &nvec, size_t &ke, size_t &ivstart, size_t &ivend,
   // calculate index array by prefix sum array
   std::for_each(std::execution::par_unseq, indices_.begin(), indices_.end(),
   [=](size_t j) {
-      for (size_t i = ke - 1; i < ke; --i) {      
-        if (flag_ptr[i * ivend + j]) {
-          ind_j_ptr[prefixsum[i * ivend + j]] = j;
-          ind_i_ptr[prefixsum[i * ivend + j]] = i;
+      size_t oned_vec_index;
+      for (size_t i = ke - 1; i < ke; --i) {
+        oned_vec_index = i * ivend + j;
+        if (flags_ptr[oned_vec_index]) {
+          ind_i_ptr[prefixsum_ptr[oned_vec_index]] = i;
+          ind_j_ptr[prefixsum_ptr[oned_vec_index]] = j;
         }
       }
   });
   
+
   array_1d_t<size_t> indices(jmx_);
   std::iota(indices.begin(), indices.end(), 0);
 
+  real_t* p_ptr = p.data();
+
   std::for_each(std::execution::par_unseq, indices.begin(), indices.end(),
-    [=, qp_ind = qp_ind_copy, qx_ind = qx_ind_copy](size_t j) {
+    [=](size_t j) {
+        constexpr auto qx_ind = make_qx_ind_array();
         real_t cv, eta, qvsi, qice, qliq, qtot, dvsw, dvsw0, dvsi, n_ice,
         m_ice, x_ice, n_snow, l_snow, ice_dep, stot;
         real_t sx2x_sum;
@@ -196,32 +200,32 @@ void graupel(size_t &nvec, size_t &ke, size_t &ivstart, size_t &ivend,
         bool is_sig_present = std::max({x_array_ptr[lqs][oned_vec_index], x_array_ptr[lqi][oned_vec_index], x_array_ptr[lqg][oned_vec_index]}) > qmin;
 
         dvsw = x_array_ptr[lqv][oned_vec_index] -
-               qsat_rho(t[oned_vec_index], rho_ptr[oned_vec_index]);
-        qvsi = qsat_ice_rho(t[oned_vec_index], rho_ptr[oned_vec_index]);
+               qsat_rho(t_ptr[oned_vec_index], rho_ptr[oned_vec_index]);
+        qvsi = qsat_ice_rho(t_ptr[oned_vec_index], rho_ptr[oned_vec_index]);
         dvsi = x_array_ptr[lqv][oned_vec_index] - qvsi;
-        n_snow = snow_number(t[oned_vec_index], rho_ptr[oned_vec_index],
+        n_snow = snow_number(t_ptr[oned_vec_index], rho_ptr[oned_vec_index],
                               x_array_ptr[lqs][oned_vec_index]);
         l_snow = snow_lambda(rho_ptr[oned_vec_index], x_array_ptr[lqs][oned_vec_index], n_snow);
     
-        sx2x[lqc][lqr] = cloud_to_rain(t[oned_vec_index], x_array_ptr[lqc][oned_vec_index],
+        sx2x[lqc][lqr] = cloud_to_rain(t_ptr[oned_vec_index], x_array_ptr[lqc][oned_vec_index],
                                         x_array_ptr[lqr][oned_vec_index], qnc);
-        sx2x[lqr][lqv] = rain_to_vapor(t[oned_vec_index], rho_ptr[oned_vec_index],
+        sx2x[lqr][lqv] = rain_to_vapor(t_ptr[oned_vec_index], rho_ptr[oned_vec_index],
                                       x_array_ptr[lqc][oned_vec_index],
                                       x_array_ptr[lqr][oned_vec_index], dvsw, dt);
-        sx2x[lqc][lqi] = cloud_x_ice(t[oned_vec_index], x_array_ptr[lqc][oned_vec_index],
+        sx2x[lqc][lqi] = cloud_x_ice(t_ptr[oned_vec_index], x_array_ptr[lqc][oned_vec_index],
                                       x_array_ptr[lqi][oned_vec_index], dt);
         sx2x[lqi][lqc] = -std::fmin(sx2x[lqc][lqi], ZERO);
         sx2x[lqc][lqi] = std::fmax(sx2x[lqc][lqi], ZERO);
-        sx2x[lqc][lqs] = cloud_to_snow(t[oned_vec_index], x_array_ptr[lqc][oned_vec_index],
+        sx2x[lqc][lqs] = cloud_to_snow(t_ptr[oned_vec_index], x_array_ptr[lqc][oned_vec_index],
                                         x_array_ptr[lqs][oned_vec_index], n_snow, l_snow);
         sx2x[lqc][lqg] =
-            cloud_to_graupel(t[oned_vec_index], rho_ptr[oned_vec_index],
+            cloud_to_graupel(t_ptr[oned_vec_index], rho_ptr[oned_vec_index],
                             x_array_ptr[lqc][oned_vec_index], x_array_ptr[lqg][oned_vec_index]);
     
-        if (t[oned_vec_index] < tmelt) {
-          n_ice = ice_number(t[oned_vec_index], rho_ptr[oned_vec_index]);
+        if (t_ptr[oned_vec_index] < tmelt) {
+          n_ice = ice_number(t_ptr[oned_vec_index], rho_ptr[oned_vec_index]);
           m_ice = ice_mass(x_array_ptr[lqi][oned_vec_index], n_ice);
-          x_ice = ice_sticking(t[oned_vec_index]);
+          x_ice = ice_sticking(t_ptr[oned_vec_index]);
     
           if (is_sig_present) {
             eta = deposition_factor(
@@ -241,7 +245,7 @@ void graupel(size_t &nvec, size_t &ke, size_t &ivstart, size_t &ivend,
                 rho_ptr[oned_vec_index], x_array_ptr[lqr][oned_vec_index],
                 x_array_ptr[lqg][oned_vec_index], x_array_ptr[lqi][oned_vec_index], x_ice);
             sx2x[lqs][lqg] =
-                snow_to_graupel(t[oned_vec_index], rho_ptr[oned_vec_index],
+                snow_to_graupel(t_ptr[oned_vec_index], rho_ptr[oned_vec_index],
                                 x_array_ptr[lqc][oned_vec_index], x_array_ptr[lqs][oned_vec_index]);
             sx2x[lqr][lqg] = rain_to_graupel(
                 t_ptr[oned_vec_index], rho_ptr[oned_vec_index], x_array_ptr[lqc][oned_vec_index],
@@ -250,7 +254,7 @@ void graupel(size_t &nvec, size_t &ke, size_t &ivstart, size_t &ivend,
           }
           sx2x[lqv][lqi] =
               sx2x[lqv][lqi] +
-              ice_deposition_nucleation(t[oned_vec_index], x_array_ptr[lqc][oned_vec_index],
+              ice_deposition_nucleation(t_ptr[oned_vec_index], x_array_ptr[lqc][oned_vec_index],
                                         x_array_ptr[lqi][oned_vec_index], n_ice, dvsi, dt);
         } else {
           sx2x[lqc][lqr] = sx2x[lqc][lqr] + sx2x[lqc][lqs] + sx2x[lqc][lqg];
@@ -263,21 +267,21 @@ void graupel(size_t &nvec, size_t &ke, size_t &ivstart, size_t &ivend,
         if (is_sig_present) {
           dvsw0 = x_array_ptr[lqv][oned_vec_index] - qsat_rho(tmelt, rho_ptr[oned_vec_index]);
           sx2x[lqv][lqs] =
-              vapor_x_snow(t[oned_vec_index], p[oned_vec_index],
+              vapor_x_snow(t_ptr[oned_vec_index], p_ptr[oned_vec_index],
                            rho_ptr[oned_vec_index], x_array_ptr[lqs][oned_vec_index], n_snow,
                            l_snow, eta, ice_dep, dvsw, dvsi, dvsw0, dt);
           sx2x[lqs][lqv] = -std::fmin(sx2x[lqv][lqs], ZERO);
           sx2x[lqv][lqs] = std::fmax(sx2x[lqv][lqs], ZERO);
           sx2x[lqv][lqg] = vapor_x_graupel(
-              t_ptr[oned_vec_index], p[oned_vec_index], rho_ptr[oned_vec_index],
+              t_ptr[oned_vec_index], p_ptr[oned_vec_index], rho_ptr[oned_vec_index],
               x_array_ptr[lqg][oned_vec_index], dvsw, dvsi, dvsw0, dt);
           sx2x[lqg][lqv] = -std::fmin(sx2x[lqv][lqg], ZERO);
           sx2x[lqv][lqg] = std::fmax(sx2x[lqv][lqg], ZERO);
           sx2x[lqs][lqr] =
-              snow_to_rain(t[oned_vec_index], p[oned_vec_index],
+              snow_to_rain(t_ptr[oned_vec_index], p_ptr[oned_vec_index],
                            rho_ptr[oned_vec_index], dvsw0, x_array_ptr[lqs][oned_vec_index]);
           sx2x[lqg][lqr] =
-              graupel_to_rain(t[oned_vec_index], p[oned_vec_index],
+              graupel_to_rain(t_ptr[oned_vec_index], p_ptr[oned_vec_index],
                               rho_ptr[oned_vec_index], dvsw0, x_array_ptr[lqg][oned_vec_index]);
         }
     
@@ -339,7 +343,8 @@ void graupel(size_t &nvec, size_t &ke, size_t &ivstart, size_t &ivend,
   real_t* pre_gsp_ptr = pre_gsp.data();
 
   std::for_each(std::execution::par_unseq, indices_.begin(), indices_.end(),
-                [=, qp_ind = qp_ind_copy, qx_ind = qx_ind_copy] (size_t iv) {
+      [=] (size_t iv) {
+      constexpr auto qp_ind = make_qp_ind_array();
       bool flag;
 
       size_t oned_vec_index, kp1;
