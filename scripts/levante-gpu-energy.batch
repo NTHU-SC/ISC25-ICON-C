@@ -2,10 +2,10 @@
   
 #SBATCH --account=ka1273
 #SBATCH --job-name=scc
-#SBATCH --nodes=1
+#SBATCH --nodes=3
 #SBATCH --partition=gpu
 # !SBATCH --gres=gpu:a100_80
-#SBATCH --gpus=1
+#SBATCH --gpus=4
 #SBATCH --output=%x.%j.log
 #SBATCH --exclusive
 #SBATCH --time=00:30:00
@@ -17,7 +17,7 @@ ulimit -c 0
 COMPILER='nvidia' 
 
 # compiler flags
-FLAGS="" 
+FLAGS='-O3 -stdpar=gpu' 
 
 # clean or dirty build
 FORCE_CLEAN=true
@@ -27,18 +27,21 @@ FORCE_CLEAN=true
 #: define scripts
 
 # input & output files
-FILE=$(pwd)/tasks/11k.nc
+FILE=/work/ka1273/atm_R2B08.nc
 OUT_FILE=output.nc
 
+BUILD=build_std_gpu_mpi
+
+rm -rf $BUILD
 # build the code
-. scripts/build.sh "build_std_gpu_mpi" "-DMU_IMPL=std -DMU_ARCH=a100 -DMU_ENABLE_MPI=ON" $FORCE_CLEAN 
+cmake -B $BUILD -S . -DMU_IMPL=std -DMU_ENABLE_MPI=ON -DMU_ARCH=a100 -DMU_ENABLE_SINGLE=OFF -DCMAKE_CXX_COMPILER=nvc++ -DCMAKE_CXX_FLAGS="${FLAGS}" && cmake --build $BUILD --parallel
 
 # run the executable
 
 export MULTI_GRAUPEL="1"
-IN_DIR=./build_std_gpu/bin
+IN_DIR=$BUILD/bin
 
-: ${no_of_nodes:=${SLURM_JOB_NUM_NODES:=1}} ${mpi_procs_pernode:=4}
+: ${no_of_nodes:=${SLURM_JOB_NUM_NODES:=3}} ${mpi_procs_pernode:=4}
 export no_of_nodes
 num_io_procs=0
 ((mpi_total_procs=no_of_nodes * mpi_procs_pernode))

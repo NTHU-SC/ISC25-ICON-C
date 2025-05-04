@@ -14,14 +14,26 @@
 #include <fstream>
 #include <iostream>
 #include <netcdf>
+
+#ifdef USE_MPI
+#include <netcdf_par.h>
+#include <mpi.h>
+#endif
+
 using namespace netCDF;
 using namespace netCDF::exceptions;
 
 namespace io_muphys {
 
 #ifdef __SINGLE_PRECISION
+#define NC_REAL_TYPE NC_FLOAT
+#define NC_PUT_VARA(ncid,varid,start,count,ptr) nc_put_vara_float(ncid,varid,start,count,ptr)
+#define NC_GET_VARA(ncid,varid,start,count,ptr) nc_get_vara_float(ncid,varid,start,count,ptr)
 using NCreal_t = NcFloat;
 #else
+#define NC_REAL_TYPE NC_DOUBLE
+#define NC_PUT_VARA(ncid,varid,start,count,ptr) nc_put_vara_double(ncid,varid,start,count,ptr)
+#define NC_GET_VARA(ncid,varid,start,count,ptr) nc_get_vara_double(ncid,varid,start,count,ptr)
 using NCreal_t = NcDouble;
 #endif
 
@@ -66,3 +78,52 @@ void write_fields(const string output_file, const string input_file,
                   array_1d_t<real_t> &prs_gsp, array_1d_t<real_t> &prg_gsp,
                   array_1d_t<real_t> &pre_gsp, array_1d_t<real_t> &pflx);
 } // namespace io_muphys
+
+#ifdef USE_MPI
+namespace io_muphys {
+  #ifdef __SINGLE_PRECISION
+  #define NC_REAL_TYPE NC_FLOAT
+  #define NC_PUT_VARA(ncid,varid,start,count,ptr) nc_put_vara_float(ncid,varid,start,count,ptr)
+  #define NC_GET_VARA(ncid,varid,start,count,ptr) nc_get_vara_float(ncid,varid,start,count,ptr)
+  #else
+  #define NC_REAL_TYPE NC_DOUBLE
+  #define NC_PUT_VARA(ncid,varid,start,count,ptr) nc_put_vara_double(ncid,varid,start,count,ptr)
+  #define NC_GET_VARA(ncid,varid,start,count,ptr) nc_get_vara_double(ncid,varid,start,count,ptr)
+  #endif
+  // Read a vector variable (level and cell dimensions) at given time index.
+  void input_vector_mpi(const std::string &filename, array_1d_t<real_t> &v,
+                        const std::string &var_name, size_t ncells,
+                        size_t nlev, size_t itime, MPI_Comm comm, MPI_Info info);
+  
+  // Read all fields (wrapper for multiple input_vector_mpi calls).
+  void read_fields_mpi(const string input_file, size_t &itime,
+                        size_t &ncells, size_t &nlev, array_1d_t<real_t> &z,
+                        array_1d_t<real_t> &t, array_1d_t<real_t> &p,
+                        array_1d_t<real_t> &rho, array_1d_t<real_t> &qv,
+                        array_1d_t<real_t> &qc, array_1d_t<real_t> &qi,
+                        array_1d_t<real_t> &qr, array_1d_t<real_t> &qs,
+                        array_1d_t<real_t> &qg, MPI_Comm comm = MPI_COMM_WORLD, MPI_Info info = MPI_INFO_NULL);
+
+  void output_vector_par(int ncid, const char* name,
+                      int dimid_time, int dimid_height,
+                      int dimid_cell, size_t itime,
+                      size_t start_cell, size_t ncell_loc,
+                      size_t nlev,  const array_1d_t<real_t>& arr,
+                      int deflate_level);
+
+  void output_vector_par(int ncid, const char* name,
+                        int dimid_height, int dimid_cell,
+                        size_t start_cell, size_t ncell_loc,
+                        size_t nlev, const array_1d_t<real_t>& arr, int deflate_level);
+
+  void write_fields_mpi(const std::string &output_file, size_t ncells, size_t nlev,
+                        const array_1d_t<real_t> &t, const array_1d_t<real_t> &qv,
+                        const array_1d_t<real_t> &qc, const array_1d_t<real_t> &qi,
+                        const array_1d_t<real_t> &qr, const array_1d_t<real_t> &qs,
+                        const array_1d_t<real_t> &qg, const array_1d_t<real_t> &prr_gsp,
+                        const array_1d_t<real_t> &pri_gsp, const array_1d_t<real_t> &prs_gsp,
+                        const array_1d_t<real_t> &prg_gsp, const array_1d_t<real_t> &pre_gsp,
+                        const array_1d_t<real_t> &pflx, int deflate_level = 0,
+                        MPI_Comm comm = MPI_COMM_WORLD, MPI_Info info = MPI_INFO_NULL);
+} // namespace io_muphys
+#endif

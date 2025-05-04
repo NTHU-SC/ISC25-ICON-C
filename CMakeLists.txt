@@ -44,11 +44,28 @@ if (MU_ENABLE_TESTS)
     add_subdirectory(test)
 endif ()
 
-# build project executable
-add_executable(graupel "main.cpp")
+# MPI configuration
+if(MU_ENABLE_MPI)
+    find_package(MPI REQUIRED)
+    # Use MPI compiler wrapper
+    set(CMAKE_CXX_COMPILER mpicxx)
+    add_compile_definitions(USE_MPI)
+    set(EXECUTABLE_SRC "main_mpi.cpp")
+else()
+    set(EXECUTABLE_SRC "main.cpp")
+endif()
+
+# Build executable
+add_executable(graupel ${EXECUTABLE_SRC})
 
 # link dependency libs
-target_link_libraries(graupel muphys_core muphys_io muphys_implementation)
+
+if(MU_ENABLE_MPI)
+    target_link_libraries(graupel PUBLIC muphys_core muphys_io muphys_implementation mpi)
+else()
+    target_link_libraries(graupel PUBLIC muphys_core muphys_io muphys_implementation)
+endif()
+
 target_include_directories(graupel PUBLIC
                           "${PROJECT_BINARY_DIR}"
                           "${PROJECT_SOURCE_DIR}/core"

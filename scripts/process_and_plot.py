@@ -1,28 +1,15 @@
-#input_list = [
-#    ['01', [
-#        '/work/k20200/k202061/icon-dkrz/experiments/NextGEMS_R2B4_test_1node_1GPU_4sd/nvsmi.log.15270725.0']],
-#    ['03', [
-#        '/work/k20200/k202061/icon-dkrz/experiments/NextGEMS_R2B4_test_3node_4GPU_4sd/nvsmi.log.15271243.0',
-#        '/work/k20200/k202061/icon-dkrz/experiments/NextGEMS_R2B4_test_3node_4GPU_4sd/nvsmi.log.15271243.1',
-#        '/work/k20200/k202061/icon-dkrz/experiments/NextGEMS_R2B4_test_3node_4GPU_4sd/nvsmi.log.15271243.2']],
-#    ['04', [
-#        '/work/k20200/k202061/icon-dkrz/experiments/NextGEMS_R2B4_test_4node_4GPU_4sd/nvsmi.log.15272329.0',
-#        '/work/k20200/k202061/icon-dkrz/experiments/NextGEMS_R2B4_test_4node_4GPU_4sd/nvsmi.log.15272329.1',
-#        '/work/k20200/k202061/icon-dkrz/experiments/NextGEMS_R2B4_test_4node_4GPU_4sd/nvsmi.log.15272329.2',
-#        '/work/k20200/k202061/icon-dkrz/experiments/NextGEMS_R2B4_test_4node_4GPU_4sd/nvsmi.log.15272329.3']]
-#]
-
 input_list = [
- ['01', [
-        '/scratch/k/k202061/muphys/nvsmi.log.15618919.0']],
-['02', [
-        '/scratch/k/k202061/muphys/nvsmi.log.15618919.0',
-        '/scratch/k/k202061/muphys/nvsmi.log.15618919.0']],
-['04', [
-        '/scratch/k/k202061/muphys/nvsmi.log.15618919.0',
-        '/scratch/k/k202061/muphys/nvsmi.log.15618919.0',
-        '/scratch/k/k202061/muphys/nvsmi.log.15618919.0',
-        '/scratch/k/k202061/muphys/nvsmi.log.15618919.0']]
+    ['01', [
+        '/work/k20200/k202061/icon-dkrz/experiments/NextGEMS_R2B4_test_1node_1GPU_4sd/nvsmi.log.15270725.0']],
+    ['03', [
+        '/work/k20200/k202061/icon-dkrz/experiments/NextGEMS_R2B4_test_3node_4GPU_4sd/nvsmi.log.15271243.0',
+        '/work/k20200/k202061/icon-dkrz/experiments/NextGEMS_R2B4_test_3node_4GPU_4sd/nvsmi.log.15271243.1',
+        '/work/k20200/k202061/icon-dkrz/experiments/NextGEMS_R2B4_test_3node_4GPU_4sd/nvsmi.log.15271243.2']],
+    ['04', [
+        '/work/k20200/k202061/icon-dkrz/experiments/NextGEMS_R2B4_test_4node_4GPU_4sd/nvsmi.log.15272329.0',
+        '/work/k20200/k202061/icon-dkrz/experiments/NextGEMS_R2B4_test_4node_4GPU_4sd/nvsmi.log.15272329.1',
+        '/work/k20200/k202061/icon-dkrz/experiments/NextGEMS_R2B4_test_4node_4GPU_4sd/nvsmi.log.15272329.2',
+        '/work/k20200/k202061/icon-dkrz/experiments/NextGEMS_R2B4_test_4node_4GPU_4sd/nvsmi.log.15272329.3']]
 ]
 
 def read_data_from_nvsmi_file(filename):
