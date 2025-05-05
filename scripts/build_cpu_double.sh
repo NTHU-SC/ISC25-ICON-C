@@ -22,5 +22,5 @@ export LD_LIBRARY_PATH=/sw/spack-levante/gcc-11.2.0-bcn7mb/lib64/
 
 
 rm -rf $BUILD
-cmake -B $BUILD -S . -DMU_IMPL=std -DMU_ARCH=x86_64 -DMU_ENABLE_SINGLE=OFF -DMU_ENABLE_MPI=OFF -DCMAKE_CXX_COMPILER=nvc++ -DCMAKE_CXX_FLAGS="${FLAGS}"  && cmake --build $BUILD --parallel
+cmake -B $BUILD -S . -DMU_IMPL=std -DMU_ARCH=x86_64 -DMU_ENABLE_SINGLE=OFF -DMU_ENABLE_MPI=ON -DCMAKE_CXX_COMPILER=nvc++ -DCMAKE_CXX_FLAGS="${FLAGS}"  && cmake --build $BUILD --parallel
 

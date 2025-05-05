@@ -1,0 +1,1 @@
+/sw/spack-levante/nvhpc-24.7-py26uc/Linux_x86_64/24.7/compilers/bin/nvc++ -fPIC -O3 -march=native -stdpar=gpu -gpu=cc80,nofma -Wall -Wextra -pedantic -std=c++20 -shared -Wl,-soname,libmuphys_implementation.so -o ../../lib64/libmuphys_implementation.so CMakeFiles/muphys_implementation.dir/graupel.cpp.o 

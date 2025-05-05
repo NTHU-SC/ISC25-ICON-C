@@ -90,6 +90,8 @@ namespace io_muphys {
   #define NC_PUT_VARA(ncid,varid,start,count,ptr) nc_put_vara_double(ncid,varid,start,count,ptr)
   #define NC_GET_VARA(ncid,varid,start,count,ptr) nc_get_vara_double(ncid,varid,start,count,ptr)
   #endif
+  void parse_args_mpi_rank0(string &file, string &outfile, size_t &itime, real_t &dt, real_t &qnc, int argc, char **argv);
+  void parse_args_mpi(string &file, string &outfile, size_t &itime, real_t &dt, real_t &qnc, int argc, char **argv);
   // Read a vector variable (level and cell dimensions) at given time index.
   void input_vector_mpi(const std::string &filename, array_1d_t<real_t> &v,
                         const std::string &var_name, size_t ncells,

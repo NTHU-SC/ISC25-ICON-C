@@ -34,7 +34,11 @@ int main(int argc, char *argv[]) {
    string output_file;
    size_t itime;
    real_t dt, qnc, qnc_1;
-   io_muphys::parse_args(file, output_file, itime, dt, qnc, argc, argv);
+   
+   if (!rank)
+      io_muphys::parse_args_mpi_rank0(file, output_file, itime, dt, qnc, argc, argv);
+   else
+      io_muphys::parse_args_mpi(file, output_file, itime, dt, qnc, argc, argv);
 
    // Parameters from the input file
    size_t ncells, nlev;

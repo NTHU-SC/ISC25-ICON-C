@@ -27,27 +27,27 @@ void io_muphys::parse_args(string &file, string &outfile, size_t &itime, real_t 
   if (argc > 1) {
     file = argv[1];
   }
-  //cout << "input file: " << file << "\n";
+  cout << "input file: " << file << "\n";
 
   if (argc > 2) {
     outfile = argv[2];
   }
-  //cout << "output file: " << outfile << "\n";
+  cout << "output file: " << outfile << "\n";
 
   if (argc > 3) {
     itime = stoi(argv[2]);
   }
-  //cout << "itime: " << itime << "\n";
+  cout << "itime: " << itime << "\n";
 
   if (argc > 4) {
     dt = type_converter<real_t>(argv[3], &end);
   }
-  //cout << "dt: " << dt << "\n";
+  cout << "dt: " << dt << "\n";
 
   if (argc > 5) {
     qnc = type_converter<real_t>(argv[4], &end);
   }
-  //cout << "qnc: " << qnc << endl;
+  cout << "qnc: " << qnc << endl;
 }
 
 /* read-in time-constant data fields without a time dimension */
@@ -374,6 +374,73 @@ void io_muphys::write_fields(
 }
 #ifdef USE_MPI
 namespace io_muphys {
+  void parse_args_mpi_rank0(string &file, string &outfile, size_t &itime, real_t &dt, real_t &qnc,
+                           int argc, char **argv) {
+    file = "aes-new-gr_moderate-dt30s_atm_3d_ml_20080801T000000Z.nc";
+    itime = 0; /* default to the first timestep in the input file */
+    dt = 30.0;
+    qnc = 100.0;
+    char *end = nullptr;
+
+    if (argc > 1) {
+      file = argv[1];
+    }
+    cout << "input file: " << file << "\n";
+
+    if (argc > 2) {
+      outfile = argv[2];
+    }
+    cout << "output file: " << outfile << "\n";
+
+    if (argc > 3) {
+      itime = stoi(argv[2]);
+    }
+    cout << "itime: " << itime << "\n";
+
+    if (argc > 4) {
+      dt = type_converter<real_t>(argv[3], &end);
+    }
+    cout << "dt: " << dt << "\n";
+
+    if (argc > 5) {
+      qnc = type_converter<real_t>(argv[4], &end);
+    }
+    cout << "qnc: " << qnc << endl;
+  }
+
+  void parse_args_mpi(string &file, string &outfile, size_t &itime, real_t &dt, real_t &qnc,
+                           int argc, char **argv) {
+    file = "aes-new-gr_moderate-dt30s_atm_3d_ml_20080801T000000Z.nc";
+    itime = 0; /* default to the first timestep in the input file */
+    dt = 30.0;
+    qnc = 100.0;
+    char *end = nullptr;
+
+    if (argc > 1) {
+      file = argv[1];
+    }
+    //cout << "input file: " << file << "\n";
+
+    if (argc > 2) {
+      outfile = argv[2];
+    }
+    //cout << "output file: " << outfile << "\n";
+
+    if (argc > 3) {
+      itime = stoi(argv[2]);
+    }
+    //cout << "itime: " << itime << "\n";
+
+    if (argc > 4) {
+      dt = type_converter<real_t>(argv[3], &end);
+    }
+    //cout << "dt: " << dt << "\n";
+
+    if (argc > 5) {
+      qnc = type_converter<real_t>(argv[4], &end);
+    }
+    //cout << "qnc: " << qnc << endl;
+  }
   // Helper: read a 3D variable [time, lev, cell] in parallel
   void input_vector_mpi(int ncid,
                         const char *name,

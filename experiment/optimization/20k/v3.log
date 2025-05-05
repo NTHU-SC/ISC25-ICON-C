@@ -26,72 +26,50 @@
 -- Configuring done
 -- Generating done
 -- Build files have been written to: /home/b/b383366/sky/scc_at_isc25/build_std_gpu
-[ 11%] Building CXX object core/CMakeFiles/muphys_core.dir/common/utils.cpp.o
-[ 11%] Building CXX object implementations/std/CMakeFiles/muphys_implementation.dir/graupel.cpp.o
+[  5%] Building CXX object core/CMakeFiles/muphys_core.dir/common/utils.cpp.o
+[ 16%] Building CXX object io/CMakeFiles/muphys_io.dir/io.cpp.o
 [ 22%] Building CXX object _deps/googletest-build/googletest/CMakeFiles/gtest.dir/src/gtest-all.cc.o
-[ 22%] Building CXX object io/CMakeFiles/muphys_io.dir/io.cpp.o
+[ 22%] Building CXX object implementations/std/CMakeFiles/muphys_implementation.dir/graupel.cpp.o
+[ 27%] Linking CXX shared library ../lib64/libmuphys_core.so
 "/home/b/b383366/sky/scc_at_isc25/build_std_gpu/_deps/googletest-src/googletest/src/gtest-internal-inl.h", line 636: warning: unknown attribute "optimize" [unrecognized_attribute]
         GTEST_NO_INLINE_ GTEST_NO_TAIL_CALL_;
                          ^
 
 Remark: individual warnings can be suppressed with "--diag_suppress <warning-name>"
 
-[ 27%] Linking CXX shared library ../lib64/libmuphys_core.so
+[ 27%] Built target muphys_core
 "/home/b/b383366/sky/scc_at_isc25/build_std_gpu/_deps/googletest-src/googletest/src/gtest.cc", line 6262: warning: unknown attribute "optimize" [unrecognized_attribute]
   GTEST_NO_INLINE_ GTEST_NO_TAIL_CALL_ std::string
                    ^
 
-[ 27%] Built target muphys_core
 [ 33%] Linking CXX shared library ../lib64/libmuphys_io.so
 [ 33%] Built target muphys_io
-[ 38%] Linking CXX shared library ../../lib64/libmuphys_implementation.so
-[ 38%] Built target muphys_implementation
-[ 44%] Building CXX object CMakeFiles/graupel.dir/main_mpi.cpp.o
-[ 50%] Linking CXX static library ../../../lib/libgtest.a
-[ 55%] Linking CXX executable bin/graupel
-[ 55%] Built target gtest
-[ 66%] Building CXX object _deps/googletest-build/googletest/CMakeFiles/gtest_main.dir/src/gtest_main.cc.o
-[ 66%] Building CXX object _deps/googletest-build/googlemock/CMakeFiles/gmock.dir/src/gmock-all.cc.o
-[ 66%] Built target graupel
-[ 72%] Linking CXX static library ../../../lib/libgtest_main.a
-[ 72%] Built target gtest_main
-[ 77%] Building CXX object test/CMakeFiles/muphys_core_test.dir/common.cc.o
-[ 83%] Linking CXX static library ../../../lib/libgmock.a
-[ 83%] Built target gmock
-[ 88%] Building CXX object _deps/googletest-build/googlemock/CMakeFiles/gmock_main.dir/src/gmock_main.cc.o
-[ 94%] Linking CXX executable ../bin/muphys_core_test
-[ 94%] Built target muphys_core_test
-[100%] Linking CXX static library ../../../lib/libgmock_main.a
-[100%] Built target gmock_main
-multirun =1
-time taken : 148 milliseconds
-               Date     Time   Level Gridsize    Miss    Diff : S Z  Max_Absdiff Max_Reldiff : Parameter name
-     3 : 0000-00-00 00:00:00       0    11200       0       6 : F T  8.1651e-314      0.0000 : clw        
-     4 : 0000-00-00 00:00:00       0    11200       0       4 : F T   8.4703e-22  7.0126e-16 : cli        
-     5 : 0000-00-00 00:00:00       0    11200       0      12 : F T   5.4210e-20  4.4267e-16 : qr         
-     6 : 0000-00-00 00:00:00       0    11200       0      32 : F T   3.3881e-21  5.7580e-16 : qs         
-     7 : 0000-00-00 00:00:00       0    11200       0      26 : F T   1.6941e-21  5.7707e-16 : qg         
-     8 : 0000-00-00 00:00:00       0    11200       0      34 : F T   8.1315e-20  5.0693e-16 : pflx       
-    12 : 0000-00-00 00:00:00       0      160       0       1 : F T   2.1382e-50  4.1951e-16 : prg_gsp    
-  7 of 13 fields differ
-  0 of 13 fields differ more than 0.001
-[FAILED] Not bit-identical results. See diffs below:
-    -1 :       Date     Time   Level Gridsize    Miss :     Minimum        Mean     Maximum : Parameter name
-     1 : 0000-00-00 00:00:00       0    11200       0 :      0.0000      0.0000      0.0000 : ta            
-     2 : 0000-00-00 00:00:00       0    11200       0 :      0.0000      0.0000      0.0000 : hus           
-     3 : 0000-00-00 00:00:00       0    11200       0 :      0.0000 7.2902e-318 8.1651e-314 : clw           
-     4 : 0000-00-00 00:00:00       0    11200       0 : -8.4703e-22 -8.2570e-26  1.3235e-22 : cli           
-     5 : 0000-00-00 00:00:00       0    11200       0 : -8.4703e-22  7.1610e-24  5.4210e-20 : qr            
-     6 : 0000-00-00 00:00:00       0    11200       0 : -8.4703e-22  3.7396e-25  3.3881e-21 : qs            
-     7 : 0000-00-00 00:00:00       0    11200       0 : -1.6156e-27  1.5645e-25  1.6941e-21 : qg            
-     8 : 0000-00-00 00:00:00       0    11200       0 : -1.3553e-20  1.0103e-23  8.1315e-20 : pflx          
-     9 : 0000-00-00 00:00:00       0      160       0 :      0.0000      0.0000      0.0000 : prr_gsp       
-    10 : 0000-00-00 00:00:00       0      160       0 :      0.0000      0.0000      0.0000 : prs_gsp       
-    11 : 0000-00-00 00:00:00       0      160       0 :      0.0000      0.0000      0.0000 : pri_gsp       
-    12 : 0000-00-00 00:00:00       0      160       0 : -2.1382e-50 -1.3364e-52      0.0000 : prg_gsp       
-    13 : 0000-00-00 00:00:00       0      160       0 :      0.0000      0.0000      0.0000 : pre_gsp       
-multirun =1
-time taken : 7777 milliseconds
+[ 38%] Linking CXX static library ../../../lib/libgtest.a
+[ 38%] Built target gtest
+[ 44%] Building CXX object _deps/googletest-build/googlemock/CMakeFiles/gmock.dir/src/gmock-all.cc.o
+[ 50%] Building CXX object _deps/googletest-build/googletest/CMakeFiles/gtest_main.dir/src/gtest_main.cc.o
+[ 55%] Linking CXX static library ../../../lib/libgtest_main.a
+[ 55%] Built target gtest_main
+[ 61%] Linking CXX static library ../../../lib/libgmock.a
+[ 61%] Built target gmock
+[ 66%] Building CXX object _deps/googletest-build/googlemock/CMakeFiles/gmock_main.dir/src/gmock_main.cc.o
+[ 72%] Linking CXX shared library ../../lib64/libmuphys_implementation.so
+[ 72%] Built target muphys_implementation
+[ 83%] Building CXX object CMakeFiles/graupel.dir/main_mpi.cpp.o
+[ 83%] Building CXX object test/CMakeFiles/muphys_core_test.dir/common.cc.o
+[ 88%] Linking CXX static library ../../../lib/libgmock_main.a
+[ 88%] Built target gmock_main
+[ 94%] Linking CXX executable bin/graupel
+[ 94%] Built target graupel
+[100%] Linking CXX executable ../bin/muphys_core_test
+[100%] Built target muphys_core_test
+0: multirun =1
+0: time taken : 312 milliseconds
+0: Generating '/tmp/nsys-report-8781.qdstrm'
+0: [1/1] [0%                          ] gpu_0.nsys-rep[1/1] [0%                          ] gpu_0.nsys-rep[1/1] [13%                         ] gpu_0.nsys-rep[1/1] [==21%                       ] gpu_0.nsys-rep[1/1] [=====29%                    ] gpu_0.nsys-rep[1/1] [=====30%                    ] gpu_0.nsys-rep[1/1] [=====31%                    ] gpu_0.nsys-rep[1/1] [=====32%                    ] gpu_0.nsys-rep[1/1] [======33%                   ] gpu_0.nsys-rep[1/1] [======34%                   ] gpu_0.nsys-rep[1/1] [======35%                   ] gpu_0.nsys-rep[1/1] [=======36%                  ] gpu_0.nsys-rep[1/1] [=======37%                  ] gpu_0.nsys-rep[1/1] [=======38%                  ] gpu_0.nsys-rep[1/1] [=======39%                  ] gpu_0.nsys-rep[1/1] [=========46%                ] gpu_0.nsys-rep[1/1] [==========48%               ] gpu_0.nsys-rep[1/1] [==================77%       ] gpu_0.nsys-rep[1/1] [===================82%      ] gpu_0.nsys-rep[1/1] [=====================87%    
+0: ] gpu_0.nsys-rep[1/1] [========================100%] gpu_0.nsys-rep[1/1] [========================100%] gpu_0.nsys-rep
+0: Generated:
+0:     /home/b/b383366/sky/scc_at_isc25/./nsys_reports/gpu_0.nsys-rep
                Date     Time   Level Gridsize    Miss    Diff : S Z  Max_Absdiff Max_Reldiff : Parameter name
      1 : 0000-00-00 00:00:00       0  1843200       0       7 : F F   5.6843e-14  2.2165e-16 : ta         
      2 : 0000-00-00 00:00:00       0  1843200       0      32 : F F   1.7347e-18  3.5851e-16 : hus        
@@ -123,9 +101,6 @@ time taken : 7777 milliseconds
     11 : 0000-00-00 00:00:00       0    20480       0 : -4.2352e-22 -6.1676e-27  1.5882e-22 : pri_gsp       
     12 : 0000-00-00 00:00:00       0    20480       0 : -3.3881e-21  7.6625e-25  5.0822e-21 : prg_gsp       
     13 : 0000-00-00 00:00:00       0    20480       0 : -1.8190e-12  3.0835e-16  7.2760e-12 : pre_gsp       
-multirun =1
-time taken : 62 milliseconds
-[OK] Bit-identical results
 Job done!
 
 ********************************************************************************
@@ -138,26 +113,24 @@ Job done!
 *                                                                              *
 *                       We hope you enjoyed the DKRZ supercomputer LEVANTE ... *
 *
-* JobID            : 16752857
+* JobID            : 16759858
 * JobName          : scc                                               
 * Account          : ka1273_gpu
 * User             : b383366 (202646), ka1273 (201200)                 
 * Partition        : gpu
 * QOS              : normal
-* Nodelist         : l50057 (1)                                                
-* Submit date      : 2025-05-04T16:45:52
-* Start time       : 2025-05-04T16:46:29
-* End time         : 2025-05-04T16:48:03
-* Elapsed time     : 00:01:34 (Timelimit=00:20:00)                     
+* Nodelist         : l50060 (1)                                                
+* Submit date      : 2025-05-05T08:18:12
+* Start time       : 2025-05-05T08:18:23
+* End time         : 2025-05-05T08:19:34
+* Elapsed time     : 00:01:11 (Timelimit=00:10:00)                     
 * Command          : ./scripts/levante-gpu.sbatch
 * WorkDir          : /home/b/b383366/sky/scc_at_isc25
 *
 * StepID | JobName      NodeHours    MaxRSS [Byte] (@task)
 * ------------------------------------------------------------------------------
-* 0      | graupel        0.00083                8200K (1)
-* 1      | graupel         0.0033              664296K (3)
-* 2      | graupel         0.0011                8204K (1)
-* batch  | batch            0.026
-* extern | extern           0.026                2160K (0)
+* 0      | wrapper.sh      0.0019                7720K (0)
+* batch  | batch             0.02
+* extern | extern            0.02                2160K (0)
 * ------------------------------------------------------------------------------
 
