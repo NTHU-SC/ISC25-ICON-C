@@ -5,9 +5,9 @@
 #SBATCH --partition=gpu
 #SBATCH --nodes=1
 #SBATCH --gpus-per-node=1
-#SBATCH --output=atm_v7.log
+#SBATCH --output=atm_latest.log
 #SBATCH --exclusive
-#SBATCH --time=00:30:00
+#SBATCH --time=00:10:00
 
 # compiler flags
 FLAGS='-O3 -march=native -stdpar=gpu -gpu=cc80,nofma' 
@@ -55,7 +55,7 @@ export no_of_nodes
 num_io_procs=0
 ((mpi_total_procs=no_of_nodes * mpi_procs_pernode))
 
-srun -l --kill-on-bad-exit=1 --nodes=${SLURM_JOB_NUM_NODES:-1} --gpus-per-node=1 --ntasks=$((no_of_nodes * mpi_procs_pernode)) $(pwd)/wrapper.sh $IN_DIR/graupel $IN_FILE $OUT_FILE
+srun -l --kill-on-bad-exit=1 --nodes=${SLURM_JOB_NUM_NODES:-1} --gpus-per-node=1 --ntasks=$((no_of_nodes * mpi_procs_pernode)) $IN_DIR/graupel $IN_FILE $OUT_FILE
 
 . scripts/check-correctness.sh
 check $OUT_FILE $REF_FILE

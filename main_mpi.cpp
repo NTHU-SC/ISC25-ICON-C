@@ -95,14 +95,14 @@ int main(int argc, char *argv[]) {
       graupel(nvec, kend, ivbeg, ivend, kbeg, dt, dz, t, rho, p, qv, qc, qi, qr, qs,
               qg, qnc_1, prr_gsp, pri_gsp, prs_gsp, prg_gsp, pre_gsp, pflx);
    } 
-   
-   io_muphys::write_fields_mpi(output_file, ncells, nlev, t, qv, qc, qi, qr, qs,
-                              qg, prr_gsp, pri_gsp, prs_gsp, prg_gsp, pre_gsp, pflx);
-
+                        
    auto end_time = std::chrono::steady_clock::now();
    auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(
        end_time - start_time);
 
+   io_muphys::write_fields_mpi(output_file, ncells, nlev, t, qv, qc, qi, qr, qs,
+         qg, prr_gsp, pri_gsp, prs_gsp, prg_gsp, pre_gsp, pflx);
+         
    if (!rank)
       std::cout << "time taken : " << duration.count() << " milliseconds" << std::endl;
 

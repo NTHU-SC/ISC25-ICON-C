@@ -429,11 +429,11 @@ _deps/googletest-build/googletest/CMakeFiles/gtest_main.dir/clean:
 # Target rules for target test/CMakeFiles/muphys_core_test.dir
 
 # All Build rule for target.
-test/CMakeFiles/muphys_core_test.dir/all: _deps/googletest-build/googletest/CMakeFiles/gtest.dir/all
-test/CMakeFiles/muphys_core_test.dir/all: _deps/googletest-build/googletest/CMakeFiles/gtest_main.dir/all
 test/CMakeFiles/muphys_core_test.dir/all: io/CMakeFiles/muphys_io.dir/all
 test/CMakeFiles/muphys_core_test.dir/all: core/CMakeFiles/muphys_core.dir/all
 test/CMakeFiles/muphys_core_test.dir/all: implementations/std/CMakeFiles/muphys_implementation.dir/all
+test/CMakeFiles/muphys_core_test.dir/all: _deps/googletest-build/googletest/CMakeFiles/gtest.dir/all
+test/CMakeFiles/muphys_core_test.dir/all: _deps/googletest-build/googletest/CMakeFiles/gtest_main.dir/all
 	$(MAKE) $(MAKESILENT) -f test/CMakeFiles/muphys_core_test.dir/build.make test/CMakeFiles/muphys_core_test.dir/depend
 	$(MAKE) $(MAKESILENT) -f test/CMakeFiles/muphys_core_test.dir/build.make test/CMakeFiles/muphys_core_test.dir/build
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/b/b383366/sky/scc_at_isc25/build_std_gpu/CMakeFiles --progress-num=13,14 "Built target muphys_core_test"

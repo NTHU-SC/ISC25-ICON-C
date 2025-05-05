@@ -1,11 +1,11 @@
 #!/bin/bash
 
 #SBATCH --account=ka1273
-#SBATCH --job-name=scc_check
+#SBATCH --job-name=scc
 #SBATCH --partition=compute
 #SBATCH --ntasks=1
-#SBATCH --output=%x.%j.log
-#SBATCH --time=00:30:00
+#SBATCH --output=baseline.log
+#SBATCH --time=01:00:00
 
 ulimit -s unlimited
 ulimit -c 0
@@ -17,7 +17,7 @@ FLAGS='-O0 -nofma'
 # input file
 IN_FILE=/work/ka1273/atm_R2B08.nc
 # output file
-OUT_FILE=/scratch/b/b383366/results/output.nc
+OUT_FILE=/scratch/b/b383366/results/output2.nc
 # reference file associated with input file
 REF_FILE=/scratch/b/b383366/results/atm_R2B08_ans_double.nc
 
@@ -27,7 +27,7 @@ spack load cdo@2.5.1%gcc@=11.2.0
 # build the code
 BUILD=build_std_cpu_double
 rm -rf $BUILD
-cmake -B $BUILD -S . -DMU_IMPL=std -DMU_ARCH=x86_64 -DMU_ENABLE_MPI=ON -DMU_ENABLE_SINGLE=OFF -DCMAKE_CXX_COMPILER=nvc++ -DCMAKE_CXX_FLAGS="${FLAGS}"  && cmake --build $BUILD --parallel
+cmake -B $BUILD -S . -DMU_IMPL=seq -DMU_ARCH=x86_64 -DMU_ENABLE_MPI=ON -DMU_ENABLE_SINGLE=OFF -DCMAKE_CXX_COMPILER=nvc++ -DCMAKE_CXX_FLAGS="${FLAGS}"  && cmake --build $BUILD --parallel
 
 # check correctness
 . scripts/check-correctness.sh

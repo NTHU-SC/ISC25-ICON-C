@@ -26,10 +26,10 @@
 -- Configuring done
 -- Generating done
 -- Build files have been written to: /home/b/b383366/sky/scc_at_isc25/build_std_gpu
-[  5%] Building CXX object core/CMakeFiles/muphys_core.dir/common/utils.cpp.o
+[  5%] Building CXX object io/CMakeFiles/muphys_io.dir/io.cpp.o
 [ 11%] Building CXX object implementations/std/CMakeFiles/muphys_implementation.dir/graupel.cpp.o
+[ 22%] Building CXX object core/CMakeFiles/muphys_core.dir/common/utils.cpp.o
 [ 22%] Building CXX object _deps/googletest-build/googletest/CMakeFiles/gtest.dir/src/gtest-all.cc.o
-[ 22%] Building CXX object io/CMakeFiles/muphys_io.dir/io.cpp.o
 "/home/b/b383366/sky/scc_at_isc25/build_std_gpu/_deps/googletest-src/googletest/src/gtest-internal-inl.h", line 636: warning: unknown attribute "optimize" [unrecognized_attribute]
         GTEST_NO_INLINE_ GTEST_NO_TAIL_CALL_;
                          ^
@@ -50,8 +50,8 @@ Remark: individual warnings can be suppressed with "--diag_suppress <warning-nam
 [ 50%] Linking CXX static library ../../../lib/libgtest.a
 [ 55%] Linking CXX executable bin/graupel
 [ 55%] Built target gtest
+[ 61%] Building CXX object _deps/googletest-build/googletest/CMakeFiles/gtest_main.dir/src/gtest_main.cc.o
 [ 66%] Building CXX object _deps/googletest-build/googlemock/CMakeFiles/gmock.dir/src/gmock-all.cc.o
-[ 66%] Building CXX object _deps/googletest-build/googletest/CMakeFiles/gtest_main.dir/src/gtest_main.cc.o
 [ 66%] Built target graupel
 [ 72%] Linking CXX static library ../../../lib/libgtest_main.a
 [ 72%] Built target gtest_main
@@ -69,7 +69,7 @@ Remark: individual warnings can be suppressed with "--diag_suppress <warning-nam
 0: dt: 30
 0: qnc: 100
 0: multirun =1
-0: time taken : 30956 milliseconds
+0: time taken : 6161 milliseconds
 Job done!
 
 ********************************************************************************
@@ -82,24 +82,24 @@ Job done!
 *                                                                              *
 *                       We hope you enjoyed the DKRZ supercomputer LEVANTE ... *
 *
-* JobID            : 16764239
+* JobID            : 16764359
 * JobName          : scc                                               
 * Account          : ka1273_gpu
 * User             : b383366 (202646), ka1273 (201200)                 
 * Partition        : gpu
 * QOS              : normal
 * Nodelist         : l50039 (1)                                                
-* Submit date      : 2025-05-05T12:48:41
-* Start time       : 2025-05-05T12:48:43
-* End time         : 2025-05-05T12:51:29
-* Elapsed time     : 00:02:46 (Timelimit=00:10:00)                     
+* Submit date      : 2025-05-05T12:55:16
+* Start time       : 2025-05-05T12:55:17
+* End time         : 2025-05-05T12:57:47
+* Elapsed time     : 00:02:30 (Timelimit=00:10:00)                     
 * Command          : ./scripts/levante-gpu.sbatch
 * WorkDir          : /home/b/b383366/sky/scc_at_isc25
 *
 * StepID | JobName      NodeHours    MaxRSS [Byte] (@task)
 * ------------------------------------------------------------------------------
-* 0      | graupel          0.026            48396812K (0)
-* batch  | batch            0.046
-* extern | extern           0.046                2160K (0)
+* 0      | graupel           0.02            47535056K (0)
+* batch  | batch            0.042
+* extern | extern           0.042                2160K (0)
 * ------------------------------------------------------------------------------
 
