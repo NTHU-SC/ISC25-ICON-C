@@ -2,7 +2,7 @@
   
 #SBATCH --account=ka1273
 #SBATCH --job-name=scc
-#SBATCH --nodes=1
+#SBATCH --nodes=4
 #SBATCH --partition=gpu
 # !SBATCH --gres=gpu:a100_80
 #SBATCH --gpus-per-node=4
@@ -46,7 +46,7 @@ fi
 export MULTI_GRAUPEL="1"
 IN_DIR=$BUILD/bin
 
-: ${no_of_nodes:=${SLURM_JOB_NUM_NODES:=1}} ${mpi_procs_pernode:=4}
+: ${no_of_nodes:=${SLURM_JOB_NUM_NODES:=4}} ${mpi_procs_pernode:=4}
 export no_of_nodes
 num_io_procs=0
 ((mpi_total_procs=no_of_nodes * mpi_procs_pernode))
