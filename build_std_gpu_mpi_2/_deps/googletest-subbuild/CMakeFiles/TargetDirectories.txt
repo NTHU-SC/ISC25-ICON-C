@@ -1,3 +1,0 @@
-/home/b/b383366/sky/scc_at_isc25/build_std_gpu_mpi_2/_deps/googletest-subbuild/CMakeFiles/googletest-populate.dir
-/home/b/b383366/sky/scc_at_isc25/build_std_gpu_mpi_2/_deps/googletest-subbuild/CMakeFiles/edit_cache.dir
-/home/b/b383366/sky/scc_at_isc25/build_std_gpu_mpi_2/_deps/googletest-subbuild/CMakeFiles/rebuild_cache.dir

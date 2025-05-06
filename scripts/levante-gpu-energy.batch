@@ -2,11 +2,11 @@
   
 #SBATCH --account=ka1273
 #SBATCH --job-name=scc
-#SBATCH --nodes=4
+#SBATCH --nodes=1
 #SBATCH --partition=gpu
 # !SBATCH --gres=gpu:a100_80
 #SBATCH --gpus-per-node=4
-#SBATCH --output=gpu_energy_4_4.log
+#SBATCH --output=gpu_profile.log
 #SBATCH --exclusive
 #SBATCH --time=00:30:00
 
@@ -46,17 +46,17 @@ fi
 export MULTI_GRAUPEL="1"
 IN_DIR=$BUILD/bin
 
-: ${no_of_nodes:=${SLURM_JOB_NUM_NODES:=4}} ${mpi_procs_pernode:=4}
+: ${no_of_nodes:=${SLURM_JOB_NUM_NODES:=1}} ${mpi_procs_pernode:=4}
 export no_of_nodes
 num_io_procs=0
 ((mpi_total_procs=no_of_nodes * mpi_procs_pernode))
 
 
-srun -l --kill-on-bad-exit=1 --nodes=${SLURM_JOB_NUM_NODES:-1} --gpus-per-node=4 --ntasks=$((no_of_nodes * mpi_procs_pernode)) $(pwd)/scripts/run_wrapper_levante.sh -n ${mpi_total_procs} -o ${num_io_procs} -e $IN_DIR/graupel -f $FILE -g $OUT_FILE
-#rm -rf nsys_reports
-#mkdir -p nsys_reports
-#srun -l --kill-on-bad-exit=1 --nodes=${SLURM_JOB_NUM_NODES:-1} --gpus-per-node=4 --ntasks=$((no_of_nodes * mpi_procs_pernode)) $(pwd)/wrapper.sh $IN_DIR/graupel $FILE $OUT_FILE
-. scripts/check-correctness.sh
-check $OUT_FILE $REF_FILE
+#srun -l --kill-on-bad-exit=1 --nodes=${SLURM_JOB_NUM_NODES:-1} --gpus-per-node=4 --ntasks=$((no_of_nodes * mpi_procs_pernode)) $(pwd)/scripts/run_wrapper_levante.sh -n ${mpi_total_procs} -o ${num_io_procs} -e $IN_DIR/graupel -f $FILE -g $OUT_FILE
+rm -rf nsys_reports
+mkdir -p nsys_reports
+srun -l --kill-on-bad-exit=1 --nodes=${SLURM_JOB_NUM_NODES:-1} --gpus-per-node=4 --ntasks=$((no_of_nodes * mpi_procs_pernode)) $(pwd)/wrapper.sh $IN_DIR/graupel $FILE $OUT_FILE
+#. scripts/check-correctness.sh
+#check $OUT_FILE $REF_FILE
 
 echo "Job done!"
