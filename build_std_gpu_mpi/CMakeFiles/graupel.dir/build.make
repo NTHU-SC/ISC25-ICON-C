@@ -69,28 +69,28 @@ include CMakeFiles/graupel.dir/progress.make
 # Include the compile flags for this target's objects.
 include CMakeFiles/graupel.dir/flags.make
 
-CMakeFiles/graupel.dir/main_mpi_nsys.cpp.o: CMakeFiles/graupel.dir/flags.make
-CMakeFiles/graupel.dir/main_mpi_nsys.cpp.o: ../main_mpi_nsys.cpp
-CMakeFiles/graupel.dir/main_mpi_nsys.cpp.o: CMakeFiles/graupel.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/b/b383366/sky/scc_at_isc25/build_std_gpu_mpi/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object CMakeFiles/graupel.dir/main_mpi_nsys.cpp.o"
-	mpicxx $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/graupel.dir/main_mpi_nsys.cpp.o -MF CMakeFiles/graupel.dir/main_mpi_nsys.cpp.o.d -o CMakeFiles/graupel.dir/main_mpi_nsys.cpp.o -c /home/b/b383366/sky/scc_at_isc25/main_mpi_nsys.cpp
+CMakeFiles/graupel.dir/main_mpi.cpp.o: CMakeFiles/graupel.dir/flags.make
+CMakeFiles/graupel.dir/main_mpi.cpp.o: ../main_mpi.cpp
+CMakeFiles/graupel.dir/main_mpi.cpp.o: CMakeFiles/graupel.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/b/b383366/sky/scc_at_isc25/build_std_gpu_mpi/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object CMakeFiles/graupel.dir/main_mpi.cpp.o"
+	mpicxx $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/graupel.dir/main_mpi.cpp.o -MF CMakeFiles/graupel.dir/main_mpi.cpp.o.d -o CMakeFiles/graupel.dir/main_mpi.cpp.o -c /home/b/b383366/sky/scc_at_isc25/main_mpi.cpp
 
-CMakeFiles/graupel.dir/main_mpi_nsys.cpp.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/graupel.dir/main_mpi_nsys.cpp.i"
-	mpicxx $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/b/b383366/sky/scc_at_isc25/main_mpi_nsys.cpp > CMakeFiles/graupel.dir/main_mpi_nsys.cpp.i
+CMakeFiles/graupel.dir/main_mpi.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/graupel.dir/main_mpi.cpp.i"
+	mpicxx $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/b/b383366/sky/scc_at_isc25/main_mpi.cpp > CMakeFiles/graupel.dir/main_mpi.cpp.i
 
-CMakeFiles/graupel.dir/main_mpi_nsys.cpp.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/graupel.dir/main_mpi_nsys.cpp.s"
-	mpicxx $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/b/b383366/sky/scc_at_isc25/main_mpi_nsys.cpp -o CMakeFiles/graupel.dir/main_mpi_nsys.cpp.s
+CMakeFiles/graupel.dir/main_mpi.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/graupel.dir/main_mpi.cpp.s"
+	mpicxx $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/b/b383366/sky/scc_at_isc25/main_mpi.cpp -o CMakeFiles/graupel.dir/main_mpi.cpp.s
 
 # Object files for target graupel
 graupel_OBJECTS = \
-"CMakeFiles/graupel.dir/main_mpi_nsys.cpp.o"
+"CMakeFiles/graupel.dir/main_mpi.cpp.o"
 
 # External object files for target graupel
 graupel_EXTERNAL_OBJECTS =
 
-bin/graupel: CMakeFiles/graupel.dir/main_mpi_nsys.cpp.o
+bin/graupel: CMakeFiles/graupel.dir/main_mpi.cpp.o
 bin/graupel: CMakeFiles/graupel.dir/build.make
 bin/graupel: lib64/libmuphys_core.so
 bin/graupel: lib64/libmuphys_io.so

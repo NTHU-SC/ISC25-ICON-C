@@ -8,7 +8,7 @@ set(CMAKE_DEPENDS_LANGUAGES
 
 # The set of dependency files which are needed:
 set(CMAKE_DEPENDS_DEPENDENCY_FILES
-  "/home/b/b383366/sky/scc_at_isc25/main_mpi_nsys.cpp" "CMakeFiles/graupel.dir/main_mpi_nsys.cpp.o" "gcc" "CMakeFiles/graupel.dir/main_mpi_nsys.cpp.o.d"
+  "/home/b/b383366/sky/scc_at_isc25/main_mpi.cpp" "CMakeFiles/graupel.dir/main_mpi.cpp.o" "gcc" "CMakeFiles/graupel.dir/main_mpi.cpp.o.d"
   )
 
 # Targets to which this target links.

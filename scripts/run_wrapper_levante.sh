@@ -86,7 +86,7 @@ then
 
     export UCX_IB_GPU_DIRECT_RDMA=yes
 
-    export UCX_TLS=cma,rc,mm,cuda_ipc,cuda_copy,gdr_copy
+    export UCX_TLS=all
     export UCX_MEMTYPE_CACHE=n
 
 else

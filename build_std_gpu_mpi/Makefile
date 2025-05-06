@@ -288,29 +288,29 @@ muphys_core_test/fast:
 	$(MAKE) $(MAKESILENT) -f test/CMakeFiles/muphys_core_test.dir/build.make test/CMakeFiles/muphys_core_test.dir/build
 .PHONY : muphys_core_test/fast
 
-main_mpi_nsys.o: main_mpi_nsys.cpp.o
-.PHONY : main_mpi_nsys.o
+main_mpi.o: main_mpi.cpp.o
+.PHONY : main_mpi.o
 
 # target to build an object file
-main_mpi_nsys.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/graupel.dir/build.make CMakeFiles/graupel.dir/main_mpi_nsys.cpp.o
-.PHONY : main_mpi_nsys.cpp.o
+main_mpi.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/graupel.dir/build.make CMakeFiles/graupel.dir/main_mpi.cpp.o
+.PHONY : main_mpi.cpp.o
 
-main_mpi_nsys.i: main_mpi_nsys.cpp.i
-.PHONY : main_mpi_nsys.i
+main_mpi.i: main_mpi.cpp.i
+.PHONY : main_mpi.i
 
 # target to preprocess a source file
-main_mpi_nsys.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/graupel.dir/build.make CMakeFiles/graupel.dir/main_mpi_nsys.cpp.i
-.PHONY : main_mpi_nsys.cpp.i
+main_mpi.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/graupel.dir/build.make CMakeFiles/graupel.dir/main_mpi.cpp.i
+.PHONY : main_mpi.cpp.i
 
-main_mpi_nsys.s: main_mpi_nsys.cpp.s
-.PHONY : main_mpi_nsys.s
+main_mpi.s: main_mpi.cpp.s
+.PHONY : main_mpi.s
 
 # target to generate assembly for a file
-main_mpi_nsys.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/graupel.dir/build.make CMakeFiles/graupel.dir/main_mpi_nsys.cpp.s
-.PHONY : main_mpi_nsys.cpp.s
+main_mpi.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/graupel.dir/build.make CMakeFiles/graupel.dir/main_mpi.cpp.s
+.PHONY : main_mpi.cpp.s
 
 # Help Target
 help:
@@ -334,9 +334,9 @@ help:
 	@echo "... muphys_core_test"
 	@echo "... muphys_implementation"
 	@echo "... muphys_io"
-	@echo "... main_mpi_nsys.o"
-	@echo "... main_mpi_nsys.i"
-	@echo "... main_mpi_nsys.s"
+	@echo "... main_mpi.o"
+	@echo "... main_mpi.i"
+	@echo "... main_mpi.s"
 .PHONY : help
 
 

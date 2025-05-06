@@ -609,7 +609,7 @@ namespace io_muphys {
     int ncid;
     // create file in parallel mode
     if (nc_create_par(output_file.c_str(),
-                      NC_NETCDF4 | NC_CLOBBER | NC_MPIIO,
+                      NC_NETCDF4 | NC_CLOBBER | NC_MPIIO | NC_CLASSIC_MODEL,
                       comm, info, &ncid)) {
         throw std::runtime_error("Failed to create NetCDF file in parallel");
     }
@@ -641,7 +641,7 @@ namespace io_muphys {
           throw std::runtime_error("define failed");
       if (deflate_level > 0)
           nc_def_var_deflate(ncid, varid, 0, 1, deflate_level);
-      nc_var_par_access(ncid, varid, NC_COLLECTIVE);
+      nc_var_par_access(ncid, varid, NC_INDEPENDENT);
       varids[name] = varid;
     };
 

@@ -4,7 +4,7 @@
 #SBATCH --job-name=scc
 #SBATCH --partition=compute
 #SBATCH --ntasks=16
-#SBATCH --output=baseline.log
+#SBATCH --output=test.log
 #SBATCH --time=01:00:00
 
 ulimit -s unlimited
@@ -35,13 +35,14 @@ cmake -B $BUILD -S . -DMU_IMPL=seq -DMU_ARCH=x86_64 -DMU_ENABLE_MPI=ON -DMU_ENAB
 # run the executable
 BIN=$(pwd)/$BUILD/bin/graupel
 
-srun -n 16 $BIN $IN_FILE $OUT_FILE
-check $OUT_FILE $REF_FILE
-#srun -n 1 $BIN $(pwd)/tasks/11k.nc output.nc
-#check output.nc $(pwd)/reference_results/seq_11k_double.nc
-#srun -n 1 $BIN $(pwd)/tasks/20k.nc output.nc
-#check output.nc $(pwd)/reference_results/seq_20k_double.nc
-
+#srun -n 1 $BIN $IN_FILE $OUT_FILE
+#check $OUT_FILE $REF_FILE
+srun -n 13 $BIN $(pwd)/tasks/11k.nc output.nc
+check output.nc $(pwd)/reference_results/seq_11k_double.nc
+srun -n 13 $BIN $(pwd)/tasks/20k.nc output.nc
+check output.nc $(pwd)/reference_results/seq_20k_double.nc
+srun -n 13 $BIN $(pwd)/tasks/dbg.nc output.nc
+check output.nc $(pwd)/reference_results/seq_dbg_double.nc
 
 #rm $OUT_FILE
 

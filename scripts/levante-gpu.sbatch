@@ -3,8 +3,8 @@
 #SBATCH --account=ka1273
 #SBATCH --job-name=scc
 #SBATCH --partition=gpu
-#SBATCH --nodes=1
-#SBATCH --gpus-per-node=1
+#SBATCH --nodes=4
+#SBATCH --gpus-per-node=4
 #SBATCH --output=atm_latest.log
 #SBATCH --exclusive
 #SBATCH --time=00:10:00

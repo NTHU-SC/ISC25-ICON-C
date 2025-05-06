@@ -50,7 +50,7 @@ if(MU_ENABLE_MPI)
     # Use MPI compiler wrapper
     set(CMAKE_CXX_COMPILER mpicxx)
     add_compile_definitions(USE_MPI)
-    set(EXECUTABLE_SRC "main_mpi_nsys.cpp")
+    set(EXECUTABLE_SRC "main_mpi.cpp")
 else()
     set(EXECUTABLE_SRC "main.cpp")
 endif()
