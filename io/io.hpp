@@ -106,17 +106,9 @@ namespace io_muphys {
                         array_1d_t<real_t> &qr, array_1d_t<real_t> &qs,
                         array_1d_t<real_t> &qg, MPI_Comm comm = MPI_COMM_WORLD, MPI_Info info = MPI_INFO_NULL);
 
-  void output_vector_par(int ncid, const char* name,
-                      int dimid_time, int dimid_height,
-                      int dimid_cell, size_t itime,
-                      size_t start_cell, size_t ncell_loc,
-                      size_t nlev,  const array_1d_t<real_t>& arr,
-                      int deflate_level);
+  void output_vector_par(int ncid, int varid, size_t itime, size_t start_cell, size_t ncell_loc, size_t nlev, const array_1d_t<real_t>& arr);
 
-  void output_vector_par(int ncid, const char* name,
-                        int dimid_height, int dimid_cell,
-                        size_t start_cell, size_t ncell_loc,
-                        size_t nlev, const array_1d_t<real_t>& arr, int deflate_level);
+  void output_vector_par(int ncid, int varid, size_t start_cell, size_t ncell_loc, size_t nlev, const array_1d_t<real_t>& arr);
 
   void write_fields_mpi(const std::string &output_file, size_t ncells, size_t nlev,
                         const array_1d_t<real_t> &t, const array_1d_t<real_t> &qv,

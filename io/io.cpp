@@ -454,7 +454,7 @@ namespace io_muphys {
       if (nc_inq_varid(ncid, name, &varid)) 
           throw std::runtime_error(std::string("Variable not found: ") + name);
       // set collective I/O
-      nc_var_par_access(ncid, varid, NC_COLLECTIVE);
+      nc_var_par_access(ncid, varid, NC_INDEPENDENT);
       // define the hyperslab: [time, level, cell]
       size_t start[3] = { itime, 0, start_cell };
       size_t count[3] = { 1, nlev, ncell_loc };
@@ -489,34 +489,12 @@ namespace io_muphys {
   }
   // Helper: write a 3D variable [time, level, cell] in parallel
   void output_vector_par(int ncid,
-                          const char* name,
-                          int dimid_time,
-                          int dimid_height,
-                          int dimid_cell,
-                          size_t itime,
-                          size_t start_cell,
-                          size_t ncell_loc,
-                          size_t nlev,
-                          const array_1d_t<real_t>& arr,
-                          int deflate_level) {
-      int varid;
-      int dimids[3] = { dimid_time, dimid_height, dimid_cell };
-
-      // define variable
-      if (nc_def_var(ncid, name, NC_REAL_TYPE, 3, dimids, &varid)) {
-          throw std::runtime_error("Failed to define var: " + std::string(name));
-      }
-
-      // set compression if requested
-      if (deflate_level > 0) {
-          nc_def_var_deflate(ncid, varid, 0, 1, deflate_level);
-      }
-
-      // set collective access
-      nc_var_par_access(ncid, varid, NC_COLLECTIVE);
-
-      // exit define mode
-      nc_enddef(ncid);
+                         int varid,
+                         size_t itime,
+                         size_t start_cell,
+                         size_t ncell_loc,
+                         size_t nlev,
+                         const array_1d_t<real_t>& arr) {
 
       // define hyperslab: [time, level, cell]
       size_t startp[3] = { itime, 0, start_cell };
@@ -524,45 +502,23 @@ namespace io_muphys {
 
       // write data (assuming arr is ordered as [level][cell])
       if (NC_PUT_VARA(ncid, varid, startp, countp, arr.data())) {
-          throw std::runtime_error("Failed to write var: " + std::string(name));
+          throw std::runtime_error("Failed to write var: " + std::to_string(varid));
       }
   }
   // Helper: write a 2D variable [level, cell] in parallel
   void output_vector_par(int ncid,
-                          const char* name,
-                          int dimid_height,
-                          int dimid_cell,
-                          size_t start_cell,
-                          size_t ncell_loc,
-                          size_t nlev,
-                          const array_1d_t<real_t>& arr,
-                          int deflate_level) {
-      int varid;
-      int dimids[2] = { dimid_height, dimid_cell };
-
-      // define variable
-      if (nc_def_var(ncid, name, NC_REAL_TYPE, 2, dimids, &varid)) {
-          throw std::runtime_error("Failed to define var: " + std::string(name));
-      }
-
-      // set compression if requested
-      if (deflate_level > 0) {
-          nc_def_var_deflate(ncid, varid, 0, 1, deflate_level);
-      }
-
-      // set collective access
-      nc_var_par_access(ncid, varid, NC_COLLECTIVE);
-
-      // exit define mode
-      nc_enddef(ncid);
-
+                         int varid,
+                         size_t start_cell,
+                         size_t ncell_loc,
+                         size_t nlev,
+                         const array_1d_t<real_t>& arr) {
       // write data block (assuming arr is ordered as [level][cell])
       for (size_t lvl = 0; lvl < nlev; ++lvl) {
           size_t startp[2] = { lvl, start_cell };
           size_t countp[2] = { 1, ncell_loc };
           const real_t* data_ptr = arr.data() + lvl * ncell_loc;
           if (NC_PUT_VARA(ncid, varid, startp, countp, data_ptr)) {
-              throw std::runtime_error("Failed to write var: " + std::string(name));
+              throw std::runtime_error("Failed to write var: " + std::to_string(varid));
           }
       }
   }
@@ -676,64 +632,53 @@ namespace io_muphys {
         throw std::runtime_error("Failed to define height1 dimension");
     }
 
+    std::map<std::string, int> varids;
+
+    auto def_var = [&](const char* name, int dim0, int dim1) {
+      int varid;
+      int dimids[2] = {dim0, dim1};
+      if (nc_def_var(ncid, name, NC_REAL_TYPE, 2, dimids, &varid))
+          throw std::runtime_error("define failed");
+      if (deflate_level > 0)
+          nc_def_var_deflate(ncid, varid, 0, 1, deflate_level);
+      nc_var_par_access(ncid, varid, NC_COLLECTIVE);
+      varids[name] = varid;
+    };
+
+    def_var("ta", dimid_height, dimid_cell);
+    def_var("hus", dimid_height, dimid_cell);
+    def_var("clw", dimid_height, dimid_cell);
+    def_var("cli", dimid_height, dimid_cell);
+    def_var("qr", dimid_height, dimid_cell);
+    def_var("qs", dimid_height, dimid_cell);
+    def_var("qg", dimid_height, dimid_cell);
+    def_var("pflx", dimid_height, dimid_cell);
+
+    def_var("prr_gsp", dimid_height1, dimid_cell);
+    def_var("prs_gsp", dimid_height1, dimid_cell);
+    def_var("pri_gsp", dimid_height1, dimid_cell);
+    def_var("prg_gsp", dimid_height1, dimid_cell);
+    def_var("pre_gsp", dimid_height1, dimid_cell);
+
     // exit define mode
     nc_enddef(ncid);
 
     // 2D fields [height x cell]
-    io_muphys::output_vector_par(ncid, "ta",
-                                  dimid_height, dimid_cell,
-                                  start_cell, ncell_loc, nlev,
-                                  t, deflate_level);
-    io_muphys::output_vector_par(ncid, "hus",
-                                  dimid_height, dimid_cell,
-                                  start_cell, ncell_loc, nlev,
-                                  qv, deflate_level);
-    io_muphys::output_vector_par(ncid, "clw",
-                                  dimid_height, dimid_cell,
-                                  start_cell, ncell_loc, nlev,
-                                  qc, deflate_level);
-    io_muphys::output_vector_par(ncid, "cli",
-                                  dimid_height, dimid_cell,
-                                  start_cell, ncell_loc, nlev,
-                                  qi, deflate_level);
-    io_muphys::output_vector_par(ncid, "qr",
-                                  dimid_height, dimid_cell,
-                                  start_cell, ncell_loc, nlev,
-                                  qr, deflate_level);
-    io_muphys::output_vector_par(ncid, "qs",
-                                  dimid_height, dimid_cell,
-                                  start_cell, ncell_loc, nlev,
-                                  qs, deflate_level);
-    io_muphys::output_vector_par(ncid, "qg",
-                                  dimid_height, dimid_cell,
-                                  start_cell, ncell_loc, nlev,
-                                  qg, deflate_level);
-    io_muphys::output_vector_par(ncid, "pflx",
-                                  dimid_height, dimid_cell,
-                                  start_cell, ncell_loc, nlev,
-                                  pflx, deflate_level);
+    io_muphys::output_vector_par(ncid, varids["ta"], start_cell, ncell_loc, nlev, t);
+    io_muphys::output_vector_par(ncid, varids["hus"], start_cell, ncell_loc, nlev, qv);
+    io_muphys::output_vector_par(ncid, varids["clw"], start_cell, ncell_loc, nlev, qc);
+    io_muphys::output_vector_par(ncid, varids["cli"], start_cell, ncell_loc, nlev, qi);
+    io_muphys::output_vector_par(ncid, varids["qr"], start_cell, ncell_loc, nlev, qr);
+    io_muphys::output_vector_par(ncid, varids["qs"], start_cell, ncell_loc, nlev, qs);
+    io_muphys::output_vector_par(ncid, varids["qg"], start_cell, ncell_loc, nlev, qg);
+    io_muphys::output_vector_par(ncid, varids["pflx"], start_cell, ncell_loc, nlev, pflx);
 
     // surface fields [height1 x cell]
-    io_muphys::output_vector_par(ncid, "prr_gsp",
-                                  dimid_height1, dimid_cell,
-                                  start_cell, ncell_loc, onelev,
-                                  prr_gsp, deflate_level);
-    io_muphys::output_vector_par(ncid, "prs_gsp",
-                                  dimid_height1, dimid_cell,
-                                  start_cell, ncell_loc, onelev,
-                                  prs_gsp, deflate_level);
-    io_muphys::output_vector_par(ncid, "pri_gsp",
-                                  dimid_height1, dimid_cell,
-                                  start_cell, ncell_loc, onelev,
-                                  pri_gsp, deflate_level);
-    io_muphys::output_vector_par(ncid, "prg_gsp",
-                                  dimid_height1, dimid_cell,
-                                  start_cell, ncell_loc, onelev,
-                                  prg_gsp, deflate_level);
-    io_muphys::output_vector_par(ncid, "pre_gsp",
-                                  dimid_height1, dimid_cell,
-                                  start_cell, ncell_loc, onelev,
-                                  pre_gsp, deflate_level);
+    io_muphys::output_vector_par(ncid, varids["prr_gsp"], start_cell, ncell_loc, onelev, prr_gsp);
+    io_muphys::output_vector_par(ncid, varids["prs_gsp"], start_cell, ncell_loc, onelev, prs_gsp);
+    io_muphys::output_vector_par(ncid, varids["pri_gsp"], start_cell, ncell_loc, onelev, pri_gsp);
+    io_muphys::output_vector_par(ncid, varids["prg_gsp"], start_cell, ncell_loc, onelev, prg_gsp);
+    io_muphys::output_vector_par(ncid, varids["pre_gsp"], start_cell, ncell_loc, onelev, pre_gsp);
 
     // close file
     nc_close(ncid);

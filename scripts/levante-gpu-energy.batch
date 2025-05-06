@@ -6,7 +6,7 @@
 #SBATCH --partition=gpu
 # !SBATCH --gres=gpu:a100_80
 #SBATCH --gpus-per-node=4
-#SBATCH --output=gpu_4_4_energy.log
+#SBATCH --output=gpu_4_4.log
 #SBATCH --exclusive
 #SBATCH --time=00:30:00
 
@@ -36,6 +36,11 @@ rm -rf $BUILD
 # build the code
 cmake -B $BUILD -S . -DMU_IMPL=std -DMU_ENABLE_MPI=ON -DMU_ARCH=a100 -DMU_ENABLE_SINGLE=OFF -DCMAKE_CXX_COMPILER=nvc++ -DCMAKE_CXX_FLAGS="${FLAGS}" && cmake --build $BUILD --parallel
 
+# cleanup previous results (if any)
+if [ -f $OUT_FILE ]; then
+    rm $OUT_FILE
+fi 
+
 # run the executable
 
 export MULTI_GRAUPEL="1"
@@ -47,4 +52,11 @@ num_io_procs=0
 ((mpi_total_procs=no_of_nodes * mpi_procs_pernode))
 
 
-srun -l --kill-on-bad-exit=1 --nodes=${SLURM_JOB_NUM_NODES:-1} --gpus-per-node=4 --ntasks=$((no_of_nodes * mpi_procs_pernode)) $(pwd)/scripts/run_wrapper_levante.sh -n ${mpi_total_procs} -o ${num_io_procs} -e $IN_DIR/graupel -f $FILE -g $OUT_FILE
+#srun -l --kill-on-bad-exit=1 --nodes=${SLURM_JOB_NUM_NODES:-1} --gpus-per-node=4 --ntasks=$((no_of_nodes * mpi_procs_pernode)) $(pwd)/scripts/run_wrapper_levante.sh -n ${mpi_total_procs} -o ${num_io_procs} -e $IN_DIR/graupel -f $FILE -g $OUT_FILE
+rm -rf nsys_reports
+mkdir -p nsys_reports
+srun -l --kill-on-bad-exit=1 --nodes=${SLURM_JOB_NUM_NODES:-1} --gpus-per-node=4 --ntasks=$((no_of_nodes * mpi_procs_pernode)) $(pwd)/wrapper.sh $IN_DIR/graupel $FILE $OUT_FILE
+. scripts/check-correctness.sh
+check $OUT_FILE $REF_FILE
+
+echo "Job done!"

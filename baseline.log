@@ -1,0 +1,204 @@
+compilation for architecture [cpu] using compilation chain [nvidia]
+
+-- The CXX compiler identification is NVHPC 24.7.0
+-- Detecting CXX compiler ABI info
+-- Detecting CXX compiler ABI info - done
+-- Check for working CXX compiler: /sw/spack-levante/nvhpc-24.7-py26uc/Linux_x86_64/24.7/compilers/bin/nvc++ - skipped
+-- Detecting CXX compile features
+-- Detecting CXX compile features - done
+-- Found NetCDF: /sw/spack-levante/netcdf-c-main-k4lh4v/include (found version "4.9.3") found components: C CXX 
+-- FindNetCDF defines targets:
+--   - NetCDF::NetCDF_C [/sw/spack-levante/netcdf-c-main-k4lh4v/lib64/libnetcdf.so]
+--   - NetCDF::NetCDF_CXX [/sw/spack-levante/netcdf-cxx4-4.3.1-42ju4n/lib/libnetcdf_c++4.so]
+-- Found MPI_CXX: /sw/spack-levante/nvhpc-24.7-py26uc/Linux_x86_64/24.7/comm_libs/12.5/openmpi4/openmpi-4.1.5/lib/libmpi.so (found version "3.1") 
+-- Found MPI: TRUE (found version "3.1")  
+-- The C compiler identification is NVHPC 24.7.0
+-- Detecting C compiler ABI info
+-- Detecting C compiler ABI info - done
+-- Check for working C compiler: /sw/spack-levante/nvhpc-24.7-py26uc/Linux_x86_64/24.7/compilers/bin/nvc - skipped
+-- Detecting C compile features
+-- Detecting C compile features - done
+-- Build Googletest as part of muphys project
+-- Found Python: /sw/spack-levante/python-3.10.10-uigoar/bin/python3.10 (found version "3.10.10") found components: Interpreter 
+-- Looking for pthread.h
+-- Looking for pthread.h - found
+-- Performing Test CMAKE_HAVE_LIBC_PTHREAD
+-- Performing Test CMAKE_HAVE_LIBC_PTHREAD - Success
+-- Found Threads: TRUE  
+-- Configuring done
+-- Generating done
+-- Build files have been written to: /home/b/b383366/sky/scc_at_isc25/build_std_cpu_double
+[  5%] Building CXX object core/CMakeFiles/muphys_core.dir/common/utils.cpp.o
+[ 16%] Building CXX object io/CMakeFiles/muphys_io.dir/io.cpp.o
+[ 16%] Building CXX object _deps/googletest-build/googletest/CMakeFiles/gtest.dir/src/gtest-all.cc.o
+[ 22%] Linking CXX shared library ../lib64/libmuphys_core.so
+[ 22%] Built target muphys_core
+[ 27%] Building CXX object implementations/sequential/CMakeFiles/muphys_implementation.dir/graupel.cpp.o
+"/home/b/b383366/sky/scc_at_isc25/build_std_cpu_double/_deps/googletest-src/googletest/src/gtest-internal-inl.h", line 636: warning: unknown attribute "optimize" [unrecognized_attribute]
+        GTEST_NO_INLINE_ GTEST_NO_TAIL_CALL_;
+                         ^
+
+Remark: individual warnings can be suppressed with "--diag_suppress <warning-name>"
+
+[ 33%] Linking CXX shared library ../lib64/libmuphys_io.so
+[ 33%] Built target muphys_io
+"/home/b/b383366/sky/scc_at_isc25/build_std_cpu_double/_deps/googletest-src/googletest/src/gtest.cc", line 6262: warning: unknown attribute "optimize" [unrecognized_attribute]
+  GTEST_NO_INLINE_ GTEST_NO_TAIL_CALL_ std::string
+                   ^
+
+[ 38%] Linking CXX shared library ../../lib64/libmuphys_implementation.so
+[ 38%] Built target muphys_implementation
+[ 44%] Building CXX object CMakeFiles/graupel.dir/main_mpi.cpp.o
+[ 50%] Linking CXX executable bin/graupel
+[ 50%] Built target graupel
+[ 55%] Linking CXX static library ../../../lib/libgtest.a
+[ 55%] Built target gtest
+[ 61%] Building CXX object _deps/googletest-build/googlemock/CMakeFiles/gmock.dir/src/gmock-all.cc.o
+[ 66%] Building CXX object _deps/googletest-build/googletest/CMakeFiles/gtest_main.dir/src/gtest_main.cc.o
+[ 72%] Linking CXX static library ../../../lib/libgtest_main.a
+[ 72%] Built target gtest_main
+[ 77%] Building CXX object test/CMakeFiles/muphys_core_test.dir/common.cc.o
+[ 83%] Linking CXX static library ../../../lib/libgmock.a
+[ 83%] Built target gmock
+[ 88%] Building CXX object _deps/googletest-build/googlemock/CMakeFiles/gmock_main.dir/src/gmock_main.cc.o
+[ 94%] Linking CXX executable ../bin/muphys_core_test
+[100%] Linking CXX static library ../../../lib/libgmock_main.a
+[100%] Built target gmock_main
+[100%] Built target muphys_core_test
+--------------------------------------------------------------------------
+Sorry!  You were supposed to get help about:
+    dlopen failed
+But I couldn't open the help file:
+    /proj/nv/libraries/Linux_x86_64/24.7/openmpi4-12/255943-rel-1/comm_libs/12.4/openmpi4/openmpi-4.1.5/share/openmpi/help-mpi-common-cuda.txt: No such file or directory.  Sorry!
+--------------------------------------------------------------------------
+--------------------------------------------------------------------------
+Sorry!  You were supposed to get help about:
+    dlopen failed
+But I couldn't open the help file:
+    /proj/nv/libraries/Linux_x86_64/24.7/openmpi4-12/255943-rel-1/comm_libs/12.4/openmpi4/openmpi-4.1.5/share/openmpi/help-mpi-common-cuda.txt: No such file or directory.  Sorry!
+--------------------------------------------------------------------------
+--------------------------------------------------------------------------
+Sorry!  You were supposed to get help about:
+    dlopen failed
+But I couldn't open the help file:
+    /proj/nv/libraries/Linux_x86_64/24.7/openmpi4-12/255943-rel-1/comm_libs/12.4/openmpi4/openmpi-4.1.5/share/openmpi/help-mpi-common-cuda.txt: No such file or directory.  Sorry!
+--------------------------------------------------------------------------
+--------------------------------------------------------------------------
+Sorry!  You were supposed to get help about:
+    dlopen failed
+But I couldn't open the help file:
+    /proj/nv/libraries/Linux_x86_64/24.7/openmpi4-12/255943-rel-1/comm_libs/12.4/openmpi4/openmpi-4.1.5/share/openmpi/help-mpi-common-cuda.txt: No such file or directory.  Sorry!
+--------------------------------------------------------------------------
+--------------------------------------------------------------------------
+Sorry!  You were supposed to get help about:
+    dlopen failed
+But I couldn't open the help file:
+    /proj/nv/libraries/Linux_x86_64/24.7/openmpi4-12/255943-rel-1/comm_libs/12.4/openmpi4/openmpi-4.1.5/share/openmpi/help-mpi-common-cuda.txt: No such file or directory.  Sorry!
+--------------------------------------------------------------------------
+--------------------------------------------------------------------------
+Sorry!  You were supposed to get help about:
+    dlopen failed
+But I couldn't open the help file:
+    /proj/nv/libraries/Linux_x86_64/24.7/openmpi4-12/255943-rel-1/comm_libs/12.4/openmpi4/openmpi-4.1.5/share/openmpi/help-mpi-common-cuda.txt: No such file or directory.  Sorry!
+--------------------------------------------------------------------------
+--------------------------------------------------------------------------
+Sorry!  You were supposed to get help about:
+    dlopen failed
+But I couldn't open the help file:
+    /proj/nv/libraries/Linux_x86_64/24.7/openmpi4-12/255943-rel-1/comm_libs/12.4/openmpi4/openmpi-4.1.5/share/openmpi/help-mpi-common-cuda.txt: No such file or directory.  Sorry!
+--------------------------------------------------------------------------
+--------------------------------------------------------------------------
+Sorry!  You were supposed to get help about:
+    dlopen failed
+But I couldn't open the help file:
+    /proj/nv/libraries/Linux_x86_64/24.7/openmpi4-12/255943-rel-1/comm_libs/12.4/openmpi4/openmpi-4.1.5/share/openmpi/help-mpi-common-cuda.txt: No such file or directory.  Sorry!
+--------------------------------------------------------------------------
+--------------------------------------------------------------------------
+Sorry!  You were supposed to get help about:
+    dlopen failed
+But I couldn't open the help file:
+    /proj/nv/libraries/Linux_x86_64/24.7/openmpi4-12/255943-rel-1/comm_libs/12.4/openmpi4/openmpi-4.1.5/share/openmpi/help-mpi-common-cuda.txt: No such file or directory.  Sorry!
+--------------------------------------------------------------------------
+--------------------------------------------------------------------------
+Sorry!  You were supposed to get help about:
+    dlopen failed
+But I couldn't open the help file:
+    /proj/nv/libraries/Linux_x86_64/24.7/openmpi4-12/255943-rel-1/comm_libs/12.4/openmpi4/openmpi-4.1.5/share/openmpi/help-mpi-common-cuda.txt: No such file or directory.  Sorry!
+--------------------------------------------------------------------------
+--------------------------------------------------------------------------
+Sorry!  You were supposed to get help about:
+    dlopen failed
+But I couldn't open the help file:
+    /proj/nv/libraries/Linux_x86_64/24.7/openmpi4-12/255943-rel-1/comm_libs/12.4/openmpi4/openmpi-4.1.5/share/openmpi/help-mpi-common-cuda.txt: No such file or directory.  Sorry!
+--------------------------------------------------------------------------
+--------------------------------------------------------------------------
+Sorry!  You were supposed to get help about:
+    dlopen failed
+But I couldn't open the help file:
+    /proj/nv/libraries/Linux_x86_64/24.7/openmpi4-12/255943-rel-1/comm_libs/12.4/openmpi4/openmpi-4.1.5/share/openmpi/help-mpi-common-cuda.txt: No such file or directory.  Sorry!
+--------------------------------------------------------------------------
+--------------------------------------------------------------------------
+Sorry!  You were supposed to get help about:
+    dlopen failed
+But I couldn't open the help file:
+    /proj/nv/libraries/Linux_x86_64/24.7/openmpi4-12/255943-rel-1/comm_libs/12.4/openmpi4/openmpi-4.1.5/share/openmpi/help-mpi-common-cuda.txt: No such file or directory.  Sorry!
+--------------------------------------------------------------------------
+--------------------------------------------------------------------------
+Sorry!  You were supposed to get help about:
+    dlopen failed
+But I couldn't open the help file:
+    /proj/nv/libraries/Linux_x86_64/24.7/openmpi4-12/255943-rel-1/comm_libs/12.4/openmpi4/openmpi-4.1.5/share/openmpi/help-mpi-common-cuda.txt: No such file or directory.  Sorry!
+--------------------------------------------------------------------------
+--------------------------------------------------------------------------
+Sorry!  You were supposed to get help about:
+    dlopen failed
+But I couldn't open the help file:
+    /proj/nv/libraries/Linux_x86_64/24.7/openmpi4-12/255943-rel-1/comm_libs/12.4/openmpi4/openmpi-4.1.5/share/openmpi/help-mpi-common-cuda.txt: No such file or directory.  Sorry!
+--------------------------------------------------------------------------
+--------------------------------------------------------------------------
+Sorry!  You were supposed to get help about:
+    dlopen failed
+But I couldn't open the help file:
+    /proj/nv/libraries/Linux_x86_64/24.7/openmpi4-12/255943-rel-1/comm_libs/12.4/openmpi4/openmpi-4.1.5/share/openmpi/help-mpi-common-cuda.txt: No such file or directory.  Sorry!
+--------------------------------------------------------------------------
+input file: /work/ka1273/atm_R2B08.nc
+output file: /scratch/b/b383366/results/output2.nc
+itime: 0
+dt: 30
+qnc: 100
+multirun =1
+time taken : 100346 milliseconds
+[OK] Bit-identical results
+Job done!
+
+********************************************************************************
+*                                                                              *
+*  This is the automated job summary provided by DKRZ.                         *
+*  If you encounter problems, need assistance or have any suggestion, please   *
+*  write an email to                                                           *
+*                                                                              *
+*  --  support@dkrz.de --                                                      *
+*                                                                              *
+*                       We hope you enjoyed the DKRZ supercomputer LEVANTE ... *
+*
+* JobID            : 16777048
+* JobName          : scc                                               
+* Account          : ka1273
+* User             : b383366 (202646), ka1273 (201200)                 
+* Partition        : compute
+* QOS              : normal
+* Nodelist         : l30317 (1)                                                
+* Submit date      : 2025-05-06T10:19:21
+* Start time       : 2025-05-06T10:19:39
+* End time         : 2025-05-06T10:24:40
+* Elapsed time     : 00:05:01 (Timelimit=01:00:00)                     
+* Command          : ./scripts/levante-cpu.sbatch
+* WorkDir          : /home/b/b383366/sky/scc_at_isc25
+*
+* StepID | JobName      NodeHours    MaxRSS [Byte] (@task)
+* ------------------------------------------------------------------------------
+* 0      | graupel          0.028             3361524K (0)
+* batch  | batch            0.084
+* extern | extern           0.084                2156K (0)
+* ------------------------------------------------------------------------------
+
