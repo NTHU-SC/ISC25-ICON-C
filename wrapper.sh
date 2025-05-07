@@ -5,5 +5,7 @@ nsys  profile \
 	-o "./nsys_reports/gpu_$SLURM_PROCID.nsys-rep" \
 	--mpi-impl openmpi \
 	--trace mpi,ucx,osrt,cuda,nvtx \
+	--gpu-metrics-devices=0 \
+	--cuda-memory-usage=true \
 	--force-overwrite true \
 	$@

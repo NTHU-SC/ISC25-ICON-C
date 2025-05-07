@@ -98,7 +98,7 @@ void graupel(size_t &nvec, size_t &ke, size_t &ivstart, size_t &ivend,
   array_1d_t<size_t> indices_(ivend - ivstart);
   std::iota(indices_.begin(), indices_.end(), ivstart);
   
-  array_1d_t<size_t> flags(ke * (ivend - ivstart + 1), 0);
+  array_1d_t<size_t> flags(ke * (ivend - ivstart + 1));
   array_1d_t<size_t> prefixsum(ke * (ivend - ivstart + 1));
 
   real_t** p_array_ptr = p_array.data();

@@ -23,7 +23,7 @@
 using namespace std;
 
 int main(int argc, char *argv[]) {
-   auto start_time = std::chrono::steady_clock::now();
+   //auto start_time = std::chrono::steady_clock::now();
    // Mpi parameters initilization
    MPI_Init(&argc, &argv);
    int rank, size;
@@ -90,16 +90,16 @@ int main(int argc, char *argv[]) {
    if (!rank)
       std::cout << "multirun =" << multirun << std::endl;
 
-
+   auto start_time = std::chrono::steady_clock::now();
    for (size_t ii = 0; ii < multirun; ++ii){
       graupel(nvec, kend, ivbeg, ivend, kbeg, dt, dz, t, rho, p, qv, qc, qi, qr, qs,
               qg, qnc_1, prr_gsp, pri_gsp, prs_gsp, prg_gsp, pre_gsp, pflx);
    }                     
-
+   auto end_time = std::chrono::steady_clock::now();
    io_muphys::write_fields_mpi(output_file, ncells, nlev, t, qv, qc, qi, qr, qs,
          qg, prr_gsp, pri_gsp, prs_gsp, prg_gsp, pre_gsp, pflx);
    
-   auto end_time = std::chrono::steady_clock::now();
+   //auto end_time = std::chrono::steady_clock::now();
    auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(
              end_time - start_time);
    if (!rank)

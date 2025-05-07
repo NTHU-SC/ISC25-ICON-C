@@ -105,25 +105,19 @@ void graupel(size_t &nvec, size_t &ke, size_t &ivstart, size_t &ivend,
   array_1d_t<size_t> flags(ke * (ivend - ivstart + 1), 0);
   array_1d_t<size_t> prefixsum(ke * (ivend - ivstart + 1));
 
-  size_t jmx_ = std::transform_reduce(
-    std::execution::par_unseq,
-    indices_.begin(), indices_.end(),
-    size_t(0), 
-    std::plus<size_t>(),
-    [=, kmin = kmin.data(), q = q.data(),
-      t = t.data(), rho = rho.data(), qp_ind = qp_ind_copy,
-      flags = flags.data()](size_t j) {
-      size_t count = 0;
-      size_t update[4];
-      size_t oned_vec_index;
-
-      #pragma unroll np
-      for (size_t ix = 0; ix < np; ++ix) {
-        update[ix] = kmin[j * np + qp_ind[ix]];
-      }
-
-      for (size_t i = ke - 1; i < ke; --i) {        
-        oned_vec_index = i * ivend + j;          
+  size_t jmx_ = 0;
+  for (size_t i = ke - 1; i < ke; --i) {
+    jmx_ += std::transform_reduce(
+      std::execution::par_unseq,
+      indices_.begin(), indices_.end(),
+      size_t(0), 
+      std::plus<size_t>(),
+      [=, kmin = kmin.data(), q = q.data(),
+        t = t.data(), rho = rho.data(), qp_ind = qp_ind_copy,
+        flags = flags.data()](size_t j) {
+        size_t count = 0;
+        size_t oned_vec_index = i * ivend + j;    
+        
         if ((std::max({q[lqc].x[oned_vec_index], q[lqr].x[oned_vec_index], 
               q[lqs].x[oned_vec_index], q[lqi].x[oned_vec_index], 
               q[lqg].x[oned_vec_index]}) > qmin) || ((t[oned_vec_index] < tfrz_het2) && 
@@ -131,23 +125,15 @@ void graupel(size_t &nvec, size_t &ke, size_t &ivstart, size_t &ivend,
                 flags[oned_vec_index] = 1;
                 count ++;
         }
-        
-        #pragma unroll np
+
         for (size_t ix = 0; ix < np; ++ix) {
-          bool val = (q[qp_ind[ix]].x[oned_vec_index] > qmin);
-          update[ix] =  val * i + (!val) * update[ix];
-        }
-        
+          kmin[j * np + qp_ind[ix]] =  (q[qp_ind[ix]].x[oned_vec_index] > qmin)? i: kmin[j * np + qp_ind[ix]];
+        }          
+  
+        return count;
       }
-
-      #pragma unroll np
-      for (size_t ix = 0; ix < np; ++ix) {
-        kmin[j * np + qp_ind[ix]] = update[ix];
-      }
-
-      return count;
-    }
-  );
+    );
+  }
 
   array_1d_t<size_t> ind_i(jmx_);
   array_1d_t<size_t> ind_j(jmx_);

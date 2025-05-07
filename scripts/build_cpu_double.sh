@@ -11,7 +11,7 @@ ulimit -s unlimited
 ulimit -c 0
 
 # compiler flags
-FLAGS='-O0 -nofma'
+FLAGS='-O0 -stdpar=multicore -nofma'
 
 # build
 BUILD='build_std_cpu_double'

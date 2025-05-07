@@ -1,0 +1,136 @@
+-- The CXX compiler identification is NVHPC 24.7.0
+-- Detecting CXX compiler ABI info
+-- Detecting CXX compiler ABI info - done
+-- Check for working CXX compiler: /sw/spack-levante/nvhpc-24.7-py26uc/Linux_x86_64/24.7/compilers/bin/nvc++ - skipped
+-- Detecting CXX compile features
+-- Detecting CXX compile features - done
+-- Found NetCDF: /sw/spack-levante/netcdf-c-main-k4lh4v/include (found version "4.9.3") found components: C CXX 
+-- FindNetCDF defines targets:
+--   - NetCDF::NetCDF_C [/sw/spack-levante/netcdf-c-main-k4lh4v/lib64/libnetcdf.so]
+--   - NetCDF::NetCDF_CXX [/sw/spack-levante/netcdf-cxx4-4.3.1-42ju4n/lib/libnetcdf_c++4.so]
+-- Found MPI_CXX: /sw/spack-levante/nvhpc-24.7-py26uc/Linux_x86_64/24.7/comm_libs/12.5/openmpi4/openmpi-4.1.5/lib/libmpi.so (found version "3.1") 
+-- Found MPI: TRUE (found version "3.1")  
+-- The C compiler identification is NVHPC 24.7.0
+-- Detecting C compiler ABI info
+-- Detecting C compiler ABI info - done
+-- Check for working C compiler: /sw/spack-levante/nvhpc-24.7-py26uc/Linux_x86_64/24.7/compilers/bin/nvc - skipped
+-- Detecting C compile features
+-- Detecting C compile features - done
+-- Build Googletest as part of muphys project
+-- Found Python: /sw/spack-levante/python-3.10.10-uigoar/bin/python3.10 (found version "3.10.10") found components: Interpreter 
+-- Looking for pthread.h
+-- Looking for pthread.h - found
+-- Performing Test CMAKE_HAVE_LIBC_PTHREAD
+-- Performing Test CMAKE_HAVE_LIBC_PTHREAD - Success
+-- Found Threads: TRUE  
+-- Configuring done
+-- Generating done
+-- Build files have been written to: /home/b/b383366/sky/scc_at_isc25/build_std_gpu_mpi_double
+[  5%] Building CXX object implementations/std/CMakeFiles/muphys_implementation.dir/graupel.cpp.o
+[ 16%] Building CXX object io/CMakeFiles/muphys_io.dir/io.cpp.o
+[ 16%] Building CXX object core/CMakeFiles/muphys_core.dir/common/utils.cpp.o
+[ 22%] Building CXX object _deps/googletest-build/googletest/CMakeFiles/gtest.dir/src/gtest-all.cc.o
+"/home/b/b383366/sky/scc_at_isc25/build_std_gpu_mpi_double/_deps/googletest-src/googletest/src/gtest-internal-inl.h", line 636: warning: unknown attribute "optimize" [unrecognized_attribute]
+        GTEST_NO_INLINE_ GTEST_NO_TAIL_CALL_;
+                         ^
+
+Remark: individual warnings can be suppressed with "--diag_suppress <warning-name>"
+
+[ 27%] Linking CXX shared library ../lib64/libmuphys_core.so
+[ 27%] Built target muphys_core
+"/home/b/b383366/sky/scc_at_isc25/build_std_gpu_mpi_double/_deps/googletest-src/googletest/src/gtest.cc", line 6262: warning: unknown attribute "optimize" [unrecognized_attribute]
+  GTEST_NO_INLINE_ GTEST_NO_TAIL_CALL_ std::string
+                   ^
+
+[ 33%] Linking CXX shared library ../lib64/libmuphys_io.so
+[ 33%] Built target muphys_io
+[ 38%] Linking CXX shared library ../../lib64/libmuphys_implementation.so
+[ 38%] Built target muphys_implementation
+[ 44%] Building CXX object CMakeFiles/graupel.dir/main_mpi.cpp.o
+[ 50%] Linking CXX static library ../../../lib/libgtest.a
+[ 55%] Linking CXX executable bin/graupel
+[ 55%] Built target gtest
+[ 61%] Building CXX object _deps/googletest-build/googlemock/CMakeFiles/gmock.dir/src/gmock-all.cc.o
+[ 66%] Building CXX object _deps/googletest-build/googletest/CMakeFiles/gtest_main.dir/src/gtest_main.cc.o
+[ 66%] Built target graupel
+[ 72%] Linking CXX static library ../../../lib/libgtest_main.a
+[ 72%] Built target gtest_main
+[ 77%] Building CXX object test/CMakeFiles/muphys_core_test.dir/common.cc.o
+[ 83%] Linking CXX static library ../../../lib/libgmock.a
+[ 83%] Built target gmock
+[ 88%] Building CXX object _deps/googletest-build/googlemock/CMakeFiles/gmock_main.dir/src/gmock_main.cc.o
+[ 94%] Linking CXX executable ../bin/muphys_core_test
+[ 94%] Built target muphys_core_test
+[100%] Linking CXX static library ../../../lib/libgmock_main.a
+[100%] Built target gmock_main
+0: input file: /work/ka1273/atm_R2B08.nc
+0: output file: /scratch/b/b383366/outputs/output.nc
+0: itime: 0
+0: dt: 30
+0: qnc: 100
+0: multirun =1
+0: time taken : 6136 milliseconds
+               Date     Time   Level Gridsize    Miss    Diff : S Z  Max_Absdiff Max_Reldiff : Parameter name
+     1 : 0000-00-00 00:00:00       0 471859200       0    1201 : F F   1.7053e-13  5.7125e-16 : ta         
+     2 : 0000-00-00 00:00:00       0 471859200       0    4138 : F F   3.4694e-18  5.4268e-16 : hus        
+     3 : 0000-00-00 00:00:00       0 471859200       0    3121 : F T   8.6736e-19     0.66667 : clw        
+     4 : 0000-00-00 00:00:00       0 471859200       0  487315 : F T   2.1684e-19      1.0000 : cli        
+     5 : 0000-00-00 00:00:00       0 471859200       0  440152 : F T   4.1200e-18     0.97472 : qr         
+     6 : 0000-00-00 00:00:00       0 471859200       0  550316 : F T   1.3010e-18  0.00014277 : qs         
+     7 : 0000-00-00 00:00:00       0 471859200       0  379166 : F T   1.7347e-18  3.0237e-05 : qg         
+     8 : 0000-00-00 00:00:00       0 471859200       0 1671692 : F T   1.3878e-17     0.99998 : pflx       
+     9 : 0000-00-00 00:00:00       0  5242880       0   54773 : F T   3.4694e-18     0.29444 : prr_gsp    
+    10 : 0000-00-00 00:00:00       0  5242880       0   42605 : F T   4.3368e-19  1.7510e-09 : prs_gsp    
+    11 : 0000-00-00 00:00:00       0  5242880       0   39630 : F T   3.3881e-21     0.23588 : pri_gsp    
+    12 : 0000-00-00 00:00:00       0  5242880       0   23828 : F T   4.3368e-19  3.5586e-11 : prg_gsp    
+    13 : 0000-00-00 00:00:00       0  5242880       0   63614 : F T   9.0949e-12  1.9204e-08 : pre_gsp    
+  13 of 13 fields differ
+  0 of 13 fields differ more than 0.001
+[FAILED] Not bit-identical results. See diffs below:
+    -1 :       Date     Time   Level Gridsize    Miss :     Minimum        Mean     Maximum : Parameter name
+     1 : 0000-00-00 00:00:00       0 471859200       0 : -1.7053e-13 -3.4935e-21  1.1369e-13 : ta            
+     2 : 0000-00-00 00:00:00       0 471859200       0 : -3.4694e-18 -3.7349e-26  3.4694e-18 : hus           
+     3 : 0000-00-00 00:00:00       0 471859200       0 : -8.6736e-19  2.4623e-27  4.3368e-19 : clw           
+     4 : 0000-00-00 00:00:00       0 471859200       0 : -2.1684e-19 -1.8346e-27  1.0842e-19 : cli           
+     5 : 0000-00-00 00:00:00       0 471859200       0 : -4.1200e-18 -4.3170e-26  2.6021e-18 : qr            
+     6 : 0000-00-00 00:00:00       0 471859200       0 : -8.6736e-19 -2.9093e-27  1.3010e-18 : qs            
+     7 : 0000-00-00 00:00:00       0 471859200       0 : -8.6736e-19  1.3312e-27  1.7347e-18 : qg            
+     8 : 0000-00-00 00:00:00       0 471859200       0 : -1.3878e-17 -5.5196e-25  1.3878e-17 : pflx          
+     9 : 0000-00-00 00:00:00       0  5242880       0 : -3.4694e-18 -2.9413e-24  3.4694e-18 : prr_gsp       
+    10 : 0000-00-00 00:00:00       0  5242880       0 : -4.3368e-19 -3.4711e-25  4.3368e-19 : prs_gsp       
+    11 : 0000-00-00 00:00:00       0  5242880       0 : -3.3881e-21  1.9768e-27  3.3881e-21 : pri_gsp       
+    12 : 0000-00-00 00:00:00       0  5242880       0 : -4.3368e-19  5.1421e-26  2.1684e-19 : prg_gsp       
+    13 : 0000-00-00 00:00:00       0  5242880       0 : -7.2760e-12  8.4443e-18  9.0949e-12 : pre_gsp       
+Job done!
+
+********************************************************************************
+*                                                                              *
+*  This is the automated job summary provided by DKRZ.                         *
+*  If you encounter problems, need assistance or have any suggestion, please   *
+*  write an email to                                                           *
+*                                                                              *
+*  --  support@dkrz.de --                                                      *
+*                                                                              *
+*                       We hope you enjoyed the DKRZ supercomputer LEVANTE ... *
+*
+* JobID            : 16802556
+* JobName          : scc                                               
+* Account          : ka1273_gpu
+* User             : b383366 (202646), ka1273 (201200)                 
+* Partition        : gpu
+* QOS              : normal
+* Nodelist         : l50057 (1)                                                
+* Submit date      : 2025-05-07T13:34:44
+* Start time       : 2025-05-07T13:34:58
+* End time         : 2025-05-07T13:40:29
+* Elapsed time     : 00:05:31 (Timelimit=00:10:00)                     
+* Command          : ./scripts/levante-gpu.sbatch
+* WorkDir          : /home/b/b383366/sky/scc_at_isc25
+*
+* StepID | JobName      NodeHours    MaxRSS [Byte] (@task)
+* ------------------------------------------------------------------------------
+* 0      | graupel          0.022            48335212K (0)
+* batch  | batch            0.092
+* extern | extern           0.092                2160K (0)
+* ------------------------------------------------------------------------------
+

@@ -1,0 +1,547 @@
+compilation for architecture [cpu] using compilation chain [nvidia]
+
+-- The CXX compiler identification is NVHPC 24.7.0
+-- Detecting CXX compiler ABI info
+-- Detecting CXX compiler ABI info - done
+-- Check for working CXX compiler: /sw/spack-levante/nvhpc-24.7-py26uc/Linux_x86_64/24.7/compilers/bin/nvc++ - skipped
+-- Detecting CXX compile features
+-- Detecting CXX compile features - done
+-- Found NetCDF: /sw/spack-levante/netcdf-c-main-k4lh4v/include (found version "4.9.3") found components: C CXX 
+-- FindNetCDF defines targets:
+--   - NetCDF::NetCDF_C [/sw/spack-levante/netcdf-c-main-k4lh4v/lib64/libnetcdf.so]
+--   - NetCDF::NetCDF_CXX [/sw/spack-levante/netcdf-cxx4-4.3.1-42ju4n/lib/libnetcdf_c++4.so]
+-- Found MPI_CXX: /sw/spack-levante/nvhpc-24.7-py26uc/Linux_x86_64/24.7/comm_libs/12.5/openmpi4/openmpi-4.1.5/lib/libmpi.so (found version "3.1") 
+-- Found MPI: TRUE (found version "3.1")  
+-- The C compiler identification is NVHPC 24.7.0
+-- Detecting C compiler ABI info
+-- Detecting C compiler ABI info - done
+-- Check for working C compiler: /sw/spack-levante/nvhpc-24.7-py26uc/Linux_x86_64/24.7/compilers/bin/nvc - skipped
+-- Detecting C compile features
+-- Detecting C compile features - done
+-- Build Googletest as part of muphys project
+-- Found Python: /sw/spack-levante/python-3.10.10-uigoar/bin/python3.10 (found version "3.10.10") found components: Interpreter 
+-- Looking for pthread.h
+-- Looking for pthread.h - found
+-- Performing Test CMAKE_HAVE_LIBC_PTHREAD
+-- Performing Test CMAKE_HAVE_LIBC_PTHREAD - Success
+-- Found Threads: TRUE  
+-- Configuring done
+-- Generating done
+-- Build files have been written to: /home/b/b383366/sky/scc_at_isc25/build_std_cpu_double
+[  5%] Building CXX object io/CMakeFiles/muphys_io.dir/io.cpp.o
+[ 16%] Building CXX object implementations/std/CMakeFiles/muphys_implementation.dir/graupel.cpp.o
+[ 22%] Building CXX object core/CMakeFiles/muphys_core.dir/common/utils.cpp.o
+[ 22%] Building CXX object _deps/googletest-build/googletest/CMakeFiles/gtest.dir/src/gtest-all.cc.o
+[ 27%] Linking CXX shared library ../lib64/libmuphys_core.so
+[ 27%] Built target muphys_core
+"/home/b/b383366/sky/scc_at_isc25/build_std_cpu_double/_deps/googletest-src/googletest/src/gtest-internal-inl.h", line 636: warning: unknown attribute "optimize" [unrecognized_attribute]
+        GTEST_NO_INLINE_ GTEST_NO_TAIL_CALL_;
+                         ^
+
+Remark: individual warnings can be suppressed with "--diag_suppress <warning-name>"
+
+"/home/b/b383366/sky/scc_at_isc25/build_std_cpu_double/_deps/googletest-src/googletest/src/gtest.cc", line 6262: warning: unknown attribute "optimize" [unrecognized_attribute]
+  GTEST_NO_INLINE_ GTEST_NO_TAIL_CALL_ std::string
+                   ^
+
+[ 33%] Linking CXX shared library ../lib64/libmuphys_io.so
+[ 33%] Built target muphys_io
+[ 38%] Linking CXX shared library ../../lib64/libmuphys_implementation.so
+[ 38%] Built target muphys_implementation
+[ 44%] Building CXX object CMakeFiles/graupel.dir/main_mpi.cpp.o
+[ 50%] Linking CXX executable bin/graupel
+[ 55%] Linking CXX static library ../../../lib/libgtest.a
+[ 55%] Built target graupel
+[ 55%] Built target gtest
+[ 66%] Building CXX object _deps/googletest-build/googlemock/CMakeFiles/gmock.dir/src/gmock-all.cc.o
+[ 66%] Building CXX object _deps/googletest-build/googletest/CMakeFiles/gtest_main.dir/src/gtest_main.cc.o
+[ 72%] Linking CXX static library ../../../lib/libgtest_main.a
+[ 72%] Built target gtest_main
+[ 77%] Building CXX object test/CMakeFiles/muphys_core_test.dir/common.cc.o
+[ 83%] Linking CXX static library ../../../lib/libgmock.a
+[ 83%] Built target gmock
+[ 88%] Building CXX object _deps/googletest-build/googlemock/CMakeFiles/gmock_main.dir/src/gmock_main.cc.o
+[ 94%] Linking CXX executable ../bin/muphys_core_test
+[100%] Linking CXX static library ../../../lib/libgmock_main.a
+[100%] Built target gmock_main
+[100%] Built target muphys_core_test
+=== Run with -n 1 ===
+input file: /home/b/b383366/sky/scc_at_isc25/tasks/11k.nc
+output file: output.nc
+itime: 0
+dt: 30
+qnc: 100
+multirun =1
+time taken : 245 milliseconds
+[OK] Bit-identical results
+input file: /home/b/b383366/sky/scc_at_isc25/tasks/20k.nc
+output file: output.nc
+itime: 0
+dt: 30
+qnc: 100
+multirun =1
+time taken : 2258 milliseconds
+[OK] Bit-identical results
+input file: /home/b/b383366/sky/scc_at_isc25/tasks/dbg.nc
+output file: output.nc
+itime: 0
+dt: 30
+qnc: 100
+multirun =1
+time taken : 160 milliseconds
+[OK] Bit-identical results
+=== Run with -n 2 ===
+input file: /home/b/b383366/sky/scc_at_isc25/tasks/11k.nc
+output file: output.nc
+itime: 0
+dt: 30
+qnc: 100
+multirun =1
+time taken : 319 milliseconds
+[OK] Bit-identical results
+input file: /home/b/b383366/sky/scc_at_isc25/tasks/20k.nc
+output file: output.nc
+itime: 0
+dt: 30
+qnc: 100
+multirun =1
+time taken : 792 milliseconds
+[OK] Bit-identical results
+input file: /home/b/b383366/sky/scc_at_isc25/tasks/dbg.nc
+output file: output.nc
+itime: 0
+dt: 30
+qnc: 100
+multirun =1
+time taken : 217 milliseconds
+[OK] Bit-identical results
+=== Run with -n 3 ===
+input file: /home/b/b383366/sky/scc_at_isc25/tasks/11k.nc
+output file: output.nc
+itime: 0
+dt: 30
+qnc: 100
+multirun =1
+time taken : 169 milliseconds
+[OK] Bit-identical results
+input file: /home/b/b383366/sky/scc_at_isc25/tasks/20k.nc
+output file: output.nc
+itime: 0
+dt: 30
+qnc: 100
+multirun =1
+time taken : 994 milliseconds
+[OK] Bit-identical results
+input file: /home/b/b383366/sky/scc_at_isc25/tasks/dbg.nc
+output file: output.nc
+itime: 0
+dt: 30
+qnc: 100
+multirun =1
+time taken : 175 milliseconds
+[OK] Bit-identical results
+=== Run with -n 4 ===
+input file: /home/b/b383366/sky/scc_at_isc25/tasks/11k.nc
+output file: output.nc
+itime: 0
+dt: 30
+qnc: 100
+multirun =1
+time taken : 189 milliseconds
+[OK] Bit-identical results
+input file: /home/b/b383366/sky/scc_at_isc25/tasks/20k.nc
+output file: output.nc
+itime: 0
+dt: 30
+qnc: 100
+multirun =1
+time taken : 885 milliseconds
+[OK] Bit-identical results
+input file: /home/b/b383366/sky/scc_at_isc25/tasks/dbg.nc
+output file: output.nc
+itime: 0
+dt: 30
+qnc: 100
+multirun =1
+time taken : 177 milliseconds
+[OK] Bit-identical results
+=== Run with -n 5 ===
+input file: /home/b/b383366/sky/scc_at_isc25/tasks/11k.nc
+output file: output.nc
+itime: 0
+dt: 30
+qnc: 100
+multirun =1
+time taken : 166 milliseconds
+[OK] Bit-identical results
+input file: /home/b/b383366/sky/scc_at_isc25/tasks/20k.nc
+output file: output.nc
+itime: 0
+dt: 30
+qnc: 100
+multirun =1
+time taken : 766 milliseconds
+[OK] Bit-identical results
+input file: /home/b/b383366/sky/scc_at_isc25/tasks/dbg.nc
+output file: output.nc
+itime: 0
+dt: 30
+qnc: 100
+multirun =1
+time taken : 175 milliseconds
+[OK] Bit-identical results
+=== Run with -n 6 ===
+input file: /home/b/b383366/sky/scc_at_isc25/tasks/11k.nc
+output file: output.nc
+itime: 0
+dt: 30
+qnc: 100
+multirun =1
+time taken : 172 milliseconds
+[OK] Bit-identical results
+input file: /home/b/b383366/sky/scc_at_isc25/tasks/20k.nc
+output file: output.nc
+itime: 0
+dt: 30
+qnc: 100
+multirun =1
+time taken : 701 milliseconds
+[OK] Bit-identical results
+input file: /home/b/b383366/sky/scc_at_isc25/tasks/dbg.nc
+output file: output.nc
+itime: 0
+dt: 30
+qnc: 100
+multirun =1
+time taken : 189 milliseconds
+[OK] Bit-identical results
+=== Run with -n 7 ===
+input file: /home/b/b383366/sky/scc_at_isc25/tasks/11k.nc
+output file: output.nc
+itime: 0
+dt: 30
+qnc: 100
+multirun =1
+time taken : 189 milliseconds
+[OK] Bit-identical results
+input file: /home/b/b383366/sky/scc_at_isc25/tasks/20k.nc
+output file: output.nc
+itime: 0
+dt: 30
+qnc: 100
+multirun =1
+time taken : 633 milliseconds
+[OK] Bit-identical results
+input file: /home/b/b383366/sky/scc_at_isc25/tasks/dbg.nc
+output file: output.nc
+itime: 0
+dt: 30
+qnc: 100
+multirun =1
+time taken : 192 milliseconds
+[OK] Bit-identical results
+=== Run with -n 8 ===
+input file: /home/b/b383366/sky/scc_at_isc25/tasks/11k.nc
+output file: output.nc
+itime: 0
+dt: 30
+qnc: 100
+multirun =1
+time taken : 193 milliseconds
+[OK] Bit-identical results
+input file: /home/b/b383366/sky/scc_at_isc25/tasks/20k.nc
+output file: output.nc
+itime: 0
+dt: 30
+qnc: 100
+multirun =1
+time taken : 653 milliseconds
+[OK] Bit-identical results
+input file: /home/b/b383366/sky/scc_at_isc25/tasks/dbg.nc
+output file: output.nc
+itime: 0
+dt: 30
+qnc: 100
+multirun =1
+time taken : 208 milliseconds
+[OK] Bit-identical results
+=== Run with -n 9 ===
+input file: /home/b/b383366/sky/scc_at_isc25/tasks/11k.nc
+output file: output.nc
+itime: 0
+dt: 30
+qnc: 100
+multirun =1
+time taken : 199 milliseconds
+[OK] Bit-identical results
+input file: /home/b/b383366/sky/scc_at_isc25/tasks/20k.nc
+output file: output.nc
+itime: 0
+dt: 30
+qnc: 100
+multirun =1
+time taken : 600 milliseconds
+[OK] Bit-identical results
+input file: /home/b/b383366/sky/scc_at_isc25/tasks/dbg.nc
+output file: output.nc
+itime: 0
+dt: 30
+qnc: 100
+multirun =1
+time taken : 203 milliseconds
+[OK] Bit-identical results
+=== Run with -n 10 ===
+input file: /home/b/b383366/sky/scc_at_isc25/tasks/11k.nc
+output file: output.nc
+itime: 0
+dt: 30
+qnc: 100
+multirun =1
+time taken : 224 milliseconds
+[OK] Bit-identical results
+input file: /home/b/b383366/sky/scc_at_isc25/tasks/20k.nc
+output file: output.nc
+itime: 0
+dt: 30
+qnc: 100
+multirun =1
+time taken : 625 milliseconds
+[OK] Bit-identical results
+input file: /home/b/b383366/sky/scc_at_isc25/tasks/dbg.nc
+output file: output.nc
+itime: 0
+dt: 30
+qnc: 100
+multirun =1
+time taken : 219 milliseconds
+[OK] Bit-identical results
+=== Run with -n 11 ===
+input file: /home/b/b383366/sky/scc_at_isc25/tasks/11k.nc
+output file: output.nc
+itime: 0
+dt: 30
+qnc: 100
+multirun =1
+time taken : 266 milliseconds
+[OK] Bit-identical results
+input file: /home/b/b383366/sky/scc_at_isc25/tasks/20k.nc
+output file: output.nc
+itime: 0
+dt: 30
+qnc: 100
+multirun =1
+time taken : 601 milliseconds
+[OK] Bit-identical results
+input file: /home/b/b383366/sky/scc_at_isc25/tasks/dbg.nc
+output file: output.nc
+itime: 0
+dt: 30
+qnc: 100
+multirun =1
+time taken : 234 milliseconds
+[OK] Bit-identical results
+=== Run with -n 12 ===
+input file: /home/b/b383366/sky/scc_at_isc25/tasks/11k.nc
+output file: output.nc
+itime: 0
+dt: 30
+qnc: 100
+multirun =1
+time taken : 235 milliseconds
+[OK] Bit-identical results
+input file: /home/b/b383366/sky/scc_at_isc25/tasks/20k.nc
+output file: output.nc
+itime: 0
+dt: 30
+qnc: 100
+multirun =1
+time taken : 617 milliseconds
+[OK] Bit-identical results
+input file: /home/b/b383366/sky/scc_at_isc25/tasks/dbg.nc
+output file: output.nc
+itime: 0
+dt: 30
+qnc: 100
+multirun =1
+time taken : 226 milliseconds
+[OK] Bit-identical results
+=== Run with -n 13 ===
+input file: /home/b/b383366/sky/scc_at_isc25/tasks/11k.nc
+output file: output.nc
+itime: 0
+dt: 30
+qnc: 100
+multirun =1
+time taken : 260 milliseconds
+[OK] Bit-identical results
+input file: /home/b/b383366/sky/scc_at_isc25/tasks/20k.nc
+output file: output.nc
+itime: 0
+dt: 30
+qnc: 100
+multirun =1
+time taken : 604 milliseconds
+[OK] Bit-identical results
+input file: /home/b/b383366/sky/scc_at_isc25/tasks/dbg.nc
+output file: output.nc
+itime: 0
+dt: 30
+qnc: 100
+multirun =1
+time taken : 246 milliseconds
+[OK] Bit-identical results
+=== Run with -n 14 ===
+input file: /home/b/b383366/sky/scc_at_isc25/tasks/11k.nc
+output file: output.nc
+itime: 0
+dt: 30
+qnc: 100
+multirun =1
+time taken : 258 milliseconds
+[OK] Bit-identical results
+input file: /home/b/b383366/sky/scc_at_isc25/tasks/20k.nc
+output file: output.nc
+itime: 0
+dt: 30
+qnc: 100
+multirun =1
+time taken : 645 milliseconds
+[OK] Bit-identical results
+input file: /home/b/b383366/sky/scc_at_isc25/tasks/dbg.nc
+output file: output.nc
+itime: 0
+dt: 30
+qnc: 100
+multirun =1
+time taken : 244 milliseconds
+[OK] Bit-identical results
+=== Run with -n 15 ===
+input file: /home/b/b383366/sky/scc_at_isc25/tasks/11k.nc
+output file: output.nc
+itime: 0
+dt: 30
+qnc: 100
+multirun =1
+time taken : 288 milliseconds
+[OK] Bit-identical results
+input file: /home/b/b383366/sky/scc_at_isc25/tasks/20k.nc
+output file: output.nc
+itime: 0
+dt: 30
+qnc: 100
+multirun =1
+time taken : 605 milliseconds
+[OK] Bit-identical results
+input file: /home/b/b383366/sky/scc_at_isc25/tasks/dbg.nc
+output file: output.nc
+itime: 0
+dt: 30
+qnc: 100
+multirun =1
+time taken : 273 milliseconds
+[OK] Bit-identical results
+=== Run with -n 16 ===
+input file: /home/b/b383366/sky/scc_at_isc25/tasks/11k.nc
+output file: output.nc
+itime: 0
+dt: 30
+qnc: 100
+multirun =1
+time taken : 298 milliseconds
+[OK] Bit-identical results
+input file: /home/b/b383366/sky/scc_at_isc25/tasks/20k.nc
+output file: output.nc
+itime: 0
+dt: 30
+qnc: 100
+multirun =1
+time taken : 607 milliseconds
+[OK] Bit-identical results
+input file: /home/b/b383366/sky/scc_at_isc25/tasks/dbg.nc
+output file: output.nc
+itime: 0
+dt: 30
+qnc: 100
+multirun =1
+time taken : 268 milliseconds
+[OK] Bit-identical results
+Job done!
+
+********************************************************************************
+*                                                                              *
+*  This is the automated job summary provided by DKRZ.                         *
+*  If you encounter problems, need assistance or have any suggestion, please   *
+*  write an email to                                                           *
+*                                                                              *
+*  --  support@dkrz.de --                                                      *
+*                                                                              *
+*                       We hope you enjoyed the DKRZ supercomputer LEVANTE ... *
+*
+* JobID            : 16796319
+* JobName          : scc                                               
+* Account          : ka1273
+* User             : b383366 (202646), ka1273 (201200)                 
+* Partition        : compute
+* QOS              : normal
+* Nodelist         : l20547 (1)                                                
+* Submit date      : 2025-05-07T09:48:05
+* Start time       : 2025-05-07T09:49:11
+* End time         : 2025-05-07T09:51:09
+* Elapsed time     : 00:01:58 (Timelimit=01:00:00)                     
+* Command          : ./scripts/levante-cpu.sbatch
+* WorkDir          : /home/b/b383366/sky/scc_at_isc25
+*
+* StepID | JobName      NodeHours    MaxRSS [Byte] (@task)
+* ------------------------------------------------------------------------------
+* 0      | graupel            0.0                7692K (0)
+* 1      | graupel        0.00083                7692K (0)
+* 10     | graupel        0.00028                7776K (0)
+* 11     | graupel        0.00028                7776K (0)
+* 12     | graupel            0.0                7844K (0)
+* 13     | graupel        0.00028                7844K (0)
+* 14     | graupel            0.0                7844K (0)
+* 15     | graupel            0.0                7792K (0)
+* 16     | graupel        0.00028                7792K (0)
+* 17     | graupel            0.0                7792K (0)
+* 18     | graupel            0.0                7800K (0)
+* 19     | graupel        0.00028                7800K (0)
+* 2      | graupel            0.0                7692K (0)
+* 20     | graupel        0.00028                7800K (0)
+* 21     | graupel        0.00028                7812K (0)
+* 22     | graupel        0.00056                7812K (0)
+* 23     | graupel        0.00028                7812K (0)
+* 24     | graupel        0.00028               25756K (0)
+* 25     | graupel        0.00028               55064K (8)
+* 26     | graupel        0.00028               23848K (0)
+* 27     | graupel        0.00028               25204K (8)
+* 28     | graupel        0.00028               53136K (9)
+* 29     | graupel        0.00028               23300K (9)
+* 3      | graupel            0.0                7696K (1)
+* 30     | graupel        0.00028               25948K (0)
+* 31     | graupel        0.00028               51472K (4)
+* 32     | graupel        0.00028               23876K (0)
+* 33     | graupel        0.00028               25960K (0)
+* 34     | graupel        0.00028               50184K (5)
+* 35     | graupel        0.00028               23112K (5)
+* 36     | graupel        0.00028               25992K (0)
+* 37     | graupel        0.00028               48224K (0)
+* 38     | graupel        0.00028               23940K (0)
+* 39     | graupel        0.00028              25344K (10)
+* 4      | graupel        0.00028                7692K (0)
+* 40     | graupel        0.00028               47168K (0)
+* 41     | graupel        0.00028               23892K (0)
+* 42     | graupel        0.00028               25944K (0)
+* 43     | graupel        0.00056               46272K (0)
+* 44     | graupel        0.00028               23920K (0)
+* 45     | graupel        0.00028               25984K (0)
+* 46     | graupel        0.00028               45508K (0)
+* 47     | graupel        0.00028               23924K (0)
+* 5      | graupel            0.0                7696K (1)
+* 6      | graupel            0.0                7828K (0)
+* 7      | graupel        0.00028                7828K (0)
+* 8      | graupel            0.0                7828K (0)
+* 9      | graupel            0.0                7776K (0)
+* batch  | batch            0.033
+* extern | extern           0.033                2156K (0)
+* ------------------------------------------------------------------------------
+

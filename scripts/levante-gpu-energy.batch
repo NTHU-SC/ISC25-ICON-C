@@ -6,7 +6,7 @@
 #SBATCH --partition=gpu
 # !SBATCH --gres=gpu:a100_80
 #SBATCH --gpus-per-node=4
-#SBATCH --output=gpu_profile.log
+#SBATCH --output=gpu_t.log
 #SBATCH --exclusive
 #SBATCH --time=00:30:00
 
@@ -56,7 +56,7 @@ num_io_procs=0
 rm -rf nsys_reports
 mkdir -p nsys_reports
 srun -l --kill-on-bad-exit=1 --nodes=${SLURM_JOB_NUM_NODES:-1} --gpus-per-node=4 --ntasks=$((no_of_nodes * mpi_procs_pernode)) $(pwd)/wrapper.sh $IN_DIR/graupel $FILE $OUT_FILE
-#. scripts/check-correctness.sh
-#check $OUT_FILE $REF_FILE
+. scripts/check-correctness.sh
+check $OUT_FILE $REF_FILE
 
 echo "Job done!"
