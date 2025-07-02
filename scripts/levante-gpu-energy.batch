@@ -6,35 +6,22 @@
 #SBATCH --partition=gpu
 # !SBATCH --gres=gpu:a100_80
 #SBATCH --gpus-per-node=4
-#SBATCH --output=gpu_t.log
+#SBATCH --output=gpu_single.log
 #SBATCH --exclusive
 #SBATCH --time=00:30:00
 
 ulimit -s unlimited
 ulimit -c 0
 
-# compiler = gnu/intel/nvidia
-COMPILER='nvidia' 
-
-# compiler flags
-FLAGS='-O3 -march=native -stdpar=gpu -gpu=cc80,nofma' 
-
-# clean or dirty build
-FORCE_CLEAN=true
-spack load cdo@2.5.1%gcc@=11.2.0
-. scripts/levante-setup.sh $COMPILER gpu
-
-#: define scripts
-
 # input & output files
+PERCISION=single
 FILE=/work/ka1273/atm_R2B08.nc
-OUT_FILE=/scratch/b/b383366/outputs/output_2.nc
-REF_FILE=/scratch/b/b383366/results/atm_R2B08_ans_double.nc
-BUILD=build_std_gpu_mpi_2
+OUT_FILE=/scratch/b/b383366/outputs/output_$PERCISION.nc
+REF_FILE=/scratch/b/b383366/results/atm_R2B08_ans_$PERCISION.nc
 
-rm -rf $BUILD
 # build the code
-cmake -B $BUILD -S . -DMU_IMPL=std -DMU_ENABLE_MPI=ON -DMU_ARCH=a100 -DMU_ENABLE_SINGLE=OFF -DCMAKE_CXX_COMPILER=nvc++ -DCMAKE_CXX_FLAGS="${FLAGS}" && cmake --build $BUILD --parallel
+. $(pwd)/scripts/build_gpu_$PERCISION.sh
+module load cdo
 
 # cleanup previous results (if any)
 if [ -f $OUT_FILE ]; then
@@ -51,12 +38,9 @@ export no_of_nodes
 num_io_procs=0
 ((mpi_total_procs=no_of_nodes * mpi_procs_pernode))
 
-
+. $(pwd)/scripts/check-correctness.sh
 #srun -l --kill-on-bad-exit=1 --nodes=${SLURM_JOB_NUM_NODES:-1} --gpus-per-node=4 --ntasks=$((no_of_nodes * mpi_procs_pernode)) $(pwd)/scripts/run_wrapper_levante.sh -n ${mpi_total_procs} -o ${num_io_procs} -e $IN_DIR/graupel -f $FILE -g $OUT_FILE
-rm -rf nsys_reports
-mkdir -p nsys_reports
-srun -l --kill-on-bad-exit=1 --nodes=${SLURM_JOB_NUM_NODES:-1} --gpus-per-node=4 --ntasks=$((no_of_nodes * mpi_procs_pernode)) $(pwd)/wrapper.sh $IN_DIR/graupel $FILE $OUT_FILE
-. scripts/check-correctness.sh
-check $OUT_FILE $REF_FILE
+srun -l --kill-on-bad-exit=1 --nodes=${SLURM_JOB_NUM_NODES:-1} --gpus-per-node=4 --ntasks=$((no_of_nodes * mpi_procs_pernode)) $IN_DIR/graupel $FILE $OUT_FILE
 
+check $OUT_FILE $REF_FILE
 echo "Job done!"

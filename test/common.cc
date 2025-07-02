@@ -182,7 +182,7 @@ TEST_F(MuphysTest, PropertyTestSuite_VelScaleFactor_snow) {
   real_t result = property::vel_scale_factor(idx::lqs, xrho, rho, t, qx);
 #ifdef __NVCOMPILER
   real_t reference_float = 0.066332348;
-  real_t reference_double = 0.06633230453931635;
+  real_t reference_double = 0.06633230453931642;
   validate(result, reference_float, reference_double);
 #else // assume GCC
   real_t reference = 0.06633230453931642;

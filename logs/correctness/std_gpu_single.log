@@ -1,0 +1,207 @@
+-- The CXX compiler identification is NVHPC 24.7.0
+-- Detecting CXX compiler ABI info
+-- Detecting CXX compiler ABI info - done
+-- Check for working CXX compiler: /sw/spack-levante/nvhpc-24.7-py26uc/Linux_x86_64/24.7/compilers/bin/nvc++ - skipped
+-- Detecting CXX compile features
+-- Detecting CXX compile features - done
+-- Found NetCDF: /sw/spack-levante/netcdf-c-main-k4lh4v/include (found version "4.9.3") found components: C CXX 
+-- FindNetCDF defines targets:
+--   - NetCDF::NetCDF_C [/sw/spack-levante/netcdf-c-main-k4lh4v/lib64/libnetcdf.so]
+--   - NetCDF::NetCDF_CXX [/sw/spack-levante/netcdf-cxx4-4.3.1-42ju4n/lib/libnetcdf_c++4.so]
+-- Found MPI_CXX: /sw/spack-levante/nvhpc-24.7-py26uc/Linux_x86_64/24.7/comm_libs/12.5/openmpi4/openmpi-4.1.5/lib/libmpi.so (found version "3.1") 
+-- Found MPI: TRUE (found version "3.1")  
+-- The C compiler identification is NVHPC 24.7.0
+-- Detecting C compiler ABI info
+-- Detecting C compiler ABI info - done
+-- Check for working C compiler: /sw/spack-levante/nvhpc-24.7-py26uc/Linux_x86_64/24.7/compilers/bin/nvc - skipped
+-- Detecting C compile features
+-- Detecting C compile features - done
+-- Build Googletest as part of muphys project
+-- Found Python: /usr/bin/python3.11 (found version "3.11.5") found components: Interpreter 
+-- Looking for pthread.h
+-- Looking for pthread.h - found
+-- Performing Test CMAKE_HAVE_LIBC_PTHREAD
+-- Performing Test CMAKE_HAVE_LIBC_PTHREAD - Success
+-- Found Threads: TRUE  
+-- Configuring done
+-- Generating done
+-- Build files have been written to: /home/b/b383366/sky/scc_at_isc25/build_std_gpu_mpi_single
+[  5%] Building CXX object implementations/std/CMakeFiles/muphys_implementation.dir/graupel.cpp.o
+[ 11%] Building CXX object io/CMakeFiles/muphys_io.dir/io.cpp.o
+[ 22%] Building CXX object core/CMakeFiles/muphys_core.dir/common/utils.cpp.o
+[ 22%] Building CXX object _deps/googletest-build/googletest/CMakeFiles/gtest.dir/src/gtest-all.cc.o
+"/home/b/b383366/sky/scc_at_isc25/build_std_gpu_mpi_single/_deps/googletest-src/googletest/src/gtest-internal-inl.h", line 636: warning: unknown attribute "optimize" [unrecognized_attribute]
+        GTEST_NO_INLINE_ GTEST_NO_TAIL_CALL_;
+                         ^
+
+Remark: individual warnings can be suppressed with "--diag_suppress <warning-name>"
+
+[ 27%] Linking CXX shared library ../lib64/libmuphys_core.so
+"/home/b/b383366/sky/scc_at_isc25/build_std_gpu_mpi_single/_deps/googletest-src/googletest/src/gtest.cc", line 6262: warning: unknown attribute "optimize" [unrecognized_attribute]
+  GTEST_NO_INLINE_ GTEST_NO_TAIL_CALL_ std::string
+                   ^
+
+[ 27%] Built target muphys_core
+[ 33%] Linking CXX shared library ../lib64/libmuphys_io.so
+[ 33%] Built target muphys_io
+[ 38%] Linking CXX shared library ../../lib64/libmuphys_implementation.so
+[ 38%] Built target muphys_implementation
+[ 44%] Building CXX object CMakeFiles/graupel.dir/main_mpi_nsys.cpp.o
+[ 50%] Linking CXX static library ../../../lib/libgtest.a
+[ 55%] Linking CXX executable bin/graupel
+[ 55%] Built target gtest
+[ 61%] Building CXX object _deps/googletest-build/googlemock/CMakeFiles/gmock.dir/src/gmock-all.cc.o
+[ 66%] Building CXX object _deps/googletest-build/googletest/CMakeFiles/gtest_main.dir/src/gtest_main.cc.o
+[ 66%] Built target graupel
+[ 72%] Linking CXX static library ../../../lib/libgtest_main.a
+[ 72%] Built target gtest_main
+[ 77%] Building CXX object test/CMakeFiles/muphys_core_test.dir/common.cc.o
+[ 83%] Linking CXX static library ../../../lib/libgmock.a
+[ 83%] Built target gmock
+[ 88%] Building CXX object _deps/googletest-build/googlemock/CMakeFiles/gmock_main.dir/src/gmock_main.cc.o
+[ 94%] Linking CXX executable ../bin/muphys_core_test
+[ 94%] Built target muphys_core_test
+[100%] Linking CXX static library ../../../lib/libgmock_main.a
+[100%] Built target gmock_main
+0: input file: /home/b/b383366/sky/scc_at_isc25/tasks/11k.nc
+0: output file: /scratch/b/b383366/outputs/output.nc
+0: itime: 0
+0: dt: 30
+0: qnc: 100
+0: multirun =1
+               Date     Time   Level Gridsize    Miss    Diff : S Z  Max_Absdiff Max_Reldiff : Parameter name
+     2 : 0000-00-00 00:00:00       0    11200       0       4 : F F   1.1642e-10  6.8519e-08 : hus        
+     3 : 0000-00-00 00:00:00       0    11200       0       3 : F T   1.4552e-11      0.0000 : clw        
+     4 : 0000-00-00 00:00:00       0    11200       0     305 : F T   9.0949e-13  1.2881e-06 : cli        
+     5 : 0000-00-00 00:00:00       0    11200       0     153 : F T   5.8208e-11  5.6278e-07 : qr         
+     6 : 0000-00-00 00:00:00       0    11200       0     401 : F T   3.6380e-12  8.4963e-07 : qs         
+     7 : 0000-00-00 00:00:00       0    11200       0     553 : F T   5.4570e-12  9.0513e-07 : qg         
+     8 : 0000-00-00 00:00:00       0    11200       0     559 : F T   2.3283e-10  1.0514e-06 : pflx       
+     9 : 0000-00-00 00:00:00       0      160       0       9 : F T   3.6380e-12  1.3767e-07 : prr_gsp    
+    10 : 0000-00-00 00:00:00       0      160       0       5 : F T   2.4074e-35  1.2863e-07 : prs_gsp    
+    11 : 0000-00-00 00:00:00       0      160       0      10 : F T   4.1359e-25  8.5750e-08 : pri_gsp    
+    12 : 0000-00-00 00:00:00       0      160       0       9 : F T   2.5849e-26  3.5592e-07 : prg_gsp    
+    13 : 0000-00-00 00:00:00       0      160       0       9 : F T   7.6294e-06  1.5972e-07 : pre_gsp    
+  12 of 13 records differ
+  0 of 13 records differ more than 0.001
+[FAILED] Not bit-identical results. See diffs below:
+    -1 :       Date     Time   Level Gridsize    Miss :     Minimum        Mean     Maximum : Parameter name
+     1 : 0000-00-00 00:00:00       0    11200       0 :      0.0000      0.0000      0.0000 : ta            
+     2 : 0000-00-00 00:00:00       0    11200       0 :      0.0000  4.1577e-14  1.1642e-10 : hus           
+     3 : 0000-00-00 00:00:00       0    11200       0 : -1.4552e-11 -1.4617e-15  1.8190e-12 : clw           
+     4 : 0000-00-00 00:00:00       0    11200       0 : -9.0949e-13 -2.2561e-16  9.0949e-13 : cli           
+     5 : 0000-00-00 00:00:00       0    11200       0 : -5.8208e-11 -2.7230e-14  4.3656e-11 : qr            
+     6 : 0000-00-00 00:00:00       0    11200       0 : -3.6380e-12 -3.8617e-15  3.6380e-12 : qs            
+     7 : 0000-00-00 00:00:00       0    11200       0 : -3.6380e-12 -4.9611e-15  5.4570e-12 : qg            
+     8 : 0000-00-00 00:00:00       0    11200       0 : -2.3283e-10 -1.4704e-13  2.3283e-10 : pflx          
+     9 : 0000-00-00 00:00:00       0      160       0 : -3.6380e-12 -2.0606e-14  2.2737e-13 : prr_gsp       
+    10 : 0000-00-00 00:00:00       0      160       0 : -2.4074e-35  7.5232e-38  1.2037e-35 : prs_gsp       
+    11 : 0000-00-00 00:00:00       0      160       0 : -2.0680e-25  6.4623e-27  4.1359e-25 : pri_gsp       
+    12 : 0000-00-00 00:00:00       0      160       0 : -1.2925e-26  8.0778e-29  2.5849e-26 : prg_gsp       
+    13 : 0000-00-00 00:00:00       0      160       0 : -4.7684e-07  4.1723e-08  7.6294e-06 : pre_gsp       
+0: input file: /home/b/b383366/sky/scc_at_isc25/tasks/20k.nc
+0: output file: /scratch/b/b383366/outputs/output.nc
+0: itime: 0
+0: dt: 30
+0: qnc: 100
+0: multirun =1
+               Date     Time   Level Gridsize    Miss    Diff : S Z  Max_Absdiff Max_Reldiff : Parameter name
+     1 : 0000-00-00 00:00:00       0  1843200       0   13543 : F F   9.1553e-05  3.1989e-07 : ta         
+     2 : 0000-00-00 00:00:00       0  1843200       0    1079 : F F   1.8626e-09  2.3634e-07 : hus        
+     3 : 0000-00-00 00:00:00       0  1843200       0    2795 : F T   1.1642e-10     0.66667 : clw        
+     4 : 0000-00-00 00:00:00       0  1843200       0   99141 : F T   1.0914e-11      1.0000 : cli        
+     5 : 0000-00-00 00:00:00       0  1843200       0   48030 : F T   7.7125e-10      1.0000 : qr         
+     6 : 0000-00-00 00:00:00       0  1843200       0   86696 : F T   2.1386e-09      1.0000 : qs         
+     7 : 0000-00-00 00:00:00       0  1843200       0   84864 : F T   1.8190e-10      1.0000 : qg         
+     8 : 0000-00-00 00:00:00       0  1843200       0  134550 : F T   1.3970e-08     0.25989 : pflx       
+     9 : 0000-00-00 00:00:00       0    20480       0    5338 : F T   1.3970e-08     0.82624 : prr_gsp    
+    10 : 0000-00-00 00:00:00       0    20480       0    3422 : F T   3.5292e-09      1.0000 : prs_gsp    
+    11 : 0000-00-00 00:00:00       0    20480       0    3600 : F T   4.5475e-13      1.0000 : pri_gsp    
+    12 : 0000-00-00 00:00:00       0    20480       0    2539 : F T   2.1828e-11      1.0000 : prg_gsp    
+    13 : 0000-00-00 00:00:00       0    20480       0    5672 : F T     0.030273  0.00028651 : pre_gsp    
+  13 of 13 records differ
+  5 of 13 records differ more than 0.001
+[FAILED] Not bit-identical results. See diffs below:
+    -1 :       Date     Time   Level Gridsize    Miss :     Minimum        Mean     Maximum : Parameter name
+     1 : 0000-00-00 00:00:00       0  1843200       0 : -6.1035e-05 -5.7452e-09  9.1553e-05 : ta            
+     2 : 0000-00-00 00:00:00       0  1843200       0 : -9.3132e-10  7.8518e-15  1.8626e-09 : hus           
+     3 : 0000-00-00 00:00:00       0  1843200       0 : -5.8208e-11 -7.9853e-17  1.1642e-10 : clw           
+     4 : 0000-00-00 00:00:00       0  1843200       0 : -1.0914e-11 -1.3935e-15  1.0914e-11 : cli           
+     5 : 0000-00-00 00:00:00       0  1843200       0 : -6.4028e-10  2.8280e-16  7.7125e-10 : qr            
+     6 : 0000-00-00 00:00:00       0  1843200       0 : -1.4407e-09 -1.7818e-15  2.1386e-09 : qs            
+     7 : 0000-00-00 00:00:00       0  1843200       0 : -1.8190e-10 -1.3966e-15  1.0732e-10 : qg            
+     8 : 0000-00-00 00:00:00       0  1843200       0 : -1.3970e-08  1.0175e-14  1.1409e-08 : pflx          
+     9 : 0000-00-00 00:00:00       0    20480       0 : -1.3970e-08 -5.0791e-13  6.9849e-09 : prr_gsp       
+    10 : 0000-00-00 00:00:00       0    20480       0 : -3.5292e-09 -1.6408e-13  3.3906e-11 : prs_gsp       
+    11 : 0000-00-00 00:00:00       0    20480       0 : -4.5475e-13 -2.6843e-16  4.5475e-13 : pri_gsp       
+    12 : 0000-00-00 00:00:00       0    20480       0 : -2.1828e-11 -5.3328e-15  1.4552e-11 : prg_gsp       
+    13 : 0000-00-00 00:00:00       0    20480       0 :   -0.014648  1.6976e-06    0.030273 : pre_gsp       
+0: input file: /home/b/b383366/sky/scc_at_isc25/tasks/dbg.nc
+0: output file: /scratch/b/b383366/outputs/output.nc
+0: itime: 0
+0: dt: 30
+0: qnc: 100
+0: multirun =1
+               Date     Time   Level Gridsize    Miss    Diff : S Z  Max_Absdiff Max_Reldiff : Parameter name
+     4 : 0000-00-00 00:00:00       0       33       0      10 : F F   7.7716e-16  1.3984e-06 : cli        
+     5 : 0000-00-00 00:00:00       0       33       0       4 : F F   2.9104e-11  1.2163e-07 : qr         
+     6 : 0000-00-00 00:00:00       0       33       0       1 : F T   2.2204e-16  9.9992e-08 : qs         
+     7 : 0000-00-00 00:00:00       0       33       0      10 : F F   5.4570e-12  4.8193e-06 : qg         
+     8 : 0000-00-00 00:00:00       0       33       0       9 : F F   2.3283e-10  4.8547e-06 : pflx       
+     9 : 0000-00-00 00:00:00       0       11       0       1 : F T   2.3283e-10  1.1809e-07 : prr_gsp    
+    10 : 0000-00-00 00:00:00       0       11       0       2 : F F   5.5511e-17  2.0286e-07 : prs_gsp    
+    11 : 0000-00-00 00:00:00       0       11       0       5 : F T   4.8572e-17  5.3045e-07 : pri_gsp    
+    12 : 0000-00-00 00:00:00       0       11       0       5 : F F   7.2760e-12  4.8328e-06 : prg_gsp    
+    13 : 0000-00-00 00:00:00       0       11       0       3 : F F   0.00048828  4.7997e-06 : pre_gsp    
+  10 of 13 records differ
+  0 of 13 records differ more than 0.001
+[FAILED] Not bit-identical results. See diffs below:
+    -1 :       Date     Time   Level Gridsize    Miss :     Minimum        Mean     Maximum : Parameter name
+     1 : 0000-00-00 00:00:00       0       33       0 :      0.0000      0.0000      0.0000 : ta            
+     2 : 0000-00-00 00:00:00       0       33       0 :      0.0000      0.0000      0.0000 : hus           
+     3 : 0000-00-00 00:00:00       0       33       0 :      0.0000      0.0000      0.0000 : clw           
+     4 : 0000-00-00 00:00:00       0       33       0 : -7.7716e-16 -2.7689e-17  4.4409e-16 : cli           
+     5 : 0000-00-00 00:00:00       0       33       0 : -2.9104e-11 -1.6536e-12      0.0000 : qr            
+     6 : 0000-00-00 00:00:00       0       33       0 : -2.2204e-16 -6.7286e-18      0.0000 : qs            
+     7 : 0000-00-00 00:00:00       0       33       0 : -5.4570e-12 -3.3054e-13  3.6380e-12 : qg            
+     8 : 0000-00-00 00:00:00       0       33       0 : -2.3283e-10 -8.8193e-12  5.8208e-11 : pflx          
+     9 : 0000-00-00 00:00:00       0       11       0 : -2.3283e-10 -2.1166e-11      0.0000 : prr_gsp       
+    10 : 0000-00-00 00:00:00       0       11       0 : -5.5511e-17 -5.0464e-18  4.2352e-22 : prs_gsp       
+    11 : 0000-00-00 00:00:00       0       11       0 : -4.8572e-17 -1.0724e-17  1.5882e-22 : pri_gsp       
+    12 : 0000-00-00 00:00:00       0       11       0 : -7.2760e-12 -1.9844e-12  2.4395e-19 : prg_gsp       
+    13 : 0000-00-00 00:00:00       0       11       0 : -6.1107e-13  4.4389e-05  0.00048828 : pre_gsp       
+Job done!
+
+********************************************************************************
+*                                                                              *
+*  This is the automated job summary provided by DKRZ.                         *
+*  If you encounter problems, need assistance or have any suggestion, please   *
+*  write an email to                                                           *
+*                                                                              *
+*  --  support@dkrz.de --                                                      *
+*                                                                              *
+*                       We hope you enjoyed the DKRZ supercomputer LEVANTE ... *
+*
+* JobID            : 16829013
+* JobName          : scc                                               
+* Account          : ka1273_gpu
+* User             : b383366 (202646), ka1273 (201200)                 
+* Partition        : gpu
+* QOS              : normal
+* Nodelist         : l50006 (1)                                                
+* Submit date      : 2025-05-08T13:34:28
+* Start time       : 2025-05-08T13:35:12
+* End time         : 2025-05-08T13:36:37
+* Elapsed time     : 00:01:25 (Timelimit=00:10:00)                     
+* Command          : ./scripts/levante-gpu.sbatch
+* WorkDir          : /home/b/b383366/sky/scc_at_isc25
+*
+* StepID | JobName      NodeHours    MaxRSS [Byte] (@task)
+* ------------------------------------------------------------------------------
+* 0      | graupel        0.00028                7696K (0)
+* 1      | graupel        0.00056                7696K (0)
+* 2      | graupel        0.00083                7696K (0)
+* batch  | batch            0.024
+* extern | extern           0.024                2160K (0)
+* ------------------------------------------------------------------------------
+

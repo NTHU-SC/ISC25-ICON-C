@@ -3,13 +3,15 @@ project(muphys_cpp LANGUAGES CXX)
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED YES)
 # notify all possible issues 
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Wextra -pedantic -std=c++20")
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Wextra -std=c++20")
 
 option(MU_ENABLE_SINGLE "Enable single precision" OFF)
 # available front-ends
 option(MU_IMPL "Select implementation: seq vs std" "seq")
 
 option(MU_ENABLE_TESTS "Enable unit-tests" ON)
+
+option(MU_ENABLE_MPI "Enable MPI support" OFF)
 
 set(MU_ARCH "x86_64" CACHE STRING "Select architecture, x86_64, a100")
 
@@ -45,27 +47,21 @@ if (MU_ENABLE_TESTS)
 endif ()
 
 # MPI configuration
-if(MU_ENABLE_MPI)
+if (MU_ENABLE_MPI)
     find_package(MPI REQUIRED)
-    # Use MPI compiler wrapper
-    set(CMAKE_CXX_COMPILER mpicxx)
+    set(CMAKE_CXX_COMPILER ${MPI_CXX_COMPILER})
     add_compile_definitions(USE_MPI)
-    set(EXECUTABLE_SRC "main_mpi_nsys.cpp")
+    set(EXECUTABLE_SRC "main_mpi.cpp")
 else()
     set(EXECUTABLE_SRC "main.cpp")
-endif()
+endif ()
 
 # Build executable
 add_executable(graupel ${EXECUTABLE_SRC})
 
+
 # link dependency libs
-
-if(MU_ENABLE_MPI)
-    target_link_libraries(graupel PUBLIC muphys_core muphys_io muphys_implementation mpi)
-else()
-    target_link_libraries(graupel PUBLIC muphys_core muphys_io muphys_implementation)
-endif()
-
+target_link_libraries(graupel muphys_core muphys_io muphys_implementation)
 target_include_directories(graupel PUBLIC
                           "${PROJECT_BINARY_DIR}"
                           "${PROJECT_SOURCE_DIR}/core"

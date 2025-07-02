@@ -1,0 +1,177 @@
+-- The CXX compiler identification is NVHPC 24.7.0
+-- Detecting CXX compiler ABI info
+-- Detecting CXX compiler ABI info - done
+-- Check for working CXX compiler: /sw/spack-levante/nvhpc-24.7-py26uc/Linux_x86_64/24.7/compilers/bin/nvc++ - skipped
+-- Detecting CXX compile features
+-- Detecting CXX compile features - done
+-- Found NetCDF: /sw/spack-levante/netcdf-c-main-k4lh4v/include (found version "4.9.3") found components: C CXX 
+-- FindNetCDF defines targets:
+--   - NetCDF::NetCDF_C [/sw/spack-levante/netcdf-c-main-k4lh4v/lib64/libnetcdf.so]
+--   - NetCDF::NetCDF_CXX [/sw/spack-levante/netcdf-cxx4-4.3.1-42ju4n/lib/libnetcdf_c++4.so]
+-- The C compiler identification is NVHPC 24.7.0
+-- Detecting C compiler ABI info
+-- Detecting C compiler ABI info - done
+-- Check for working C compiler: /sw/spack-levante/nvhpc-24.7-py26uc/Linux_x86_64/24.7/compilers/bin/nvc - skipped
+-- Detecting C compile features
+-- Detecting C compile features - done
+-- Build Googletest as part of muphys project
+-- Found Python: /usr/bin/python3.11 (found version "3.11.5") found components: Interpreter 
+-- Looking for pthread.h
+-- Looking for pthread.h - found
+-- Performing Test CMAKE_HAVE_LIBC_PTHREAD
+-- Performing Test CMAKE_HAVE_LIBC_PTHREAD - Success
+-- Found Threads: TRUE  
+-- Configuring done
+-- Generating done
+-- Build files have been written to: /home/b/b383366/sky/scc_at_isc25/build_std_gpu_mpi_double
+[  5%] Building CXX object implementations/std/CMakeFiles/muphys_implementation.dir/graupel.cpp.o
+[ 11%] Building CXX object core/CMakeFiles/muphys_core.dir/common/utils.cpp.o
+[ 16%] Building CXX object _deps/googletest-build/googletest/CMakeFiles/gtest.dir/src/gtest-all.cc.o
+[ 22%] Building CXX object io/CMakeFiles/muphys_io.dir/io.cpp.o
+"/home/b/b383366/sky/scc_at_isc25/build_std_gpu_mpi_double/_deps/googletest-src/googletest/src/gtest-internal-inl.h", line 636: warning: unknown attribute "optimize" [unrecognized_attribute]
+        GTEST_NO_INLINE_ GTEST_NO_TAIL_CALL_;
+                         ^
+
+Remark: individual warnings can be suppressed with "--diag_suppress <warning-name>"
+
+[ 27%] Linking CXX shared library ../lib64/libmuphys_core.so
+"/home/b/b383366/sky/scc_at_isc25/build_std_gpu_mpi_double/_deps/googletest-src/googletest/src/gtest.cc", line 6262: warning: unknown attribute "optimize" [unrecognized_attribute]
+  GTEST_NO_INLINE_ GTEST_NO_TAIL_CALL_ std::string
+                   ^
+
+[ 27%] Built target muphys_core
+[ 33%] Linking CXX shared library ../lib64/libmuphys_io.so
+[ 33%] Built target muphys_io
+[ 38%] Linking CXX shared library ../../lib64/libmuphys_implementation.so
+[ 38%] Built target muphys_implementation
+[ 44%] Building CXX object CMakeFiles/graupel.dir/main.cpp.o
+[ 50%] Linking CXX static library ../../../lib/libgtest.a
+[ 55%] Linking CXX executable bin/graupel
+[ 55%] Built target gtest
+[ 61%] Building CXX object _deps/googletest-build/googlemock/CMakeFiles/gmock.dir/src/gmock-all.cc.o
+[ 66%] Building CXX object _deps/googletest-build/googletest/CMakeFiles/gtest_main.dir/src/gtest_main.cc.o
+[ 66%] Built target graupel
+[ 72%] Linking CXX static library ../../../lib/libgtest_main.a
+[ 72%] Built target gtest_main
+[ 77%] Building CXX object test/CMakeFiles/muphys_core_test.dir/common.cc.o
+[ 83%] Linking CXX static library ../../../lib/libgmock.a
+[ 83%] Built target gmock
+[ 88%] Building CXX object _deps/googletest-build/googlemock/CMakeFiles/gmock_main.dir/src/gmock_main.cc.o
+[ 94%] Linking CXX executable ../bin/muphys_core_test
+[ 94%] Built target muphys_core_test
+[100%] Linking CXX static library ../../../lib/libgmock_main.a
+[100%] Built target gmock_main
+0: input file: /home/b/b383366/sky/scc_at_isc25/tasks/11k.nc
+0: output file: /scratch/b/b383366/outputs/output.nc
+0: itime: 0
+0: dt: 30
+0: qnc: 100
+0: multirun =1
+0: time taken : 23 milliseconds
+               Date     Time   Level Gridsize    Miss    Diff : S Z  Max_Absdiff Max_Reldiff : Parameter name
+     3 : 0000-00-00 00:00:00       0    11200       0       6 : F T  8.1651e-314      0.0000 : clw        
+     4 : 0000-00-00 00:00:00       0    11200       0       4 : F T   8.4703e-22  7.0126e-16 : cli        
+     5 : 0000-00-00 00:00:00       0    11200       0      12 : F T   5.4210e-20  4.4267e-16 : qr         
+     6 : 0000-00-00 00:00:00       0    11200       0      32 : F T   3.3881e-21  5.7580e-16 : qs         
+     7 : 0000-00-00 00:00:00       0    11200       0      26 : F T   1.6941e-21  5.7707e-16 : qg         
+     8 : 0000-00-00 00:00:00       0    11200       0      34 : F T   8.1315e-20  5.0693e-16 : pflx       
+    12 : 0000-00-00 00:00:00       0      160       0       1 : F T   2.1382e-50  4.1951e-16 : prg_gsp    
+  7 of 13 records differ
+  0 of 13 records differ more than 0.001
+[FAILED] Not bit-identical results. See diffs below:
+    -1 :       Date     Time   Level Gridsize    Miss :     Minimum        Mean     Maximum : Parameter name
+     1 : 0000-00-00 00:00:00       0    11200       0 :      0.0000      0.0000      0.0000 : ta            
+     2 : 0000-00-00 00:00:00       0    11200       0 :      0.0000      0.0000      0.0000 : hus           
+     3 : 0000-00-00 00:00:00       0    11200       0 :      0.0000 7.2902e-318 8.1651e-314 : clw           
+     4 : 0000-00-00 00:00:00       0    11200       0 : -8.4703e-22 -8.2570e-26  1.3235e-22 : cli           
+     5 : 0000-00-00 00:00:00       0    11200       0 : -8.4703e-22  7.1610e-24  5.4210e-20 : qr            
+     6 : 0000-00-00 00:00:00       0    11200       0 : -8.4703e-22  3.7396e-25  3.3881e-21 : qs            
+     7 : 0000-00-00 00:00:00       0    11200       0 : -1.6156e-27  1.5645e-25  1.6941e-21 : qg            
+     8 : 0000-00-00 00:00:00       0    11200       0 : -1.3553e-20  1.0103e-23  8.1315e-20 : pflx          
+     9 : 0000-00-00 00:00:00       0      160       0 :      0.0000      0.0000      0.0000 : prr_gsp       
+    10 : 0000-00-00 00:00:00       0      160       0 :      0.0000      0.0000      0.0000 : prs_gsp       
+    11 : 0000-00-00 00:00:00       0      160       0 :      0.0000      0.0000      0.0000 : pri_gsp       
+    12 : 0000-00-00 00:00:00       0      160       0 : -2.1382e-50 -1.3364e-52      0.0000 : prg_gsp       
+    13 : 0000-00-00 00:00:00       0      160       0 :      0.0000      0.0000      0.0000 : pre_gsp       
+0: input file: /home/b/b383366/sky/scc_at_isc25/tasks/20k.nc
+0: output file: /scratch/b/b383366/outputs/output.nc
+0: itime: 0
+0: dt: 30
+0: qnc: 100
+0: multirun =1
+0: time taken : 46 milliseconds
+               Date     Time   Level Gridsize    Miss    Diff : S Z  Max_Absdiff Max_Reldiff : Parameter name
+     1 : 0000-00-00 00:00:00       0  1843200       0       7 : F F   5.6843e-14  2.2165e-16 : ta         
+     2 : 0000-00-00 00:00:00       0  1843200       0      32 : F F   1.7347e-18  3.5851e-16 : hus        
+     3 : 0000-00-00 00:00:00       0  1843200       0      70 : F T   2.1684e-19  2.3982e-07 : clw        
+     4 : 0000-00-00 00:00:00       0  1843200       0    4916 : F T   6.7763e-21      1.0000 : cli        
+     5 : 0000-00-00 00:00:00       0  1843200       0    3115 : F T   4.3368e-19     0.99941 : qr         
+     6 : 0000-00-00 00:00:00       0  1843200       0    3521 : F T   1.0842e-19  3.2582e-12 : qs         
+     7 : 0000-00-00 00:00:00       0  1843200       0    2747 : F T   5.4210e-20  7.5662e-10 : qg         
+     8 : 0000-00-00 00:00:00       0  1843200       0    9179 : F T   3.4694e-18  1.9155e-14 : pflx       
+     9 : 0000-00-00 00:00:00       0    20480       0     325 : F T   3.4694e-18  7.5740e-15 : prr_gsp    
+    10 : 0000-00-00 00:00:00       0    20480       0     189 : F T   1.0842e-19  1.6202e-15 : prs_gsp    
+    11 : 0000-00-00 00:00:00       0    20480       0     182 : F T   4.2352e-22  3.9682e-14 : pri_gsp    
+    12 : 0000-00-00 00:00:00       0    20480       0     123 : F T   5.0822e-21  3.5640e-11 : prg_gsp    
+    13 : 0000-00-00 00:00:00       0    20480       0     326 : F T   7.2760e-12  7.6049e-15 : pre_gsp    
+  13 of 13 records differ
+  0 of 13 records differ more than 0.001
+[FAILED] Not bit-identical results. See diffs below:
+    -1 :       Date     Time   Level Gridsize    Miss :     Minimum        Mean     Maximum : Parameter name
+     1 : 0000-00-00 00:00:00       0  1843200       0 : -5.6843e-14 -3.0840e-20  5.6843e-14 : ta            
+     2 : 0000-00-00 00:00:00       0  1843200       0 : -1.7347e-18  4.0785e-26  1.7347e-18 : hus           
+     3 : 0000-00-00 00:00:00       0  1843200       0 : -5.4210e-20  2.1372e-25  2.1684e-19 : clw           
+     4 : 0000-00-00 00:00:00       0  1843200       0 : -6.7763e-21 -2.5572e-26  6.7763e-21 : cli           
+     5 : 0000-00-00 00:00:00       0  1843200       0 : -4.3368e-19  1.6261e-24  2.1684e-19 : qr            
+     6 : 0000-00-00 00:00:00       0  1843200       0 : -1.0842e-19 -3.3083e-25  8.1315e-20 : qs            
+     7 : 0000-00-00 00:00:00       0  1843200       0 : -5.4210e-20 -2.7929e-26  5.4210e-20 : qg            
+     8 : 0000-00-00 00:00:00       0  1843200       0 : -3.4694e-18  2.0034e-24  8.6736e-19 : pflx          
+     9 : 0000-00-00 00:00:00       0    20480       0 : -3.4694e-18 -1.5227e-22  8.6736e-19 : prr_gsp       
+    10 : 0000-00-00 00:00:00       0    20480       0 : -1.0842e-19 -3.6039e-24  5.4210e-20 : prs_gsp       
+    11 : 0000-00-00 00:00:00       0    20480       0 : -4.2352e-22 -6.1676e-27  1.5882e-22 : pri_gsp       
+    12 : 0000-00-00 00:00:00       0    20480       0 : -3.3881e-21  7.6625e-25  5.0822e-21 : prg_gsp       
+    13 : 0000-00-00 00:00:00       0    20480       0 : -1.8190e-12  3.0835e-16  7.2760e-12 : pre_gsp       
+srun: Step created for StepId=16828536.2
+0: input file: /home/b/b383366/sky/scc_at_isc25/tasks/dbg.nc
+0: output file: /scratch/b/b383366/outputs/output.nc
+0: itime: 0
+0: dt: 30
+0: qnc: 100
+0: multirun =1
+0: time taken : 3 milliseconds
+[OK] Bit-identical results
+Job done!
+
+********************************************************************************
+*                                                                              *
+*  This is the automated job summary provided by DKRZ.                         *
+*  If you encounter problems, need assistance or have any suggestion, please   *
+*  write an email to                                                           *
+*                                                                              *
+*  --  support@dkrz.de --                                                      *
+*                                                                              *
+*                       We hope you enjoyed the DKRZ supercomputer LEVANTE ... *
+*
+* JobID            : 16828536
+* JobName          : scc                                               
+* Account          : ka1273_gpu
+* User             : b383366 (202646), ka1273 (201200)                 
+* Partition        : gpu
+* QOS              : normal
+* Nodelist         : l50118 (1)                                                
+* Submit date      : 2025-05-08T13:02:35
+* Start time       : 2025-05-08T13:03:11
+* End time         : 2025-05-08T13:04:18
+* Elapsed time     : 00:01:07 (Timelimit=00:10:00)                     
+* Command          : ./scripts/levante-gpu.sbatch
+* WorkDir          : /home/b/b383366/sky/scc_at_isc25
+*
+* StepID | JobName      NodeHours    MaxRSS [Byte] (@task)
+* ------------------------------------------------------------------------------
+* 0      | graupel        0.00028                7696K (0)
+* 1      | graupel        0.00083                7696K (0)
+* 2      | graupel        0.00028                7696K (0)
+* batch  | batch            0.019
+* extern | extern           0.019                2160K (0)
+* ------------------------------------------------------------------------------
+

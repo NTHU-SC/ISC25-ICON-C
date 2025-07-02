@@ -1,21 +1,15 @@
 input_list = [
     ['01', [
-        '/home/b/b383366/sky/scc_at_isc25/nvsmi.log.16780728.0']],
-    ['02', [
-        '/home/b/b383366/sky/scc_at_isc25/nvsmi.log.16781040.0',
-        '/home/b/b383366/sky/scc_at_isc25/nvsmi.log.16781040.1'
-    ]],
+        '/work/k20200/k202061/icon-dkrz/experiments/NextGEMS_R2B4_test_1node_1GPU_4sd/nvsmi.log.15270725.0']],
     ['03', [
-        '/home/b/b383366/sky/scc_at_isc25/nvsmi.log.16781346.0',
-        '/home/b/b383366/sky/scc_at_isc25/nvsmi.log.16781346.1',
-        '/home/b/b383366/sky/scc_at_isc25/nvsmi.log.16781346.1',
-    ]],
+        '/work/k20200/k202061/icon-dkrz/experiments/NextGEMS_R2B4_test_3node_4GPU_4sd/nvsmi.log.15271243.0',
+        '/work/k20200/k202061/icon-dkrz/experiments/NextGEMS_R2B4_test_3node_4GPU_4sd/nvsmi.log.15271243.1',
+        '/work/k20200/k202061/icon-dkrz/experiments/NextGEMS_R2B4_test_3node_4GPU_4sd/nvsmi.log.15271243.2']],
     ['04', [
-        '/home/b/b383366/sky/scc_at_isc25/nvsmi.log.16781690.0',
-        '/home/b/b383366/sky/scc_at_isc25/nvsmi.log.16781690.1',
-        '/home/b/b383366/sky/scc_at_isc25/nvsmi.log.16781690.2',
-        '/home/b/b383366/sky/scc_at_isc25/nvsmi.log.16781690.3',
-    ]],
+        '/work/k20200/k202061/icon-dkrz/experiments/NextGEMS_R2B4_test_4node_4GPU_4sd/nvsmi.log.15272329.0',
+        '/work/k20200/k202061/icon-dkrz/experiments/NextGEMS_R2B4_test_4node_4GPU_4sd/nvsmi.log.15272329.1',
+        '/work/k20200/k202061/icon-dkrz/experiments/NextGEMS_R2B4_test_4node_4GPU_4sd/nvsmi.log.15272329.2',
+        '/work/k20200/k202061/icon-dkrz/experiments/NextGEMS_R2B4_test_4node_4GPU_4sd/nvsmi.log.15272329.3']]
 ]
 
 def read_data_from_nvsmi_file(filename):

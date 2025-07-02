@@ -129,7 +129,7 @@ void graupel(size_t &nvec, size_t &ke, size_t &ivstart, size_t &ivend,
         const bool cond2 = ((t_ptr[oned_vec_index] < tfrz_het2) && 
                             (x_array_ptr[lqv][oned_vec_index] > qsat_ice_rho(t_ptr[oned_vec_index], rho_ptr[oned_vec_index])));
 
-        flags_ptr[oned_vec_index] = (cond1 || cond2) * 1;
+        flags_ptr[oned_vec_index] = (cond1 || cond2);
         count += (cond1 || cond2);
         
         val = (x_array_ptr[qp_ind[0]][oned_vec_index] > qmin);
